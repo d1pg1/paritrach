@@ -9,32 +9,28 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const roundId = searchParams.get("roundId")
 
-  const bets = await db.bet.findMany({
-    where: {
-      isWinner: true,
-      ...(roundId ? { roundId } : {}),
-    },
-    include: { user: { select: { id: true, username: true } } },
-  })
+  const [users, winningBets] = await Promise.all([
+    db.user.findMany({ select: { id: true, username: true } }),
+    db.bet.findMany({
+      where: { isWinner: true, ...(roundId ? { roundId } : {}) },
+      select: { userId: true, coefficient: true },
+    }),
+  ])
 
-  const map = new Map<string, { userId: string; username: string; points: number; coefSum: number }>()
-
-  for (const bet of bets) {
-    const entry = map.get(bet.userId) ?? {
-      userId: bet.userId,
-      username: bet.user.username,
-      points: 0,
-      coefSum: 0,
-    }
+  const statsMap = new Map<string, { points: number; coefSum: number }>()
+  for (const bet of winningBets) {
+    const entry = statsMap.get(bet.userId) ?? { points: 0, coefSum: 0 }
     entry.points += 1
     entry.coefSum += bet.coefficient
-    map.set(bet.userId, entry)
+    statsMap.set(bet.userId, entry)
   }
 
-  const scoreboard = [...map.values()].sort((a, b) => {
-    if (b.points !== a.points) return b.points - a.points
-    return b.coefSum - a.coefSum
-  })
+  const scoreboard = users
+    .map((u) => {
+      const stats = statsMap.get(u.id) ?? { points: 0, coefSum: 0 }
+      return { userId: u.id, username: u.username, ...stats }
+    })
+    .sort((a, b) => b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum)
 
   return NextResponse.json(scoreboard)
 }

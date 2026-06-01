@@ -8,22 +8,25 @@ export default async function ScoreboardPage() {
 
   const t = await getTranslations("scoreboard")
 
-  const bets = await db.bet.findMany({
-    where: { isWinner: true },
-    include: { user: { select: { id: true, username: true } } },
-  })
+  const [users, winningBets] = await Promise.all([
+    db.user.findMany({ select: { id: true, username: true } }),
+    db.bet.findMany({ where: { isWinner: true }, select: { userId: true, coefficient: true } }),
+  ])
 
-  const map = new Map<string, { username: string; points: number; coefSum: number }>()
-  for (const bet of bets) {
-    const entry = map.get(bet.userId) ?? { username: bet.user.username, points: 0, coefSum: 0 }
+  const statsMap = new Map<string, { points: number; coefSum: number }>()
+  for (const bet of winningBets) {
+    const entry = statsMap.get(bet.userId) ?? { points: 0, coefSum: 0 }
     entry.points += 1
     entry.coefSum += bet.coefficient
-    map.set(bet.userId, entry)
+    statsMap.set(bet.userId, entry)
   }
 
-  const rows = [...map.values()].sort((a, b) =>
-    b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum
-  )
+  const rows = users
+    .map((u) => {
+      const stats = statsMap.get(u.id) ?? { points: 0, coefSum: 0 }
+      return { username: u.username, ...stats }
+    })
+    .sort((a, b) => b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum)
 
   return (
     <div>
