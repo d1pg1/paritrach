@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum RoundStatus {
+  SETUP
+  BETTING
+  CLOSED
+  RESULTS
+}
+
+enum MatchStatus {
+  SCHEDULED
+  IN_PROGRESS
+  FINAL
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  bets         Bet[]
+}
+
+model Round {
+  id        String      @id @default(cuid())
+  name      String
+  status    RoundStatus @default(SETUP)
+  createdAt DateTime    @default(now())
+  matches   Match[]
+  bets      Bet[]
+}
+
+model Match {
+  id           String        @id @default(cuid())
+  roundId      String
+  round        Round         @relation(fields: [roundId], references: [id])
+  externalId   String?
+  homeTeam     String
+  awayTeam     String
+  startTime    DateTime
+  homeScore    Int?
+  awayScore    Int?
+  htHomeScore  Int?
+  htAwayScore  Int?
+  status       MatchStatus   @default(SCHEDULED)
+  isEligible   Boolean       @default(false)
+  oddsSnapshot OddsSnapshot?
+  bets         Bet[]
+}
+
+model OddsSnapshot {
+  id        String   @id @default(cuid())
+  matchId   String   @unique
+  match     Match    @relation(fields: [matchId], references: [id])
+  fetchedAt DateTime @default(now())
+  oddsData  Json
+}
+
+model Bet {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  matchId     String
+  match       Match    @relation(fields: [matchId], references: [id])
+  roundId     String
+  round       Round    @relation(fields: [roundId], references: [id])
+  marketType  String
+  selection   String
+  line        Float?
+  coefficient Float
+  isWinner    Boolean?
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, matchId])
+}

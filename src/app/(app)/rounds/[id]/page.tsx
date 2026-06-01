@@ -1,0 +1,78 @@
+import { auth } from "@/lib/auth"
+import { db } from "@/lib/db"
+import { notFound } from "next/navigation"
+import { BettingCard } from "./BettingCard"
+
+interface MatchRow {
+  id: string
+  homeTeam: string
+  awayTeam: string
+  startTime: Date
+  homeScore: number | null
+  awayScore: number | null
+  status: string
+  isEligible: boolean
+  oddsSnapshot: { oddsData: unknown } | null
+  bets: {
+    id: string
+    marketType: string
+    selection: string
+    line: number | null
+    coefficient: number
+    isWinner: boolean | null
+  }[]
+}
+
+export default async function RoundPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const session = await auth()
+  if (!session?.user) return null
+
+  const round = await db.round.findUnique({
+    where: { id },
+    include: {
+      matches: {
+        where: { isEligible: true },
+        include: {
+          oddsSnapshot: true,
+          bets: { where: { userId: session.user.id } },
+        },
+        orderBy: { startTime: "asc" },
+      },
+    },
+  })
+
+  if (!round) notFound()
+
+  const isBettingOpen = round.status === "BETTING"
+  const isResults = round.status === "RESULTS"
+
+  return (
+    <div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">{round.name}</h1>
+        <p className="text-sm text-neutral-400 mt-1">
+          {isBettingOpen && "Place one bet per match before it starts."}
+          {isResults && "Results are in. See how you did!"}
+          {round.status === "CLOSED" && "Betting closed. Waiting for results."}
+        </p>
+      </div>
+
+      {round.matches.length === 0 ? (
+        <p className="text-neutral-400">No eligible matches yet.</p>
+      ) : (
+        <div className="space-y-4">
+          {(round.matches as MatchRow[]).map((match) => (
+            <BettingCard
+              key={match.id}
+              match={match}
+              existingBet={match.bets[0] ?? null}
+              isBettingOpen={isBettingOpen}
+              isResults={isResults}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
