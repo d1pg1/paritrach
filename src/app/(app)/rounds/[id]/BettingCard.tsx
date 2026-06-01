@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 
 interface Outcome {
   name: string
@@ -37,17 +38,6 @@ interface Bet {
   isWinner: boolean | null
 }
 
-const MARKET_LABELS: Record<string, string> = {
-  h2h: "Match Result (1X2)",
-  double_chance: "Double Chance",
-  btts: "Both Teams to Score",
-  totals: "Total Goals",
-  team_totals: "Team Totals",
-  h2h_h1: "1st Half Result",
-  spreads: "Handicap",
-  player_first_goalscorer: "First Goalscorer",
-}
-
 export function BettingCard({
   match,
   existingBet,
@@ -59,6 +49,8 @@ export function BettingCard({
   isBettingOpen: boolean
   isResults: boolean
 }) {
+  const t = useTranslations("betting")
+
   const [selectedMarket, setSelectedMarket] = useState<string>(
     existingBet?.marketType ?? "h2h"
   )
@@ -67,6 +59,14 @@ export function BettingCard({
   const [saved, setSaved] = useState(!!existingBet)
   const [currentBet, setCurrentBet] = useState<Bet | null>(existingBet)
   const [error, setError] = useState("")
+
+  function marketLabel(key: string): string {
+    const knownKeys = ["h2h", "double_chance", "btts", "totals", "team_totals", "h2h_h1", "spreads", "player_first_goalscorer"] as const
+    if ((knownKeys as readonly string[]).includes(key)) {
+      return t(`markets.${key}` as `markets.${typeof knownKeys[number]}`)
+    }
+    return key
+  }
 
   const odds = match.oddsSnapshot?.oddsData as OddsData | null
   const markets = odds ? Object.values(odds) : []
@@ -149,10 +149,10 @@ export function BettingCard({
                 }`}
               >
                 {currentBet.isWinner === true
-                  ? `+1 pt (+${currentBet.coefficient.toFixed(2)} coef)`
+                  ? t("won", { coef: currentBet.coefficient.toFixed(2) })
                   : currentBet.isWinner === false
-                  ? "Lost"
-                  : "Pending"}
+                  ? t("lost")
+                  : t("pending")}
               </p>
             )}
           </div>
@@ -163,7 +163,7 @@ export function BettingCard({
       {currentBet && (
         <div className="mb-3 flex items-center gap-2 text-sm">
           <span className="bg-neutral-800 rounded px-2 py-0.5 text-neutral-300">
-            {MARKET_LABELS[currentBet.marketType] ?? currentBet.marketType}
+            {marketLabel(currentBet.marketType)}
           </span>
           <span className="font-medium">{currentBet.selection}</span>
           {currentBet.line !== null && (
@@ -193,7 +193,7 @@ export function BettingCard({
                     : "border-neutral-700 text-neutral-400 hover:border-neutral-500"
                 }`}
               >
-                {MARKET_LABELS[m.key] ?? m.key}
+                {marketLabel(m.key)}
               </button>
             ))}
           </div>
@@ -237,20 +237,20 @@ export function BettingCard({
               className="w-full bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-black font-bold rounded-lg py-2 text-sm transition-colors"
             >
               {saving
-                ? "Saving…"
+                ? t("saving")
                 : currentBet
-                ? `Update bet → ${selectedOutcome.name} @ ${selectedOutcome.price.toFixed(2)}`
-                : `Place bet → ${selectedOutcome.name} @ ${selectedOutcome.price.toFixed(2)}`}
+                ? t("updateBet", { name: selectedOutcome.name, price: selectedOutcome.price.toFixed(2) })
+                : t("placeBet", { name: selectedOutcome.name, price: selectedOutcome.price.toFixed(2) })}
             </button>
           )}
         </div>
       )}
 
       {matchStarted && !isResults && !currentBet && (
-        <p className="text-sm text-neutral-500 mt-2">Match started — betting closed</p>
+        <p className="text-sm text-neutral-500 mt-2">{t("matchStarted")}</p>
       )}
       {!canBet && !isResults && currentBet && matchStarted && (
-        <p className="text-sm text-neutral-500 mt-2">Waiting for result…</p>
+        <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
       )}
     </div>
   )

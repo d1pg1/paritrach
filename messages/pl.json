@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "rounds": "Rundy",
+    "scoreboard": "Tabela",
+    "admin": "Admin",
+    "signOut": "Wyloguj"
+  },
+  "login": {
+    "subtitle": "Mistrzostwa Świata 2026 — przyjacielskie zakłady",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "signIn": "Zaloguj się",
+    "signingIn": "Logowanie…",
+    "invalidCredentials": "Nieprawidłowa nazwa użytkownika lub hasło"
+  },
+  "rounds": {
+    "title": "Rundy",
+    "empty": "Brak dostępnych rund. Wróć wkrótce.",
+    "matchCount": "{count, plural, one {# mecz} few {# mecze} many {# meczów} other {# meczu}}",
+    "status": {
+      "SETUP": "Konfiguracja",
+      "BETTING": "Zakłady otwarte",
+      "CLOSED": "Zamknięte",
+      "RESULTS": "Wyniki"
+    }
+  },
+  "round": {
+    "bettingOpen": "Postaw jeden zakład na mecz przed jego rozpoczęciem.",
+    "resultsIn": "Wyniki są dostępne. Sprawdź swoje zakłady!",
+    "closed": "Zakłady zamknięte. Czekamy na wyniki.",
+    "noMatches": "Brak dostępnych meczów."
+  },
+  "betting": {
+    "markets": {
+      "h2h": "Wynik meczu (1X2)",
+      "double_chance": "Podwójna szansa",
+      "btts": "Obie drużyny strzelą",
+      "totals": "Łączna liczba goli",
+      "team_totals": "Gole drużyny",
+      "h2h_h1": "Wynik 1. połowy",
+      "spreads": "Handicap",
+      "player_first_goalscorer": "Pierwszy strzelec"
+    },
+    "won": "+1 pkt (+{coef} wsp)",
+    "lost": "Przegrana",
+    "pending": "Oczekuje",
+    "saving": "Zapisywanie…",
+    "updateBet": "Zmień zakład → {name} @ {price}",
+    "placeBet": "Postaw zakład → {name} @ {price}",
+    "matchStarted": "Mecz się rozpoczął — zakłady zamknięte",
+    "waitingResult": "Oczekiwanie na wynik…"
+  },
+  "scoreboard": {
+    "title": "Tabela",
+    "empty": "Brak wyników.",
+    "rank": "#",
+    "player": "Gracz",
+    "points": "Punkty",
+    "coefSum": "Suma wsp"
+  },
+  "admin": {
+    "title": "Rundy",
+    "noRounds": "Brak rund. Utwórz pierwszą.",
+    "matchesCount": "{matches} meczów · {bets} zakładów",
+    "newRound": "+ Nowa runda",
+    "roundNamePlaceholder": "Nazwa rundy…",
+    "create": "Utwórz",
+    "cancel": "Anuluj",
+    "roundStatus": "Status:",
+    "importing": "Importowanie…",
+    "importFixtures": "Importuj mecze",
+    "opening": "Otwieranie…",
+    "openBetting": "Otwórz zakłady i zablokuj kursy",
+    "refreshing": "Odświeżanie…",
+    "refreshOdds": "Odśwież kursy",
+    "checking": "Sprawdzanie…",
+    "checkResults": "Sprawdź wyniki (ESPN)",
+    "noMatches": "Brak meczów. Kliknij «Importuj mecze», aby załadować z The Odds API.",
+    "searchPlaceholder": "Szukaj meczów…",
+    "oddsLocked": "Kursy zablokowane",
+    "noOdds": "Brak kursów",
+    "betCount": "{count, plural, one {# zakład} few {# zakłady} many {# zakładów} other {# zakładu}}",
+    "scoreboardTitle": "Tabela rundy (live)",
+    "scoreboardLink": "Zobacz <link>globalną tabelę</link> pełnych wyników."
+  }
+}

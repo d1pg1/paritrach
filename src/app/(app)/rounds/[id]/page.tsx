@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { BettingCard } from "./BettingCard"
 
@@ -28,6 +29,8 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
   const session = await auth()
   if (!session?.user) return null
 
+  const t = await getTranslations("round")
+
   const round = await db.round.findUnique({
     where: { id },
     include: {
@@ -52,14 +55,14 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
       <div className="mb-6">
         <h1 className="text-2xl font-bold">{round.name}</h1>
         <p className="text-sm text-neutral-400 mt-1">
-          {isBettingOpen && "Place one bet per match before it starts."}
-          {isResults && "Results are in. See how you did!"}
-          {round.status === "CLOSED" && "Betting closed. Waiting for results."}
+          {isBettingOpen && t("bettingOpen")}
+          {isResults && t("resultsIn")}
+          {round.status === "CLOSED" && t("closed")}
         </p>
       </div>
 
       {round.matches.length === 0 ? (
-        <p className="text-neutral-400">No eligible matches yet.</p>
+        <p className="text-neutral-400">{t("noMatches")}</p>
       ) : (
         <div className="space-y-4">
           {(round.matches as MatchRow[]).map((match) => (

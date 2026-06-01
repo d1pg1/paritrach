@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "rounds": "Туры",
+    "scoreboard": "Таблица",
+    "admin": "Админ",
+    "signOut": "Выйти"
+  },
+  "login": {
+    "subtitle": "Чемпионат мира 2026 — дружеские ставки",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "signIn": "Войти",
+    "signingIn": "Вход…",
+    "invalidCredentials": "Неверное имя пользователя или пароль"
+  },
+  "rounds": {
+    "title": "Туры",
+    "empty": "Туры ещё не добавлены. Загляните позже.",
+    "matchCount": "{count, plural, one {# матч} few {# матча} many {# матчей} other {# матча}}",
+    "status": {
+      "SETUP": "Настройка",
+      "BETTING": "Ставки открыты",
+      "CLOSED": "Закрыто",
+      "RESULTS": "Результаты"
+    }
+  },
+  "round": {
+    "bettingOpen": "Сделайте одну ставку на матч до его начала.",
+    "resultsIn": "Результаты известны. Проверьте свои ставки!",
+    "closed": "Приём ставок закрыт. Ждём результатов.",
+    "noMatches": "Нет доступных матчей."
+  },
+  "betting": {
+    "markets": {
+      "h2h": "Результат матча (1X2)",
+      "double_chance": "Двойной шанс",
+      "btts": "Обе команды забьют",
+      "totals": "Тотал голов",
+      "team_totals": "Тотал команды",
+      "h2h_h1": "Результат 1-го тайма",
+      "spreads": "Гандикап",
+      "player_first_goalscorer": "Первый голеадор"
+    },
+    "won": "+1 очко (+{coef} коэф)",
+    "lost": "Проигрыш",
+    "pending": "Ожидание",
+    "saving": "Сохранение…",
+    "updateBet": "Изменить ставку → {name} @ {price}",
+    "placeBet": "Сделать ставку → {name} @ {price}",
+    "matchStarted": "Матч начался — ставки закрыты",
+    "waitingResult": "Ожидание результата…"
+  },
+  "scoreboard": {
+    "title": "Таблица",
+    "empty": "Результатов пока нет.",
+    "rank": "#",
+    "player": "Игрок",
+    "points": "Очки",
+    "coefSum": "Сумма коэф"
+  },
+  "admin": {
+    "title": "Туры",
+    "noRounds": "Туров пока нет. Создайте первый.",
+    "matchesCount": "{matches} матчей · {bets} ставок",
+    "newRound": "+ Новый тур",
+    "roundNamePlaceholder": "Название тура…",
+    "create": "Создать",
+    "cancel": "Отмена",
+    "roundStatus": "Статус:",
+    "importing": "Импорт…",
+    "importFixtures": "Импортировать матчи",
+    "opening": "Открытие…",
+    "openBetting": "Открыть ставки и зафиксировать коэффициенты",
+    "refreshing": "Обновление…",
+    "refreshOdds": "Обновить коэффициенты",
+    "checking": "Проверка…",
+    "checkResults": "Проверить результаты (ESPN)",
+    "noMatches": "Матчей пока нет. Нажмите «Импортировать матчи» для загрузки из The Odds API.",
+    "searchPlaceholder": "Поиск матчей…",
+    "oddsLocked": "Коэффициенты зафиксированы",
+    "noOdds": "Нет коэффициентов",
+    "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
+    "scoreboardTitle": "Таблица тура (live)",
+    "scoreboardLink": "Смотрите <link>общую таблицу</link> для полной статистики."
+  }
+}

@@ -1,9 +1,12 @@
 import { auth } from "@/lib/auth"
 import { signOut } from "@/lib/auth"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
+  const t = await getTranslations("nav")
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -17,24 +20,25 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               href="/rounds"
               className="text-sm text-neutral-300 hover:text-yellow-400 transition-colors"
             >
-              Rounds
+              {t("rounds")}
             </Link>
             <Link
               href="/scoreboard"
               className="text-sm text-neutral-300 hover:text-yellow-400 transition-colors"
             >
-              Scoreboard
+              {t("scoreboard")}
             </Link>
             {session?.user?.role === "ADMIN" && (
               <Link
                 href="/admin"
                 className="text-sm text-yellow-500 hover:text-yellow-400 transition-colors"
               >
-                Admin
+                {t("admin")}
               </Link>
             )}
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <span className="text-sm text-neutral-400">{session?.user?.name}</span>
             <form
               action={async () => {
@@ -46,7 +50,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
                 type="submit"
                 className="text-sm text-neutral-500 hover:text-yellow-400 transition-colors"
               >
-                Sign out
+                {t("signOut")}
               </button>
             </form>
           </div>

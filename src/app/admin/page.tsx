@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 import { CreateRoundForm } from "./CreateRoundForm"
 
@@ -17,6 +18,8 @@ interface RoundRow {
 }
 
 export default async function AdminPage() {
+  const t = await getTranslations("admin")
+
   const rounds = await db.round.findMany({
     orderBy: { createdAt: "desc" },
     include: {
@@ -27,12 +30,12 @@ export default async function AdminPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Rounds</h1>
+        <h1 className="text-2xl font-bold">{t("title")}</h1>
         <CreateRoundForm />
       </div>
 
       {rounds.length === 0 ? (
-        <p className="text-neutral-400">No rounds yet. Create the first one.</p>
+        <p className="text-neutral-400">{t("noRounds")}</p>
       ) : (
         <div className="space-y-3">
           {(rounds as RoundRow[]).map((r) => (
@@ -44,7 +47,7 @@ export default async function AdminPage() {
               <div>
                 <p className="font-semibold text-white">{r.name}</p>
                 <p className="text-sm text-neutral-400 mt-0.5">
-                  {r._count.matches} matches · {r._count.bets} bets placed
+                  {t("matchesCount", { matches: r._count.matches, bets: r._count.bets })}
                 </p>
               </div>
               <span className={`text-sm font-medium ${STATUS_COLOR[r.status]}`}>

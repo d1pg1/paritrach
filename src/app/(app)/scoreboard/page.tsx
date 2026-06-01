@@ -1,9 +1,12 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { getTranslations } from "next-intl/server"
 
 export default async function ScoreboardPage() {
   const session = await auth()
   if (!session?.user) return null
+
+  const t = await getTranslations("scoreboard")
 
   const bets = await db.bet.findMany({
     where: { isWinner: true },
@@ -24,18 +27,18 @@ export default async function ScoreboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Scoreboard</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
       {rows.length === 0 ? (
-        <p className="text-neutral-400">No results yet.</p>
+        <p className="text-neutral-400">{t("empty")}</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-neutral-400 border-b border-neutral-800">
-                <th className="pb-3 pr-4 w-10">#</th>
-                <th className="pb-3 pr-4">Player</th>
-                <th className="pb-3 pr-4 text-right">Points</th>
-                <th className="pb-3 text-right">Coef sum</th>
+                <th className="pb-3 pr-4 w-10">{t("rank")}</th>
+                <th className="pb-3 pr-4">{t("player")}</th>
+                <th className="pb-3 pr-4 text-right">{t("points")}</th>
+                <th className="pb-3 text-right">{t("coefSum")}</th>
               </tr>
             </thead>
             <tbody>

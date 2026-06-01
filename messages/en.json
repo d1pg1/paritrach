@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "rounds": "Rounds",
+    "scoreboard": "Scoreboard",
+    "admin": "Admin",
+    "signOut": "Sign out"
+  },
+  "login": {
+    "subtitle": "World Cup 2026 — friendly betting",
+    "username": "Username",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "invalidCredentials": "Invalid username or password"
+  },
+  "rounds": {
+    "title": "Rounds",
+    "empty": "No rounds available yet. Check back soon.",
+    "matchCount": "{count, plural, one {# eligible match} other {# eligible matches}}",
+    "status": {
+      "SETUP": "Setup",
+      "BETTING": "Betting open",
+      "CLOSED": "Closed",
+      "RESULTS": "Results in"
+    }
+  },
+  "round": {
+    "bettingOpen": "Place one bet per match before it starts.",
+    "resultsIn": "Results are in. See how you did!",
+    "closed": "Betting closed. Waiting for results.",
+    "noMatches": "No eligible matches yet."
+  },
+  "betting": {
+    "markets": {
+      "h2h": "Match Result (1X2)",
+      "double_chance": "Double Chance",
+      "btts": "Both Teams to Score",
+      "totals": "Total Goals",
+      "team_totals": "Team Totals",
+      "h2h_h1": "1st Half Result",
+      "spreads": "Handicap",
+      "player_first_goalscorer": "First Goalscorer"
+    },
+    "won": "+1 pt (+{coef} coef)",
+    "lost": "Lost",
+    "pending": "Pending",
+    "saving": "Saving…",
+    "updateBet": "Update bet → {name} @ {price}",
+    "placeBet": "Place bet → {name} @ {price}",
+    "matchStarted": "Match started — betting closed",
+    "waitingResult": "Waiting for result…"
+  },
+  "scoreboard": {
+    "title": "Scoreboard",
+    "empty": "No results yet.",
+    "rank": "#",
+    "player": "Player",
+    "points": "Points",
+    "coefSum": "Coef sum"
+  },
+  "admin": {
+    "title": "Rounds",
+    "noRounds": "No rounds yet. Create the first one.",
+    "matchesCount": "{matches} matches · {bets} bets placed",
+    "newRound": "+ New Round",
+    "roundNamePlaceholder": "Round name…",
+    "create": "Create",
+    "cancel": "Cancel",
+    "roundStatus": "Status:",
+    "importing": "Importing…",
+    "importFixtures": "Import Fixtures",
+    "opening": "Opening…",
+    "openBetting": "Open Betting & Lock Odds",
+    "refreshing": "Refreshing…",
+    "refreshOdds": "Refresh Odds",
+    "checking": "Checking…",
+    "checkResults": "Check Results (ESPN)",
+    "noMatches": "No matches yet. Click \"Import Fixtures\" to load from The Odds API.",
+    "searchPlaceholder": "Search matches…",
+    "oddsLocked": "Odds locked",
+    "noOdds": "No odds yet",
+    "betCount": "{count, plural, one {# bet} other {# bets}}",
+    "scoreboardTitle": "Round Scoreboard (live)",
+    "scoreboardLink": "See the <link>global scoreboard</link> for full standings."
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 interface Match {
   id: string
@@ -24,6 +25,7 @@ interface Round {
 }
 
 export function AdminRoundControls({ round }: { round: Round }) {
+  const t = useTranslations("admin")
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
   const [search, setSearch] = useState("")
@@ -62,7 +64,9 @@ export function AdminRoundControls({ round }: { round: Round }) {
       <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold">{round.name}</h1>
-          <p className="text-sm text-neutral-400 mt-1">Status: <span className="text-yellow-400">{round.status}</span></p>
+          <p className="text-sm text-neutral-400 mt-1">
+            {t("roundStatus")} <span className="text-yellow-400">{round.status}</span>
+          </p>
         </div>
         <div className="flex gap-2 flex-wrap justify-end">
           {isSetup && (
@@ -71,7 +75,7 @@ export function AdminRoundControls({ round }: { round: Round }) {
               disabled={!!loading}
               className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
-              {loading === "import-fixtures" ? "Importing…" : "Import Fixtures"}
+              {loading === "import-fixtures" ? t("importing") : t("importFixtures")}
             </button>
           )}
           {isSetup && round.matches.some((m) => m.isEligible) && (
@@ -80,7 +84,7 @@ export function AdminRoundControls({ round }: { round: Round }) {
               disabled={!!loading}
               className="bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-black font-bold rounded-lg px-3 py-1.5 text-sm transition-colors"
             >
-              {loading === "open-betting" ? "Opening…" : "Open Betting & Lock Odds"}
+              {loading === "open-betting" ? t("opening") : t("openBetting")}
             </button>
           )}
           {(isBetting || isResults) && (
@@ -89,7 +93,7 @@ export function AdminRoundControls({ round }: { round: Round }) {
               disabled={!!loading}
               className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
-              {loading === "refresh-odds" ? "Refreshing…" : "Refresh Odds"}
+              {loading === "refresh-odds" ? t("refreshing") : t("refreshOdds")}
             </button>
           )}
           {(isBetting || isResults) && (
@@ -98,7 +102,7 @@ export function AdminRoundControls({ round }: { round: Round }) {
               disabled={!!loading}
               className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
-              {loading === "check-results" ? "Checking…" : "Check Results (ESPN)"}
+              {loading === "check-results" ? t("checking") : t("checkResults")}
             </button>
           )}
         </div>
@@ -111,12 +115,12 @@ export function AdminRoundControls({ round }: { round: Round }) {
       )}
 
       {round.matches.length === 0 ? (
-        <p className="text-neutral-400">No matches yet. Click "Import Fixtures" to load from The Odds API.</p>
+        <p className="text-neutral-400">{t("noMatches")}</p>
       ) : (
         <>
           <input
             type="text"
-            placeholder="Search matches…"
+            placeholder={t("searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full mb-3 bg-neutral-800 border border-neutral-700 text-neutral-100 placeholder-neutral-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-400"
@@ -154,12 +158,12 @@ export function AdminRoundControls({ round }: { round: Round }) {
               </div>
               <div className="text-right text-xs text-neutral-400 shrink-0">
                 {match.oddsSnapshot ? (
-                  <span className="text-yellow-400">Odds locked</span>
+                  <span className="text-yellow-400">{t("oddsLocked")}</span>
                 ) : match.isEligible ? (
-                  <span className="text-neutral-500">No odds yet</span>
+                  <span className="text-neutral-500">{t("noOdds")}</span>
                 ) : null}
                 {match._count.bets > 0 && (
-                  <p className="mt-0.5">{match._count.bets} bet{match._count.bets !== 1 ? "s" : ""}</p>
+                  <p className="mt-0.5">{t("betCount", { count: match._count.bets })}</p>
                 )}
                 {match.status === "FINAL" && match.homeScore !== null && (
                   <p className="text-white font-semibold mt-0.5">
@@ -179,19 +183,22 @@ export function AdminRoundControls({ round }: { round: Round }) {
 }
 
 function BetSummaryTable({ roundId }: { roundId: string }) {
+  const t = useTranslations("admin")
   return (
     <div className="mt-8">
-      <h2 className="text-lg font-semibold mb-3">Round Scoreboard (live)</h2>
+      <h2 className="text-lg font-semibold mb-3">{t("scoreboardTitle")}</h2>
       <iframe
         src={`/api/scoreboard?roundId=${roundId}&format=table`}
         className="hidden"
       />
       <p className="text-sm text-neutral-400">
-        See the{" "}
-        <a href="/scoreboard" className="text-yellow-400 underline">
-          global scoreboard
-        </a>{" "}
-        for full standings.
+        {t.rich("scoreboardLink", {
+          link: (chunks) => (
+            <a href="/scoreboard" className="text-yellow-400 underline">
+              {chunks}
+            </a>
+          ),
+        })}
       </p>
     </div>
   )

@@ -2,6 +2,7 @@
 
 import { signIn } from "@/lib/auth"
 import { AuthError } from "next-auth"
+import { getTranslations } from "next-intl/server"
 
 export async function loginAction(_prev: string, formData: FormData): Promise<string> {
   try {
@@ -12,7 +13,8 @@ export async function loginAction(_prev: string, formData: FormData): Promise<st
     })
   } catch (error) {
     if (error instanceof AuthError) {
-      return "Invalid username or password"
+      const t = await getTranslations("login")
+      return t("invalidCredentials")
     }
     throw error // re-throw NEXT_REDIRECT so Next.js performs the navigation
   }

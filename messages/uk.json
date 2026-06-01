@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "rounds": "Тури",
+    "scoreboard": "Таблиця",
+    "admin": "Адмін",
+    "signOut": "Вийти"
+  },
+  "login": {
+    "subtitle": "Чемпіонат світу 2026 — дружні ставки",
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "signIn": "Увійти",
+    "signingIn": "Вхід…",
+    "invalidCredentials": "Невірне ім'я користувача або пароль"
+  },
+  "rounds": {
+    "title": "Тури",
+    "empty": "Тури ще не додані. Зайдіть пізніше.",
+    "matchCount": "{count, plural, one {# матч} few {# матчі} many {# матчів} other {# матчі}}",
+    "status": {
+      "SETUP": "Налаштування",
+      "BETTING": "Ставки відкриті",
+      "CLOSED": "Закрито",
+      "RESULTS": "Результати"
+    }
+  },
+  "round": {
+    "bettingOpen": "Зробіть одну ставку на матч до його початку.",
+    "resultsIn": "Результати відомі. Перевірте свої ставки!",
+    "closed": "Приймання ставок закрито. Очікуємо результатів.",
+    "noMatches": "Немає доступних матчів."
+  },
+  "betting": {
+    "markets": {
+      "h2h": "Результат матчу (1X2)",
+      "double_chance": "Подвійний шанс",
+      "btts": "Обидві команди заб'ють",
+      "totals": "Тотал голів",
+      "team_totals": "Тотал команди",
+      "h2h_h1": "Результат 1-го тайму",
+      "spreads": "Гандикап",
+      "player_first_goalscorer": "Перший голеадор"
+    },
+    "won": "+1 очко (+{coef} коеф)",
+    "lost": "Програш",
+    "pending": "Очікування",
+    "saving": "Збереження…",
+    "updateBet": "Змінити ставку → {name} @ {price}",
+    "placeBet": "Зробити ставку → {name} @ {price}",
+    "matchStarted": "Матч почався — ставки закриті",
+    "waitingResult": "Очікування результату…"
+  },
+  "scoreboard": {
+    "title": "Таблиця",
+    "empty": "Результатів поки немає.",
+    "rank": "#",
+    "player": "Гравець",
+    "points": "Очки",
+    "coefSum": "Сума коеф"
+  },
+  "admin": {
+    "title": "Тури",
+    "noRounds": "Турів поки немає. Створіть перший.",
+    "matchesCount": "{matches} матчів · {bets} ставок",
+    "newRound": "+ Новий тур",
+    "roundNamePlaceholder": "Назва туру…",
+    "create": "Створити",
+    "cancel": "Скасувати",
+    "roundStatus": "Статус:",
+    "importing": "Імпорт…",
+    "importFixtures": "Імпортувати матчі",
+    "opening": "Відкриття…",
+    "openBetting": "Відкрити ставки та зафіксувати коефіцієнти",
+    "refreshing": "Оновлення…",
+    "refreshOdds": "Оновити коефіцієнти",
+    "checking": "Перевірка…",
+    "checkResults": "Перевірити результати (ESPN)",
+    "noMatches": "Матчів поки немає. Натисніть «Імпортувати матчі» для завантаження з The Odds API.",
+    "searchPlaceholder": "Пошук матчів…",
+    "oddsLocked": "Коефіцієнти зафіксовані",
+    "noOdds": "Немає коефіцієнтів",
+    "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
+    "scoreboardTitle": "Таблиця туру (live)",
+    "scoreboardLink": "Дивіться <link>загальну таблицю</link> для повної статистики."
+  }
+}

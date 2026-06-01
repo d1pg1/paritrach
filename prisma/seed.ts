@@ -16,7 +16,7 @@ async function main() {
   })
   console.log("Admin user ready:", admin.username)
 
-  const users = ["dima", "danya", "sasha", "daryna"]
+  const users = ["dima", "Danya", "sasha", "daryna", "pasha", "ihor"]
   for (const name of users) {
     const h = await bcrypt.hash("pass123", 12)
     await db.user.upsert({

@@ -1,13 +1,7 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { getTranslations } from "next-intl/server"
 import Link from "next/link"
-
-const STATUS_LABEL: Record<string, string> = {
-  SETUP: "Setup",
-  BETTING: "Betting open",
-  CLOSED: "Closed",
-  RESULTS: "Results in",
-}
 
 const STATUS_COLOR: Record<string, string> = {
   SETUP: "text-neutral-500",
@@ -27,6 +21,8 @@ export default async function RoundsPage() {
   const session = await auth()
   if (!session?.user) return null
 
+  const t = await getTranslations("rounds")
+
   const rounds = await db.round.findMany({
     where: { status: { not: "SETUP" } },
     orderBy: { createdAt: "desc" },
@@ -37,9 +33,9 @@ export default async function RoundsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Rounds</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
       {rounds.length === 0 ? (
-        <p className="text-neutral-400">No rounds available yet. Check back soon.</p>
+        <p className="text-neutral-400">{t("empty")}</p>
       ) : (
         <div className="space-y-3">
           {rounds.map((round: RoundRow) => (
@@ -52,12 +48,11 @@ export default async function RoundsPage() {
                 <div>
                   <p className="font-semibold text-lg text-white">{round.name}</p>
                   <p className="text-sm text-neutral-400 mt-0.5">
-                    {round._count.matches} eligible match
-                    {round._count.matches !== 1 ? "es" : ""}
+                    {t("matchCount", { count: round._count.matches })}
                   </p>
                 </div>
                 <span className={`text-sm font-medium ${STATUS_COLOR[round.status]}`}>
-                  {STATUS_LABEL[round.status]}
+                  {t(`status.${round.status}` as Parameters<typeof t>[0])}
                 </span>
               </div>
             </Link>

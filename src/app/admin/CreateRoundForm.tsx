@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 export function CreateRoundForm() {
+  const t = useTranslations("admin")
   const [name, setName] = useState("")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -30,7 +32,7 @@ export function CreateRoundForm() {
           onClick={() => setOpen(true)}
           className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold rounded-lg px-4 py-2 text-sm transition-colors"
         >
-          + New Round
+          {t("newRound")}
         </button>
       ) : (
         <div className="flex items-center gap-2">
@@ -39,7 +41,7 @@ export function CreateRoundForm() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Round name…"
+            placeholder={t("roundNamePlaceholder")}
             className="bg-neutral-900 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onKeyDown={(e) => e.key === "Enter" && handleCreate()}
           />
@@ -48,10 +50,10 @@ export function CreateRoundForm() {
             disabled={loading || !name.trim()}
             className="bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-black font-bold rounded-lg px-3 py-1.5 text-sm transition-colors"
           >
-            {loading ? "…" : "Create"}
+            {loading ? "…" : t("create")}
           </button>
           <button onClick={() => setOpen(false)} className="text-neutral-400 text-sm">
-            Cancel
+            {t("cancel")}
           </button>
         </div>
       )}
