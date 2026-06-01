@@ -4,6 +4,17 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 
+interface BetDetail {
+  id: string
+  userId: string
+  marketType: string
+  selection: string
+  line: number | null
+  coefficient: number
+  isWinner: boolean | null
+  user: { username: string }
+}
+
 interface Match {
   id: string
   homeTeam: string
@@ -15,6 +26,7 @@ interface Match {
   awayScore: number | null
   oddsSnapshot: { fetchedAt: Date | string } | null
   _count: { bets: number }
+  bets: BetDetail[]
 }
 
 interface Round {
@@ -24,11 +36,17 @@ interface Round {
   matches: Match[]
 }
 
+function formatBetSelection(bet: BetDetail): string {
+  const base = `${bet.marketType}: ${bet.selection}`
+  return bet.line != null ? `${base} ${bet.line}` : base
+}
+
 export function AdminRoundControls({ round }: { round: Round }) {
   const t = useTranslations("admin")
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
   const [search, setSearch] = useState("")
+  const [expandedMatchId, setExpandedMatchId] = useState<string | null>(null)
   const router = useRouter()
 
   async function apiCall(path: string, method = "POST") {
@@ -53,6 +71,21 @@ export function AdminRoundControls({ round }: { round: Round }) {
     })
     setLoading(null)
     router.refresh()
+  }
+
+  async function deleteRound() {
+    const totalBets = round.matches.reduce((s, m) => s + m._count.bets, 0)
+    if (!window.confirm(t("deleteConfirm", { bets: totalBets }))) return
+    setLoading("delete")
+    setError("")
+    const res = await fetch(`/api/admin/rounds/${round.id}`, { method: "DELETE" })
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setError(`Error: ${data.message ?? res.statusText}`)
+      setLoading(null)
+    } else {
+      router.push("/admin")
+    }
   }
 
   const isSetup = round.status === "SETUP"
@@ -105,6 +138,13 @@ export function AdminRoundControls({ round }: { round: Round }) {
               {loading === "check-results" ? t("checking") : t("checkResults")}
             </button>
           )}
+          <button
+            onClick={deleteRound}
+            disabled={!!loading}
+            className="bg-red-900 hover:bg-red-800 disabled:opacity-50 text-red-200 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+          >
+            {loading === "delete" ? t("deleting") : t("deleteRound")}
+          </button>
         </div>
       </div>
 
@@ -125,55 +165,101 @@ export function AdminRoundControls({ round }: { round: Round }) {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full mb-3 bg-neutral-800 border border-neutral-700 text-neutral-100 placeholder-neutral-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-400"
           />
-        <div className="space-y-2">
-          {round.matches.filter((m) =>
-            `${m.homeTeam} ${m.awayTeam}`.toLowerCase().includes(search.toLowerCase())
-          ).map((match) => (
-            <div
-              key={match.id}
-              className={`flex items-center gap-4 bg-neutral-900 border rounded-lg px-4 py-3 ${
-                match.isEligible ? "border-yellow-700" : "border-neutral-800"
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={match.isEligible}
-                disabled={!isSetup || loading === match.id}
-                onChange={(e) => toggleEligible(match.id, e.target.checked)}
-                className="w-4 h-4 accent-yellow-400"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate text-white">
-                  {match.homeTeam} vs {match.awayTeam}
-                </p>
-                <p className="text-xs text-neutral-400" suppressHydrationWarning>
-                  {new Date(match.startTime).toLocaleString("uk-UA", {
-                    weekday: "short",
-                    day: "numeric",
-                    month: "short",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
-              </div>
-              <div className="text-right text-xs text-neutral-400 shrink-0">
-                {match.oddsSnapshot ? (
-                  <span className="text-yellow-400">{t("oddsLocked")}</span>
-                ) : match.isEligible ? (
-                  <span className="text-neutral-500">{t("noOdds")}</span>
-                ) : null}
-                {match._count.bets > 0 && (
-                  <p className="mt-0.5">{t("betCount", { count: match._count.bets })}</p>
-                )}
-                {match.status === "FINAL" && match.homeScore !== null && (
-                  <p className="text-white font-semibold mt-0.5">
-                    {match.homeScore} : {match.awayScore}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
+          <div className="space-y-2">
+            {round.matches
+              .filter((m) =>
+                `${m.homeTeam} ${m.awayTeam}`.toLowerCase().includes(search.toLowerCase())
+              )
+              .map((match) => (
+                <div key={match.id}>
+                  <div
+                    className={`flex items-center gap-4 bg-neutral-900 border rounded-lg px-4 py-3 ${
+                      match.isEligible ? "border-yellow-700" : "border-neutral-800"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={match.isEligible}
+                      disabled={!isSetup || loading === match.id}
+                      onChange={(e) => toggleEligible(match.id, e.target.checked)}
+                      className="w-4 h-4 accent-yellow-400"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm truncate text-white">
+                        {match.homeTeam} vs {match.awayTeam}
+                      </p>
+                      <p className="text-xs text-neutral-400" suppressHydrationWarning>
+                        {new Date(match.startTime).toLocaleString("uk-UA", {
+                          weekday: "short",
+                          day: "numeric",
+                          month: "short",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
+                    <div className="text-right text-xs text-neutral-400 shrink-0">
+                      {match.oddsSnapshot ? (
+                        <span className="text-yellow-400">{t("oddsLocked")}</span>
+                      ) : match.isEligible ? (
+                        <span className="text-neutral-500">{t("noOdds")}</span>
+                      ) : null}
+                      {match.bets.length > 0 && (
+                        <button
+                          onClick={() =>
+                            setExpandedMatchId(expandedMatchId === match.id ? null : match.id)
+                          }
+                          className="mt-0.5 block text-yellow-400 hover:text-yellow-300 transition-colors"
+                        >
+                          {t("betCount", { count: match.bets.length })}{" "}
+                          {expandedMatchId === match.id ? "▴" : "▾"}
+                        </button>
+                      )}
+                      {match.status === "FINAL" && match.homeScore !== null && (
+                        <p className="text-white font-semibold mt-0.5">
+                          {match.homeScore} : {match.awayScore}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {expandedMatchId === match.id && match.bets.length > 0 && (
+                    <div className="border border-t-0 border-neutral-800 rounded-b-lg bg-neutral-950 px-4 py-3">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="text-neutral-500 border-b border-neutral-800">
+                            <th className="text-left pb-1.5 font-medium">User</th>
+                            <th className="text-left pb-1.5 font-medium">Bet</th>
+                            <th className="text-right pb-1.5 font-medium">Coef</th>
+                            <th className="text-right pb-1.5 font-medium">Result</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-neutral-800">
+                          {match.bets.map((bet) => (
+                            <tr key={bet.id}>
+                              <td className="py-1.5 text-neutral-300">{bet.user.username}</td>
+                              <td className="py-1.5 text-neutral-300">{formatBetSelection(bet)}</td>
+                              <td className="py-1.5 text-right text-neutral-300">
+                                {bet.coefficient.toFixed(2)}
+                              </td>
+                              <td className="py-1.5 text-right">
+                                {bet.isWinner === true ? (
+                                  <span className="text-green-400">{t("betWon")}</span>
+                                ) : bet.isWinner === false ? (
+                                  <span className="text-red-400">{t("betLost")}</span>
+                                ) : (
+                                  <span className="text-neutral-500">{t("betPending")}</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
         </>
       )}
 

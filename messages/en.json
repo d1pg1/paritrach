@@ -81,6 +81,12 @@
     "noOdds": "No odds yet",
     "betCount": "{count, plural, one {# bet} other {# bets}}",
     "scoreboardTitle": "Round Scoreboard (live)",
-    "scoreboardLink": "See the <link>global scoreboard</link> for full standings."
+    "scoreboardLink": "See the <link>global scoreboard</link> for full standings.",
+    "deleteRound": "Delete Round",
+    "deleting": "Deleting…",
+    "deleteConfirm": "Delete this round and all {bets} bets? This cannot be undone.",
+    "betWon": "Won",
+    "betLost": "Lost",
+    "betPending": "Pending"
   }
 }

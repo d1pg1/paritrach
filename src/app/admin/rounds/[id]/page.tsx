@@ -12,6 +12,10 @@ export default async function AdminRoundPage({ params }: { params: Promise<{ id:
         include: {
           _count: { select: { bets: true } },
           oddsSnapshot: { select: { fetchedAt: true } },
+          bets: {
+            include: { user: { select: { username: true } } },
+            orderBy: { createdAt: "asc" },
+          },
         },
         orderBy: { startTime: "asc" },
       },

@@ -81,6 +81,12 @@
     "noOdds": "Нет коэффициентов",
     "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
     "scoreboardTitle": "Таблица тура (live)",
-    "scoreboardLink": "Смотрите <link>общую таблицу</link> для полной статистики."
+    "scoreboardLink": "Смотрите <link>общую таблицу</link> для полной статистики.",
+    "deleteRound": "Удалить тур",
+    "deleting": "Удаление…",
+    "deleteConfirm": "Удалить этот тур и все {bets} ставок? Это нельзя отменить.",
+    "betWon": "Выигрыш",
+    "betLost": "Проигрыш",
+    "betPending": "Ожидание"
   }
 }

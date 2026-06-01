@@ -81,6 +81,12 @@
     "noOdds": "Brak kursów",
     "betCount": "{count, plural, one {# zakład} few {# zakłady} many {# zakładów} other {# zakładu}}",
     "scoreboardTitle": "Tabela rundy (live)",
-    "scoreboardLink": "Zobacz <link>globalną tabelę</link> pełnych wyników."
+    "scoreboardLink": "Zobacz <link>globalną tabelę</link> pełnych wyników.",
+    "deleteRound": "Usuń rundę",
+    "deleting": "Usuwanie…",
+    "deleteConfirm": "Usunąć tę rundę i wszystkie {bets} zakładów? Tej operacji nie można cofnąć.",
+    "betWon": "Wygrana",
+    "betLost": "Przegrana",
+    "betPending": "Oczekuje"
   }
 }
