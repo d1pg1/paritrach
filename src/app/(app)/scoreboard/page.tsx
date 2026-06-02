@@ -2,8 +2,10 @@ import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
+import { after } from "next/server"
 import { SeasonSelector } from "@/components/SeasonSelector"
 import { UserAvatar } from "@/components/UserAvatar"
+import { settleRound } from "@/lib/settle-round"
 
 export default async function ScoreboardPage({
   searchParams,
@@ -52,6 +54,15 @@ export default async function ScoreboardPage({
       return { id: u.id, displayName: u.nickname ?? u.username, logoUrl: u.logoUrl, ...stats }
     })
     .sort((a, b) => b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum)
+
+  after(async () => {
+    const cutoff = new Date(Date.now() - 100 * 60 * 1000)
+    const settling = await db.round.findMany({
+      where: { status: "BETTING", matches: { some: { isEligible: true, startTime: { lte: cutoff } } } },
+      select: { id: true },
+    })
+    await Promise.allSettled(settling.map((r) => settleRound(r.id)))
+  })
 
   return (
     <div>

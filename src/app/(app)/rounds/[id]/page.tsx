@@ -2,7 +2,9 @@ import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
+import { after } from "next/server"
 import { LiveScorePoller } from "./LiveScorePoller"
+import { settleRound } from "@/lib/settle-round"
 
 interface MatchRow {
   id: string
@@ -54,6 +56,13 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
 
   const isBettingOpen = round.status === "BETTING"
   const isResults = round.status === "RESULTS"
+
+  if (round.status === "BETTING" && round.matches.length > 0) {
+    const latestStart = Math.max(...round.matches.map((m) => new Date(m.startTime).getTime()))
+    if (Date.now() > latestStart + 100 * 60 * 1000) {
+      after(() => settleRound(id).catch(console.error))
+    }
+  }
 
   return (
     <div>
