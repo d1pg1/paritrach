@@ -19,7 +19,7 @@ export default async function ScoreboardPage({
   const { seasonId: rawSeasonId } = await searchParams
   const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
 
-  const [seasons, users, winningBets, contestants] = await Promise.all([
+  const [seasons, users, winningBets, allBets, contestants] = await Promise.all([
     db.season.findMany({
       orderBy: { archivedAt: "desc" },
       select: { id: true, name: true },
@@ -28,6 +28,10 @@ export default async function ScoreboardPage({
     db.bet.findMany({
       where: { isWinner: true, round: { seasonId: seasonId ?? null } },
       select: { userId: true, coefficient: true },
+    }),
+    db.bet.findMany({
+      where: { round: { seasonId: seasonId ?? null } },
+      select: { userId: true, roundId: true },
     }),
     db.seasonContestant.findMany({
       where: { seasonId: seasonId ?? null },
@@ -40,6 +44,13 @@ export default async function ScoreboardPage({
     ? users.filter((u) => contestantIds.has(u.id))
     : users
 
+  const roundsMap = new Map<string, Set<string>>()
+  for (const bet of allBets) {
+    const rounds = roundsMap.get(bet.userId) ?? new Set<string>()
+    rounds.add(bet.roundId)
+    roundsMap.set(bet.userId, rounds)
+  }
+
   const statsMap = new Map<string, { points: number; coefSum: number }>()
   for (const bet of winningBets) {
     const entry = statsMap.get(bet.userId) ?? { points: 0, coefSum: 0 }
@@ -51,7 +62,8 @@ export default async function ScoreboardPage({
   const rows = filteredUsers
     .map((u) => {
       const stats = statsMap.get(u.id) ?? { points: 0, coefSum: 0 }
-      return { id: u.id, displayName: u.nickname ?? u.username, logoUrl: u.logoUrl, ...stats }
+      const rounds = roundsMap.get(u.id)?.size ?? 0
+      return { id: u.id, displayName: u.nickname ?? u.username, logoUrl: u.logoUrl, rounds, ...stats }
     })
     .sort((a, b) => b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum)
 
@@ -81,6 +93,7 @@ export default async function ScoreboardPage({
               <tr className="text-left text-neutral-400 border-b border-neutral-800">
                 <th className="pb-3 pr-3 w-10">{t("rank")}</th>
                 <th className="pb-3 pr-4">{t("player")}</th>
+                <th className="pb-3 pr-4 text-right">{t("rounds")}</th>
                 <th className="pb-3 pr-4 text-right">{t("points")}</th>
                 <th className="pb-3 text-right">{t("coefSum")}</th>
               </tr>
@@ -100,6 +113,7 @@ export default async function ScoreboardPage({
                       <span className="font-medium">{row.displayName}</span>
                     </div>
                   </td>
+                  <td className="py-3 pr-4 text-right text-neutral-400">{row.rounds}</td>
                   <td className="py-3 pr-4 text-right font-bold">{row.points}</td>
                   <td className="py-3 text-right text-neutral-400">{row.coefSum.toFixed(2)}</td>
                 </tr>
