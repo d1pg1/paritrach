@@ -1,24 +1,23 @@
 const BASE = "https://api.oddspapi.io"
 const KEY = process.env.ODDSPAPI_API_KEY!
 
-// ── OddsPapi outcome ID → display name (from /v4/markets?sportId=10) ──────────
-const OUTCOME_NAMES: Record<number, string> = {
-  // h2h (101)
-  101: "1", 102: "X", 103: "2",
-  // btts (104)
-  104: "Yes", 105: "No",
-  // h2h_h1 (10208)
-  10208: "1", 10209: "X", 10210: "2",
-  // double_chance (101902) — OddsPapi "2X" → settlement "X2"
-  101902: "1X", 101903: "12", 101904: "X2",
+// ── Market name → category ─────────────────────────────────────────────────────
+// Maps OddsPapi's marketName to our internal key + which team side (0=N/A, 1=home, 2=away)
+const MARKET_CATEGORY: Record<string, { cat: string; team: 0 | 1 | 2 }> = {
+  "Full Time Result":        { cat: "h2h",           team: 0 },
+  "Both Teams To Score":     { cat: "btts",          team: 0 },
+  "Double Chance Full Time": { cat: "double_chance", team: 0 },
+  "First Half Result":       { cat: "h2h_h1",        team: 0 },
+  "First Goal Full Time":    { cat: "first_goal",    team: 0 },
+  "Over Under Full Time":    { cat: "totals",        team: 0 },
+  "Asian Handicap":          { cat: "spreads",       team: 0 },
+  "Over Under Team 1":       { cat: "team_totals",   team: 1 },
+  "Over Under Team 2":       { cat: "team_totals",   team: 2 },
+  "Correct Score Full Time": { cat: "correct_score", team: 0 },
 }
 
-const FIXED_MARKET_IDS: Record<number, string> = {
-  101: "h2h",
-  104: "btts",
-  10208: "h2h_h1",
-  101902: "double_chance",
-}
+// OddsPapi names "2X"; our settlement expects "X2"
+const OUTCOME_NAME_OVERRIDES: Record<number, string> = { 101904: "X2" }
 
 // ── Internal types ─────────────────────────────────────────────────────────────
 interface OddsPlayer {
@@ -55,20 +54,85 @@ export interface OddsMarket {
   outcomes: Outcome[]
 }
 
-// ── API ────────────────────────────────────────────────────────────────────────
-async function fetchOdds(bookmaker: string): Promise<OddsFixture[]> {
-  const url = `${BASE}/v4/odds-by-tournaments?tournamentIds=16&bookmaker=${bookmaker}&apiKey=${KEY}`
-  const res = await fetch(url, { next: { revalidate: 0 } })
-  if (!res.ok) throw new Error(`OddsPapi (${bookmaker}) error: ${res.status}`)
-  const data = await res.json()
-  if (!Array.isArray(data)) throw new Error(`OddsPapi (${bookmaker}) unexpected response`)
-  return data as OddsFixture[]
+// ── Market metadata cache ──────────────────────────────────────────────────────
+interface MarketInfo { cat: string; team: 0 | 1 | 2; handicap: number }
+
+interface MarketMeta {
+  names: Map<number, string>      // outcomeId → display name
+  markets: Map<number, MarketInfo> // marketId → category + team side + handicap
 }
 
-export async function fetchTournamentOdds(): Promise<{ pinnacle: OddsFixture[]; xbet: OddsFixture[] }> {
-  const pinnacle = await fetchOdds("pinnacle")
-  const xbet = await fetchOdds("1xbet").catch(() => [] as OddsFixture[])
-  return { pinnacle, xbet }
+let marketMetaCache: MarketMeta | null = null
+
+async function fetchMarketMeta(): Promise<MarketMeta> {
+  if (marketMetaCache) return marketMetaCache
+
+  const url = `${BASE}/v4/markets?sportId=10&apiKey=${KEY}`
+  const res = await fetch(url, { next: { revalidate: 0 } })
+  if (!res.ok) throw new Error(`OddsPapi markets error: ${res.status}`)
+
+  const data = (await res.json()) as Array<{
+    marketId: number
+    marketName: string
+    handicap: number | null
+    outcomes: Array<{ outcomeId: number; outcomeName: string }>
+  }>
+
+  const names = new Map<number, string>()
+  const markets = new Map<number, MarketInfo>()
+
+  for (const market of data) {
+    const def = MARKET_CATEGORY[market.marketName]
+    if (!def) continue
+
+    markets.set(market.marketId, {
+      cat: def.cat,
+      team: def.team,
+      handicap: market.handicap ?? 0,
+    })
+
+    for (const outcome of market.outcomes) {
+      if (!names.has(outcome.outcomeId)) {
+        names.set(
+          outcome.outcomeId,
+          OUTCOME_NAME_OVERRIDES[outcome.outcomeId] ?? outcome.outcomeName,
+        )
+      }
+    }
+  }
+
+  marketMetaCache = { names, markets }
+  return marketMetaCache
+}
+
+// ── Fixture cache ──────────────────────────────────────────────────────────────
+interface FixtureMeta { id: string; startTime: string }
+let fixtureCache: FixtureMeta[] | null = null
+
+async function resolveFixtureId(startTime: Date | string): Promise<string | null> {
+  if (!fixtureCache) {
+    const url = `${BASE}/v4/fixtures?tournamentId=16&apiKey=${KEY}`
+    const res = await fetch(url, { next: { revalidate: 0 } })
+    if (!res.ok) throw new Error(`OddsPapi fixtures error: ${res.status}`)
+    const data = await res.json()
+    fixtureCache = Array.isArray(data)
+      ? data.map((f: { fixtureId: string; startTime: string }) => ({
+          id: f.fixtureId,
+          startTime: f.startTime,
+        }))
+      : []
+  }
+  const target = new Date(startTime).getTime()
+  const found = fixtureCache.find(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)
+  return found?.id ?? null
+}
+
+// ── API ────────────────────────────────────────────────────────────────────────
+async function fetchFixtureOdds(fixtureId: string): Promise<OddsFixture> {
+  const url = `${BASE}/v4/odds?fixtureId=${fixtureId}&apiKey=${KEY}`
+  const res = await fetch(url, { next: { revalidate: 0 } })
+  if (!res.ok) throw new Error(`OddsPapi odds error: ${res.status}`)
+  return res.json() as Promise<OddsFixture>
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -82,157 +146,89 @@ function isHalfLine(line: number): boolean {
   return Math.abs(line % 1) === 0.5
 }
 
-// Build outcomeId → price map from ALL 1xbet markets (OddsPapi outcomeIds are shared)
-function buildXbetPriceMap(markets: Record<string, BookmakerMarket>): Map<number, number> {
+// Best price across all bookmakers for each outcomeId
+function buildBestPriceMap(bookmakerOdds: OddsFixture["bookmakerOdds"]): Map<number, number> {
   const map = new Map<number, number>()
-  for (const market of Object.values(markets)) {
-    if (!market.marketActive) continue
-    for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
-      const player = getPlayer(outcomeData)
-      if (player?.active && player.price > 1) {
-        map.set(parseInt(oidStr), player.price)
+  for (const bm of Object.values(bookmakerOdds)) {
+    for (const market of Object.values(bm.markets)) {
+      if (!market.marketActive) continue
+      for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
+        const player = getPlayer(outcomeData)
+        if (player?.active && player.price > 1) {
+          const oid = parseInt(oidStr)
+          const existing = map.get(oid)
+          if (existing === undefined || player.price > existing) map.set(oid, player.price)
+        }
       }
     }
   }
   return map
 }
 
-// Parse a Pinnacle outcome into our normalised shape.
-// Returns null if inactive, nonsensical price, or unparseable format.
-function parsePinnacleOutcome(outcomeId: number, player: OddsPlayer): Outcome | null {
-  if (!player.active || player.price <= 1) return null
-  const bid = player.bookmakerOutcomeId
-
-  // Totals: "2.5/over"
-  const tot = bid.match(/^(\d+(?:\.\d+)?)\/(over|under)$/i)
-  if (tot) {
-    return { name: tot[2] === "over" ? "Over" : "Under", price: player.price, point: parseFloat(tot[1]) }
-  }
-
-  // Spreads: "-1.5/home", "0.0/away"
-  const spr = bid.match(/^([+-]?\d+(?:\.\d+)?)\/(home|away)$/)
-  if (spr) {
-    return { name: spr[2] === "home" ? "1" : "2", price: player.price, point: parseFloat(spr[1]) }
-  }
-
-  // Team totals: "home/1.5/over", "away/0.5/under"
-  const tm = bid.match(/^(home|away)\/(\d+(?:\.\d+)?)\/(over|under)$/i)
-  if (tm) {
-    return {
-      name: `${tm[1]}/${tm[3] === "over" ? "Over" : "Under"}`,
-      price: player.price,
-      point: parseFloat(tm[2]),
-    }
-  }
-
-  // Moneyline: "home", "draw", "away"
-  if (bid === "home") return { name: "1", price: player.price }
-  if (bid === "draw") return { name: "X", price: player.price }
-  if (bid === "away") return { name: "2", price: player.price }
-
-  // Opaque Pinnacle ID → fall back to OddsPapi outcome-name table (btts, double_chance, etc.)
-  const name = OUTCOME_NAMES[outcomeId]
-  if (name) return { name, price: player.price }
-
-  return null
-}
-
-// Substitute 1xbet price when available (1xbet is primary price source)
-function withXbet(o: Outcome, outcomeId: number, xbet: Map<number, number>): Outcome {
-  const p = xbet.get(outcomeId)
-  return p && p > 1 ? { ...o, price: p } : o
-}
-
 // ── Core extraction ────────────────────────────────────────────────────────────
+const LINE_CATS = new Set(["totals", "spreads", "team_totals"])
+
 function extractMarkets(
-  pinnacleMarkets: Record<string, BookmakerMarket>,
-  xbetPriceMap: Map<number, number>,
+  allBookmakerOdds: OddsFixture["bookmakerOdds"],
+  meta: MarketMeta,
   homeTeam: string,
   awayTeam: string,
 ): Record<string, OddsMarket> {
+  const bestPriceMap = buildBestPriceMap(allBookmakerOdds)
   const result: Record<string, OddsMarket> = {}
+  const seen: Record<string, Set<string>> = {}
 
-  for (const [midStr, market] of Object.entries(pinnacleMarkets)) {
-    if (!market.marketActive) continue
-    const mid = parseInt(midStr)
-    const bmid = market.bookmakerMarketId
+  for (const bm of Object.values(allBookmakerOdds)) {
+    for (const [midStr, market] of Object.entries(bm.markets)) {
+      if (!market.marketActive) continue
 
-    // ── Fixed markets (h2h, btts, h2h_h1, double_chance) ───────────────────
-    const fixedKey = FIXED_MARKET_IDS[mid]
-    if (fixedKey && !result[fixedKey]) {
-      const outcomes: Outcome[] = []
+      const info = meta.markets.get(parseInt(midStr))
+      if (!info) continue
+
+      const { cat, team, handicap } = info
+      const isLineBased = LINE_CATS.has(cat)
+
+      // Filter out non-.5 lines for line-based markets
+      if (isLineBased && !isHalfLine(handicap)) continue
+
+      if (!seen[cat]) seen[cat] = new Set()
+      if (!result[cat]) result[cat] = { key: cat, outcomes: [] }
+
       for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
         const oid = parseInt(oidStr)
         const player = getPlayer(outcomeData)
-        if (!player) continue
-        const o = parsePinnacleOutcome(oid, player)
-        if (o) outcomes.push(withXbet(o, oid, xbetPriceMap))
+        if (!player?.active || player.price <= 1) continue
+
+        const rawName = meta.names.get(oid)
+        if (!rawName) continue
+
+        // Resolve team name for team_totals
+        let name = rawName
+        if (cat === "team_totals") {
+          name = `${team === 1 ? homeTeam : awayTeam} ${rawName}`
+        }
+
+        const dedupeKey = isLineBased ? `${name}|${handicap}` : name
+        if (seen[cat].has(dedupeKey)) continue
+        seen[cat].add(dedupeKey)
+
+        const price = bestPriceMap.get(oid) ?? player.price
+        const outcome: Outcome = isLineBased
+          ? { name, price, point: handicap }
+          : { name, price }
+
+        result[cat].outcomes.push(outcome)
       }
-      if (outcomes.length > 0) result[fixedKey] = { key: fixedKey, outcomes }
-      continue
-    }
-
-    // ── Dynamic markets: skip first/second-half periods ────────────────────
-    if (/\/1\//.test(bmid) || /\/2\//.test(bmid)) continue
-
-    const isAny = bmid.startsWith("line/") || bmid.startsWith("altLine/")
-    if (!isAny) continue
-
-    // ── Totals ──────────────────────────────────────────────────────────────
-    if (bmid.endsWith("/totals")) {
-      const acc = result.totals?.outcomes ?? []
-      for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
-        const oid = parseInt(oidStr)
-        const player = getPlayer(outcomeData)
-        if (!player) continue
-        const o = parsePinnacleOutcome(oid, player)
-        if (!o || o.point === undefined || !isHalfLine(o.point)) continue
-        if (!acc.some((x) => x.name === o.name && x.point === o.point))
-          acc.push(withXbet(o, oid, xbetPriceMap))
-      }
-      if (acc.length > 0) result.totals = { key: "totals", outcomes: acc }
-      continue
-    }
-
-    // ── Spreads ─────────────────────────────────────────────────────────────
-    if (bmid.endsWith("/spreads")) {
-      const acc = result.spreads?.outcomes ?? []
-      for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
-        const oid = parseInt(oidStr)
-        const player = getPlayer(outcomeData)
-        if (!player) continue
-        const o = parsePinnacleOutcome(oid, player)
-        if (!o || o.point === undefined || !isHalfLine(o.point)) continue
-        if (!acc.some((x) => x.name === o.name && x.point === o.point))
-          acc.push(withXbet(o, oid, xbetPriceMap))
-      }
-      if (acc.length > 0) result.spreads = { key: "spreads", outcomes: acc }
-      continue
-    }
-
-    // ── Team totals ─────────────────────────────────────────────────────────
-    if (bmid.endsWith("/teamTotal")) {
-      const acc = result.team_totals?.outcomes ?? []
-      for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
-        const oid = parseInt(oidStr)
-        const player = getPlayer(outcomeData)
-        if (!player) continue
-        const o = parsePinnacleOutcome(oid, player)
-        if (!o || o.point === undefined || !isHalfLine(o.point)) continue
-        let name: string
-        if (o.name.startsWith("home/")) name = `${homeTeam} ${o.name.slice(5)}`
-        else if (o.name.startsWith("away/")) name = `${awayTeam} ${o.name.slice(5)}`
-        else continue
-        if (!acc.some((x) => x.name === name && x.point === o.point))
-          acc.push(withXbet({ ...o, name }, oid, xbetPriceMap))
-      }
-      if (acc.length > 0) result.team_totals = { key: "team_totals", outcomes: acc }
-      continue
     }
   }
 
-  // Sort by line ascending; Over/1/home before Under/2/away within the same line
+  // Sort outcomes
   const byLine = (a: Outcome, b: Outcome) => (a.point ?? 0) - (b.point ?? 0)
+
+  if (result.h2h) {
+    const order = ["1", "X", "2"]
+    result.h2h.outcomes.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name))
+  }
   if (result.totals) result.totals.outcomes.sort((a, b) => byLine(a, b) || (a.name === "Over" ? -1 : 1))
   if (result.spreads) result.spreads.outcomes.sort((a, b) => byLine(a, b) || (a.name === "1" ? -1 : 1))
   if (result.team_totals) result.team_totals.outcomes.sort((a, b) => {
@@ -241,26 +237,24 @@ function extractMarkets(
     if (aHome !== bHome) return aHome ? -1 : 1
     return byLine(a, b) || (a.name.includes("Over") ? -1 : 1)
   })
+  if (result.correct_score) result.correct_score.outcomes.sort((a, b) => {
+    const [ah, aa] = a.name.split(":").map(Number)
+    const [bh, ba] = b.name.split(":").map(Number)
+    return (ah + aa) - (bh + ba) || ah - bh
+  })
 
   return result
 }
 
 // ── Public API ─────────────────────────────────────────────────────────────────
-export function extractMarketsForMatch(
-  data: { pinnacle: OddsFixture[]; xbet: OddsFixture[] },
+export async function extractMarketsForMatch(
   startTime: Date | string,
   homeTeam: string,
   awayTeam: string,
-): Record<string, OddsMarket> {
-  const target = new Date(startTime).getTime()
-  const near = (f: OddsFixture) => Math.abs(new Date(f.startTime).getTime() - target) < 60_000
-
-  const pf = data.pinnacle.find(near)
-  const xf = data.xbet.find(near)
-
-  if (!pf) return {}
-
-  const xbetPriceMap = xf ? buildXbetPriceMap(xf.bookmakerOdds["1xbet"]?.markets ?? {}) : new Map()
-
-  return extractMarkets(pf.bookmakerOdds.pinnacle?.markets ?? {}, xbetPriceMap, homeTeam, awayTeam)
+): Promise<Record<string, OddsMarket>> {
+  // Resolve fixture ID and fetch market catalog in parallel (both cached after first call)
+  const [fixtureId, meta] = await Promise.all([resolveFixtureId(startTime), fetchMarketMeta()])
+  if (!fixtureId) return {}
+  const data = await fetchFixtureOdds(fixtureId)
+  return extractMarkets(data.bookmakerOdds, meta, homeTeam, awayTeam)
 }

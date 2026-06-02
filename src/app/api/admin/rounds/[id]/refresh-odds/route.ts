@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { fetchTournamentOdds, extractMarketsForMatch } from "@/lib/apis/oddspapi"
+import { extractMarketsForMatch } from "@/lib/apis/oddspapi"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -16,11 +16,11 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
   if (round.matches.length === 0)
     return new NextResponse("No eligible matches", { status: 400 })
 
-  const allOdds = await fetchTournamentOdds()
-
   let snapshotCount = 0
-  for (const match of round.matches) {
-    const markets = extractMarketsForMatch(allOdds, match.startTime, match.homeTeam, match.awayTeam)
+  for (let i = 0; i < round.matches.length; i++) {
+    if (i > 0) await new Promise(r => setTimeout(r, 1000))
+    const match = round.matches[i]
+    const markets = await extractMarketsForMatch(match.startTime, match.homeTeam, match.awayTeam)
     if (Object.keys(markets).length === 0) continue
 
     const oddsJson = JSON.parse(JSON.stringify(markets))

@@ -65,8 +65,26 @@ export function settleBet(ctx: BetContext): boolean | null {
       if (adjustedHome < awayScore) return selection.startsWith("2")
       return selection.startsWith("X")
     }
-    case "player_first_goalscorer":
+    case "correct_score":
+      return selection === `${homeScore}:${awayScore}`
+    case "first_goal":
       // Cannot be settled from scoreboard data alone — requires manual input
+      return null
+    case "combo_dc_total": {
+      const [dc, total] = selection.split("+")
+      const r1 = settleBet({ ...ctx, marketType: "double_chance", selection: dc })
+      const r2 = settleBet({ ...ctx, marketType: "totals", selection: total })
+      if (r1 === null || r2 === null) return null
+      return r1 && r2
+    }
+    case "result_and_total": {
+      const [h2h, total] = selection.split("+")
+      const r1 = settleBet({ ...ctx, marketType: "h2h", selection: h2h })
+      const r2 = settleBet({ ...ctx, marketType: "totals", selection: total })
+      if (r1 === null || r2 === null) return null
+      return r1 && r2
+    }
+    case "player_first_goalscorer":
       return null
     default:
       return null
