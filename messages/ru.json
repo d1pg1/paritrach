@@ -39,7 +39,12 @@
       "team_totals": "Тотал команды",
       "h2h_h1": "Результат 1-го тайма",
       "spreads": "Гандикап",
-      "player_first_goalscorer": "Первый голеадор"
+      "player_first_goalscorer": "Первый голеадор",
+      "goals_interval": "Интервалы голов",
+      "combo_dc_total": "Двойной шанс и Тотал",
+      "result_and_total": "Результат и Тотал",
+      "combo_dc_interval": "Двойной шанс и Интервал",
+      "combo_h2h_interval": "Результат и Интервал"
     },
     "won": "+1 очко (+{coef} коэф)",
     "lost": "Проигрыш",

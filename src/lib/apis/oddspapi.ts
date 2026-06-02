@@ -243,7 +243,112 @@ function extractMarkets(
     return (ah + aa) - (bh + ba) || ah - bh
   })
 
+  computeDerivedMarkets(result)
+
   return result
+}
+
+// ── Derived / synthetic markets ───────────────────────────────────────────────
+
+// Intervals matching the "Розширений інтервал" pattern: L ∈ {1,2,3}, H ∈ {L+1..6}
+const INTERVAL_LOWER_BOUNDS = [1, 2, 3]
+const INTERVAL_MAX_UPPER = 6
+
+// Subset of intervals used for combo markets (keeps outcome count manageable)
+const COMBO_INTERVALS = ["1-2", "1-3", "2-3", "2-4", "3-4"]
+
+function buildFairOverMap(totals: OddsMarket): Map<number, number> {
+  const byLine = new Map<number, { over?: number; under?: number }>()
+  for (const o of totals.outcomes) {
+    if (o.point === undefined) continue
+    if (!byLine.has(o.point)) byLine.set(o.point, {})
+    const entry = byLine.get(o.point)!
+    if (o.name.startsWith("Over")) entry.over = o.price
+    else if (o.name.startsWith("Under")) entry.under = o.price
+  }
+  const fair = new Map<number, number>()
+  for (const [pt, v] of byLine) {
+    if (!v.over || !v.under) continue
+    const pO = 1 / v.over
+    const pU = 1 / v.under
+    fair.set(pt, pO / (pO + pU))
+  }
+  return fair
+}
+
+function computeDerivedMarkets(markets: Record<string, OddsMarket>): void {
+  const totals = markets["totals"]
+  const dc = markets["double_chance"]
+  const h2h = markets["h2h"]
+
+  // ── goals_interval ──────────────────────────────────────────────────────────
+  if (totals) {
+    const fairOver = buildFairOverMap(totals)
+    // fairPOver beyond available lines → 0; below all lines (L-0.5 for L=1 → 0.5) needs fairOver(0.5)
+    const getFair = (line: number) => line < 0 ? 1 : (fairOver.get(line) ?? 0)
+
+    const intervalOutcomes: Outcome[] = []
+    for (const L of INTERVAL_LOWER_BOUNDS) {
+      for (let H = L + 1; H <= INTERVAL_MAX_UPPER; H++) {
+        const p = getFair(L - 0.5) - getFair(H + 0.5)
+        if (p < 0.02) continue
+        intervalOutcomes.push({ name: `${L}-${H}`, price: parseFloat((1 / p).toFixed(2)) })
+      }
+    }
+    if (intervalOutcomes.length >= 2) {
+      markets["goals_interval"] = { key: "goals_interval", outcomes: intervalOutcomes }
+    }
+  }
+
+  const intervals = markets["goals_interval"]
+
+  // ── combo_dc_total ──────────────────────────────────────────────────────────
+  if (dc && totals) {
+    const keyTotals = totals.outcomes.filter(o => o.point !== undefined && [1.5, 2.5, 3.5].includes(o.point))
+    const combos: Outcome[] = []
+    for (const d of dc.outcomes) {
+      for (const t of keyTotals) {
+        combos.push({ name: `${d.name}+${t.name} ${t.point}`, price: parseFloat((d.price * t.price).toFixed(2)), point: t.point })
+      }
+    }
+    if (combos.length > 0) markets["combo_dc_total"] = { key: "combo_dc_total", outcomes: combos }
+  }
+
+  // ── result_and_total ────────────────────────────────────────────────────────
+  if (h2h && totals) {
+    const keyTotals = totals.outcomes.filter(o => o.point !== undefined && [1.5, 2.5, 3.5].includes(o.point))
+    const combos: Outcome[] = []
+    for (const h of h2h.outcomes) {
+      for (const t of keyTotals) {
+        combos.push({ name: `${h.name}+${t.name} ${t.point}`, price: parseFloat((h.price * t.price).toFixed(2)), point: t.point })
+      }
+    }
+    if (combos.length > 0) markets["result_and_total"] = { key: "result_and_total", outcomes: combos }
+  }
+
+  // ── combo_dc_interval ───────────────────────────────────────────────────────
+  if (dc && intervals) {
+    const subIntervals = intervals.outcomes.filter(o => COMBO_INTERVALS.includes(o.name))
+    const combos: Outcome[] = []
+    for (const d of dc.outcomes) {
+      for (const iv of subIntervals) {
+        combos.push({ name: `${d.name}+${iv.name}`, price: parseFloat((d.price * iv.price).toFixed(2)) })
+      }
+    }
+    if (combos.length > 0) markets["combo_dc_interval"] = { key: "combo_dc_interval", outcomes: combos }
+  }
+
+  // ── combo_h2h_interval ──────────────────────────────────────────────────────
+  if (h2h && intervals) {
+    const subIntervals = intervals.outcomes.filter(o => COMBO_INTERVALS.includes(o.name))
+    const combos: Outcome[] = []
+    for (const h of h2h.outcomes) {
+      for (const iv of subIntervals) {
+        combos.push({ name: `${h.name}+${iv.name}`, price: parseFloat((h.price * iv.price).toFixed(2)) })
+      }
+    }
+    if (combos.length > 0) markets["combo_h2h_interval"] = { key: "combo_h2h_interval", outcomes: combos }
+  }
 }
 
 // ── Public API ─────────────────────────────────────────────────────────────────

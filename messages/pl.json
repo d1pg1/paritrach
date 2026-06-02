@@ -39,7 +39,12 @@
       "team_totals": "Gole drużyny",
       "h2h_h1": "Wynik 1. połowy",
       "spreads": "Handicap",
-      "player_first_goalscorer": "Pierwszy strzelec"
+      "player_first_goalscorer": "Pierwszy strzelec",
+      "goals_interval": "Przedziały goli",
+      "combo_dc_total": "Podwójna szansa i Łączna",
+      "result_and_total": "Wynik i Łączna",
+      "combo_dc_interval": "Podwójna szansa i Przedział",
+      "combo_h2h_interval": "Wynik i Przedział"
     },
     "won": "+1 pkt (+{coef} wsp)",
     "lost": "Przegrana",

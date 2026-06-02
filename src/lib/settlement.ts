@@ -86,6 +86,24 @@ export function settleBet(ctx: BetContext): boolean | null {
     }
     case "player_first_goalscorer":
       return null
+    case "goals_interval": {
+      const [lo, hi] = selection.split("-").map(Number)
+      return total >= lo && total <= hi
+    }
+    case "combo_dc_interval": {
+      const [dc, interval] = selection.split("+")
+      const r1 = settleBet({ ...ctx, marketType: "double_chance", selection: dc })
+      const r2 = settleBet({ ...ctx, marketType: "goals_interval", selection: interval })
+      if (r1 === null || r2 === null) return null
+      return r1 && r2
+    }
+    case "combo_h2h_interval": {
+      const [h2h, interval] = selection.split("+")
+      const r1 = settleBet({ ...ctx, marketType: "h2h", selection: h2h })
+      const r2 = settleBet({ ...ctx, marketType: "goals_interval", selection: interval })
+      if (r1 === null || r2 === null) return null
+      return r1 && r2
+    }
     default:
       return null
   }
