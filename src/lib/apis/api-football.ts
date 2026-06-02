@@ -1,4 +1,4 @@
-const BASE = "https://v3.api-football.com"
+const BASE = "https://v3.football.api-sports.io"
 const KEY = process.env.API_FOOTBALL_API_KEY!
 
 const headers = { "x-apisports-key": KEY }

@@ -46,18 +46,18 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     await Promise.all(dateSlugPairs.map(({ date, slug }) => fetchResultsByDate(new Date(date), slug)))
   ).flat()
 
-  // Detect score changes and fetch goal events where needed
-  await Promise.all(
-    matches.map((match) => {
+  // Detect score changes and fetch goal events where needed.
+  // Errors here must never crash the response — scores are more important than events.
+  await Promise.allSettled(
+    matches.map(async (match) => {
       const event = findEspnEventForMatch(allEvents, match.homeTeam, match.awayTeam)
       if (!event) return
       const { homeScore, awayScore } = parseScores(event)
       const prevTotal = (match.liveHomeScore ?? 0) + (match.liveAwayScore ?? 0)
       if (homeScore + awayScore > prevTotal) {
-        return handleGoalDetected(match, homeScore, awayScore)
-      }
-      if (homeScore !== match.liveHomeScore || awayScore !== match.liveAwayScore) {
-        return db.match.update({ where: { id: match.id }, data: { liveHomeScore: homeScore, liveAwayScore: awayScore } })
+        await handleGoalDetected(match, homeScore, awayScore)
+      } else if (homeScore !== match.liveHomeScore || awayScore !== match.liveAwayScore) {
+        await db.match.update({ where: { id: match.id }, data: { liveHomeScore: homeScore, liveAwayScore: awayScore } })
       }
     })
   )
