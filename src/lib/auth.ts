@@ -23,7 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.passwordHash
         )
         if (!valid) return null
-        return { id: user.id, name: user.username, role: user.role }
+        return { id: user.id, name: user.nickname ?? user.username, role: user.role }
       },
     }),
   ],

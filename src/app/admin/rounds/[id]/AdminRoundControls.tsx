@@ -12,7 +12,7 @@ interface BetDetail {
   line: number | null
   coefficient: number
   isWinner: boolean | null
-  user: { username: string }
+  user: { username: string; nickname: string | null }
 }
 
 interface Match {
@@ -237,7 +237,7 @@ export function AdminRoundControls({ round }: { round: Round }) {
                         <tbody className="divide-y divide-neutral-800">
                           {match.bets.map((bet) => (
                             <tr key={bet.id}>
-                              <td className="py-1.5 text-neutral-300">{bet.user.username}</td>
+                              <td className="py-1.5 text-neutral-300">{bet.user.nickname ?? bet.user.username}</td>
                               <td className="py-1.5 text-neutral-300">{formatBetSelection(bet)}</td>
                               <td className="py-1.5 text-right text-neutral-300">
                                 {bet.coefficient.toFixed(2)}

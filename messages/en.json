@@ -107,5 +107,21 @@
   },
   "seasons": {
     "current": "Current Season"
+  },
+  "adminUsers": {
+    "title": "Users",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "nicknameLabel": "Nickname",
+    "roleLabel": "Role",
+    "create": "+ Create user",
+    "save": "Save",
+    "deleteUser": "Delete",
+    "deleteConfirm": "Delete user \"{username}\" and all their bets? This cannot be undone.",
+    "noUsers": "No users.",
+    "betsCount": "Bets",
+    "roleUser": "User",
+    "roleAdmin": "Admin",
+    "noNickname": "no nickname"
   }
 }

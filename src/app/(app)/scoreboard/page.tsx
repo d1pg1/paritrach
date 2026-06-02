@@ -21,7 +21,7 @@ export default async function ScoreboardPage({
       orderBy: { archivedAt: "desc" },
       select: { id: true, name: true },
     }),
-    db.user.findMany({ select: { id: true, username: true } }),
+    db.user.findMany({ select: { id: true, username: true, nickname: true } }),
     db.bet.findMany({
       where: { isWinner: true, round: { seasonId: seasonId ?? null } },
       select: { userId: true, coefficient: true },
@@ -39,7 +39,7 @@ export default async function ScoreboardPage({
   const rows = users
     .map((u) => {
       const stats = statsMap.get(u.id) ?? { points: 0, coefSum: 0 }
-      return { username: u.username, ...stats }
+      return { id: u.id, displayName: u.nickname ?? u.username, ...stats }
     })
     .sort((a, b) => b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum)
 
@@ -67,13 +67,13 @@ export default async function ScoreboardPage({
             <tbody>
               {rows.map((row, i) => (
                 <tr
-                  key={row.username}
+                  key={row.id}
                   className={`border-b border-neutral-800/50 ${
-                    row.username === session.user.name ? "text-yellow-400" : ""
+                    row.id === session.user.id ? "text-yellow-400" : ""
                   }`}
                 >
                   <td className="py-3 pr-4 font-mono text-neutral-500">{i + 1}</td>
-                  <td className="py-3 pr-4 font-medium">{row.username}</td>
+                  <td className="py-3 pr-4 font-medium">{row.displayName}</td>
                   <td className="py-3 pr-4 text-right font-bold">{row.points}</td>
                   <td className="py-3 text-right text-neutral-400">{row.coefSum.toFixed(2)}</td>
                 </tr>

@@ -107,5 +107,21 @@
   },
   "seasons": {
     "current": "Bieżący sezon"
+  },
+  "adminUsers": {
+    "title": "Użytkownicy",
+    "usernameLabel": "Nazwa użytkownika",
+    "passwordLabel": "Hasło",
+    "nicknameLabel": "Pseudonim",
+    "roleLabel": "Rola",
+    "create": "+ Utwórz użytkownika",
+    "save": "Zapisz",
+    "deleteUser": "Usuń",
+    "deleteConfirm": "Usunąć użytkownika \"{username}\" i wszystkie jego zakłady? Tej operacji nie można cofnąć.",
+    "noUsers": "Brak użytkowników.",
+    "betsCount": "Zakłady",
+    "roleUser": "Użytkownik",
+    "roleAdmin": "Administrator",
+    "noNickname": "brak pseudonimu"
   }
 }

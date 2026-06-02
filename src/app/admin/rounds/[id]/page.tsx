@@ -13,7 +13,7 @@ export default async function AdminRoundPage({ params }: { params: Promise<{ id:
           _count: { select: { bets: true } },
           oddsSnapshot: { select: { fetchedAt: true } },
           bets: {
-            include: { user: { select: { username: true } } },
+            include: { user: { select: { username: true, nickname: true } } },
             orderBy: { createdAt: "asc" },
           },
         },

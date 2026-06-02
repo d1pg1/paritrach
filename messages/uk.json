@@ -107,5 +107,21 @@
   },
   "seasons": {
     "current": "Поточний сезон"
+  },
+  "adminUsers": {
+    "title": "Користувачі",
+    "usernameLabel": "Ім'я користувача",
+    "passwordLabel": "Пароль",
+    "nicknameLabel": "Нікнейм",
+    "roleLabel": "Роль",
+    "create": "+ Створити користувача",
+    "save": "Зберегти",
+    "deleteUser": "Видалити",
+    "deleteConfirm": "Видалити користувача \"{username}\" і всі його ставки? Це неможливо скасувати.",
+    "noUsers": "Немає користувачів.",
+    "betsCount": "Ставки",
+    "roleUser": "Користувач",
+    "roleAdmin": "Адміністратор",
+    "noNickname": "без нікнейму"
   }
 }

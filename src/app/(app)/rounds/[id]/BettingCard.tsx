@@ -40,7 +40,7 @@ interface Bet {
 
 interface BetWithUser extends Bet {
   userId: string
-  user: { username: string }
+  user: { username: string; nickname: string | null }
 }
 
 function formatBetSelection(bet: Bet): string {
@@ -282,7 +282,7 @@ export function BettingCard({
               {allBets.map((bet) => (
                 <tr key={bet.id}>
                   <td className={`py-1.5 ${bet.userId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}`}>
-                    {bet.user.username}
+                    {bet.user.nickname ?? bet.user.username}
                   </td>
                   <td className="py-1.5 text-neutral-300">{formatBetSelection(bet)}</td>
                   <td className="py-1.5 text-right text-neutral-300">{bet.coefficient.toFixed(2)}</td>

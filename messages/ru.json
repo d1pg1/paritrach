@@ -107,5 +107,21 @@
   },
   "seasons": {
     "current": "Текущий сезон"
+  },
+  "adminUsers": {
+    "title": "Пользователи",
+    "usernameLabel": "Имя пользователя",
+    "passwordLabel": "Пароль",
+    "nicknameLabel": "Никнейм",
+    "roleLabel": "Роль",
+    "create": "+ Создать пользователя",
+    "save": "Сохранить",
+    "deleteUser": "Удалить",
+    "deleteConfirm": "Удалить пользователя \"{username}\" и все его ставки? Это нельзя отменить.",
+    "noUsers": "Нет пользователей.",
+    "betsCount": "Ставки",
+    "roleUser": "Пользователь",
+    "roleAdmin": "Администратор",
+    "noNickname": "нет никнейма"
   }
 }
