@@ -1,5 +1,13 @@
-const BASE =
-  "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
+const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
+
+const COMPETITION_TO_ESPN_SLUG: Record<string, string> = {
+  "International Friendlies": "fifa.friendly",
+}
+const DEFAULT_ESPN_SLUG = "fifa.world"
+
+export function competitionToEspnSlug(competition: string | null | undefined): string {
+  return (competition && COMPETITION_TO_ESPN_SLUG[competition]) ?? DEFAULT_ESPN_SLUG
+}
 
 export interface EspnCompetitor {
   homeAway: "home" | "away"
@@ -19,9 +27,9 @@ export interface EspnEvent {
   }[]
 }
 
-export async function fetchResultsByDate(date: Date): Promise<EspnEvent[]> {
+export async function fetchResultsByDate(date: Date, espnSlug: string = DEFAULT_ESPN_SLUG): Promise<EspnEvent[]> {
   const dateStr = date.toISOString().slice(0, 10).replace(/-/g, "")
-  const res = await fetch(`${BASE}?dates=${dateStr}`, { cache: "no-store" })
+  const res = await fetch(`${ESPN_BASE}/${espnSlug}/scoreboard?dates=${dateStr}`, { cache: "no-store" })
   if (!res.ok) throw new Error(`ESPN API error: ${res.status}`)
   const data = await res.json()
   return data.events ?? []

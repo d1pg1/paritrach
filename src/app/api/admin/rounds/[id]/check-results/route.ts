@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { fetchResultsByDate, findEspnEventForMatch, parseScores } from "@/lib/apis/espn"
+import { fetchResultsByDate, findEspnEventForMatch, parseScores, competitionToEspnSlug } from "@/lib/apis/espn"
 import { settleBet } from "@/lib/settlement"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -20,14 +20,20 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
   })
   if (!round) return new NextResponse("Round not found", { status: 404 })
 
-  // Collect all unique match dates
-  const dates: string[] = [
-    ...new Set(round.matches.map((m: { startTime: Date }) => m.startTime.toISOString().slice(0, 10))),
+  // Collect unique (date, espnSlug) combinations
+  const dateSlugPairs = [
+    ...new Map(
+      round.matches.map((m: { startTime: Date; competition: string | null }) => {
+        const date = m.startTime.toISOString().slice(0, 10)
+        const slug = competitionToEspnSlug(m.competition)
+        return [`${date}|${slug}`, { date, slug }]
+      })
+    ).values(),
   ]
 
-  // Fetch ESPN results for each date
+  // Fetch ESPN results for each unique date+competition
   const allEvents = (
-    await Promise.all(dates.map((d: string) => fetchResultsByDate(new Date(d))))
+    await Promise.all(dateSlugPairs.map(({ date, slug }) => fetchResultsByDate(new Date(date), slug)))
   ).flat()
 
   let settled = 0

@@ -52,6 +52,7 @@ export function BettingCard({
   currentUsername,
   isBettingOpen,
   isResults,
+  liveScore,
 }: {
   match: Match
   existingBet: Bet | null
@@ -60,6 +61,7 @@ export function BettingCard({
   currentUsername: string
   isBettingOpen: boolean
   isResults: boolean
+  liveScore?: { homeScore: number; awayScore: number; statusName: string } | null
 }) {
   const t = useTranslations("betting")
 
@@ -184,6 +186,16 @@ export function BettingCard({
                   : t("pending")}
               </p>
             )}
+          </div>
+        )}
+        {!isResults && liveScore && (
+          <div className="text-right">
+            <p className="text-2xl font-bold tabular-nums">
+              {liveScore.homeScore} : {liveScore.awayScore}
+            </p>
+            <p className="text-xs text-green-400 mt-0.5 animate-pulse">
+              {liveScore.statusName}
+            </p>
           </div>
         )}
       </div>

@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
-import { BettingCard } from "./BettingCard"
+import { LiveScorePoller } from "./LiveScorePoller"
 
 interface MatchRow {
   id: string
@@ -69,20 +69,20 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
       {round.matches.length === 0 ? (
         <p className="text-neutral-400">{t("noMatches")}</p>
       ) : (
-        <div className="space-y-4">
-          {(round.matches as MatchRow[]).map((match) => (
-            <BettingCard
-              key={match.id}
-              match={match}
-              existingBet={match.bets.find((b) => b.userId === session.user.id) ?? null}
-              allBets={match.bets}
-              currentUserId={session.user.id}
-              currentUsername={session.user.name ?? ""}
-              isBettingOpen={isBettingOpen}
-              isResults={isResults}
-            />
-          ))}
-        </div>
+        <LiveScorePoller
+          roundId={id}
+          entries={(round.matches as MatchRow[]).map((match) => ({
+            match,
+            existingBet: match.bets.find((b) => b.userId === session.user.id) ?? null,
+            allBets: match.bets,
+          }))}
+          shared={{
+            currentUserId: session.user.id,
+            currentUsername: session.user.name ?? "",
+            isBettingOpen,
+            isResults,
+          }}
+        />
       )}
     </div>
   )
