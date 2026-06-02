@@ -20,7 +20,7 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
   for (let i = 0; i < round.matches.length; i++) {
     if (i > 0) await new Promise(r => setTimeout(r, 1000))
     const match = round.matches[i]
-    const markets = await extractMarketsForMatch(match.startTime, match.homeTeam, match.awayTeam)
+    const markets = await extractMarketsForMatch(match.startTime, match.homeTeam, match.awayTeam, match.externalId)
     if (Object.keys(markets).length === 0) continue
 
     const oddsJson = JSON.parse(JSON.stringify(markets))

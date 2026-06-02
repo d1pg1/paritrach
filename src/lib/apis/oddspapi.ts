@@ -354,13 +354,26 @@ function computeDerivedMarkets(markets: Record<string, OddsMarket>): void {
 }
 
 // ── Public API ─────────────────────────────────────────────────────────────────
+
+// OddsPapi fixture IDs start with "id"; The Odds API IDs are UUIDs
+function isOddsPapiFixtureId(id: string): boolean {
+  return id.startsWith("id")
+}
+
 export async function extractMarketsForMatch(
   startTime: Date | string,
   homeTeam: string,
   awayTeam: string,
+  externalId?: string | null,
 ): Promise<Record<string, OddsMarket>> {
-  // Resolve fixture ID and fetch market catalog in parallel (both cached after first call)
-  const [fixtureId, meta] = await Promise.all([resolveFixtureId(startTime), fetchMarketMeta()])
+  // Use stored fixture ID directly when available (friendlies imported from OddsPapi)
+  // — avoids startTime collision when multiple matches kick off at the same time
+  const directId = externalId && isOddsPapiFixtureId(externalId) ? externalId : null
+
+  const [fixtureId, meta] = await Promise.all([
+    directId ? Promise.resolve(directId) : resolveFixtureId(startTime),
+    fetchMarketMeta(),
+  ])
   if (!fixtureId) return {}
   const data = await fetchFixtureOdds(fixtureId)
   return extractMarkets(data.bookmakerOdds, meta, homeTeam, awayTeam)
