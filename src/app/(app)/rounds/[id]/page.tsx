@@ -77,6 +77,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
               existingBet={match.bets.find((b) => b.userId === session.user.id) ?? null}
               allBets={match.bets}
               currentUserId={session.user.id}
+              currentUsername={session.user.name ?? ""}
               isBettingOpen={isBettingOpen}
               isResults={isResults}
             />

@@ -53,6 +53,7 @@
     "saving": "Zapisywanie…",
     "updateBet": "Zmień zakład → {name} @ {price}",
     "placeBet": "Postaw zakład → {name} @ {price}",
+    "minCoefError": "Minimalny kurs to 1.40 — wybierz opcję z wyższym kursem.",
     "matchStarted": "Mecz się rozpoczął — zakłady zamknięte",
     "waitingResult": "Oczekiwanie na wynik…",
     "colUser": "Gracz",

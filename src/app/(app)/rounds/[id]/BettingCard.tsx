@@ -49,6 +49,7 @@ export function BettingCard({
   existingBet,
   allBets,
   currentUserId,
+  currentUsername,
   isBettingOpen,
   isResults,
 }: {
@@ -56,6 +57,7 @@ export function BettingCard({
   existingBet: Bet | null
   allBets: BetWithUser[]
   currentUserId: string
+  currentUsername: string
   isBettingOpen: boolean
   isResults: boolean
 }) {
@@ -68,6 +70,7 @@ export function BettingCard({
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(!!existingBet)
   const [currentBet, setCurrentBet] = useState<Bet | null>(existingBet)
+  const [localAllBets, setLocalAllBets] = useState<BetWithUser[]>(allBets)
   const [error, setError] = useState("")
 
   function marketLabel(key: string): string {
@@ -87,6 +90,10 @@ export function BettingCard({
 
   async function placeBet() {
     if (!selectedOutcome) return
+    if (selectedOutcome.price <= 1.4) {
+      setError(t("minCoefError"))
+      return
+    }
     setSaving(true)
     setError("")
 
@@ -117,6 +124,18 @@ export function BettingCard({
     setCurrentBet(bet)
     setSaved(true)
     setSelectedOutcome(null)
+    const betWithUser: BetWithUser = {
+      ...bet,
+      userId: currentUserId,
+      user: { username: currentUsername, nickname: null },
+    }
+    setLocalAllBets((prev) => {
+      const idx = prev.findIndex((b) => b.userId === currentUserId)
+      if (idx >= 0) {
+        return prev.map((b, i) => i === idx ? { ...b, ...bet } : b)
+      }
+      return [...prev, betWithUser]
+    })
   }
 
   const winIndicator = currentBet?.isWinner === true
@@ -263,7 +282,7 @@ export function BettingCard({
         <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
       )}
 
-      {allBets.length > 0 && (
+      {localAllBets.length > 0 && (
         <div className="mt-4 border-t border-neutral-800 pt-3">
           <table className="w-full text-xs">
             <thead>
@@ -275,7 +294,7 @@ export function BettingCard({
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-800">
-              {allBets.map((bet) => (
+              {localAllBets.map((bet) => (
                 <tr key={bet.id}>
                   <td className={`py-1.5 ${bet.userId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}`}>
                     {bet.user.nickname ?? bet.user.username}

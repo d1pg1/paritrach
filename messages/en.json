@@ -53,6 +53,7 @@
     "saving": "Saving…",
     "updateBet": "Update bet → {name} @ {price}",
     "placeBet": "Place bet → {name} @ {price}",
+    "minCoefError": "Minimum coefficient is 1.40 — pick a higher-odds option.",
     "matchStarted": "Match started — betting closed",
     "waitingResult": "Waiting for result…",
     "colUser": "User",
