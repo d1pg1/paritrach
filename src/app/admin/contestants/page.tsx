@@ -12,7 +12,6 @@ export default async function ContestantsPage() {
 
   const [allUsers, currentContestants] = await Promise.all([
     db.user.findMany({
-      where: { role: "USER" },
       select: { id: true, username: true, nickname: true },
       orderBy: { username: "asc" },
     }),
