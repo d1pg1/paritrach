@@ -16,7 +16,7 @@ export default async function ScoreboardPage({
   const { seasonId: rawSeasonId } = await searchParams
   const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
 
-  const [seasons, users, winningBets] = await Promise.all([
+  const [seasons, users, winningBets, contestants] = await Promise.all([
     db.season.findMany({
       orderBy: { archivedAt: "desc" },
       select: { id: true, name: true },
@@ -26,7 +26,16 @@ export default async function ScoreboardPage({
       where: { isWinner: true, round: { seasonId: seasonId ?? null } },
       select: { userId: true, coefficient: true },
     }),
+    db.seasonContestant.findMany({
+      where: { seasonId: seasonId ?? null },
+      select: { userId: true },
+    }),
   ])
+
+  const contestantIds = new Set(contestants.map((c) => c.userId))
+  const filteredUsers = contestantIds.size > 0
+    ? users.filter((u) => contestantIds.has(u.id))
+    : users
 
   const statsMap = new Map<string, { points: number; coefSum: number }>()
   for (const bet of winningBets) {
@@ -36,7 +45,7 @@ export default async function ScoreboardPage({
     statsMap.set(bet.userId, entry)
   }
 
-  const rows = users
+  const rows = filteredUsers
     .map((u) => {
       const stats = statsMap.get(u.id) ?? { points: 0, coefSum: 0 }
       return { id: u.id, displayName: u.nickname ?? u.username, ...stats }

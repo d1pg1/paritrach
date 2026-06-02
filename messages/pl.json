@@ -104,7 +104,12 @@
     "betPending": "Oczekuje",
     "archiveToSeason": "Archiwizuj do sezonu",
     "seasonNamePlaceholder": "Nazwa sezonu (np. 2025/26)…",
-    "archive": "Archiwizuj"
+    "archive": "Archiwizuj",
+    "contestants": "Zawodnicy",
+    "contestantsTitle": "Zawodnicy sezonu",
+    "contestantsSubtitle": "Zarządzaj listą aktywnych zawodników w bieżącym sezonie.",
+    "contestantActive": "Aktywny",
+    "contestantInactive": "Nieaktywny"
   },
   "seasons": {
     "current": "Bieżący sezon"

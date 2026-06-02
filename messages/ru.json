@@ -104,7 +104,12 @@
     "betPending": "Ожидание",
     "archiveToSeason": "Архивировать в сезон",
     "seasonNamePlaceholder": "Название сезона (напр. 2025/26)…",
-    "archive": "Архивировать"
+    "archive": "Архивировать",
+    "contestants": "Участники",
+    "contestantsTitle": "Участники сезона",
+    "contestantsSubtitle": "Управляйте списком активных участников текущего сезона.",
+    "contestantActive": "Активен",
+    "contestantInactive": "Неактивен"
   },
   "seasons": {
     "current": "Текущий сезон"

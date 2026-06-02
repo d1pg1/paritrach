@@ -33,6 +33,12 @@ export default async function AdminPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
         <div className="flex items-center gap-2">
+          <Link
+            href="/admin/contestants"
+            className="bg-neutral-800 hover:bg-neutral-700 text-white font-bold rounded-lg px-4 py-2 text-sm transition-colors"
+          >
+            {t("contestants")}
+          </Link>
           <CreateSeasonForm />
           <CreateRoundForm />
         </div>

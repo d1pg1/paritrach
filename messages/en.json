@@ -104,7 +104,12 @@
     "betPending": "Pending",
     "archiveToSeason": "Archive to Season",
     "seasonNamePlaceholder": "Season name (e.g. 2025/26)…",
-    "archive": "Archive"
+    "archive": "Archive",
+    "contestants": "Contestants",
+    "contestantsTitle": "Season Contestants",
+    "contestantsSubtitle": "Toggle who is an active contestant in the current season.",
+    "contestantActive": "Active",
+    "contestantInactive": "Inactive"
   },
   "seasons": {
     "current": "Current Season"

@@ -26,20 +26,30 @@ enum MatchStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  username     String   @unique
-  nickname     String?
-  passwordHash String
-  role         Role     @default(USER)
-  createdAt    DateTime @default(now())
-  bets         Bet[]
+  id                 String             @id @default(cuid())
+  username           String             @unique
+  nickname           String?
+  passwordHash       String
+  role               Role               @default(USER)
+  createdAt          DateTime           @default(now())
+  bets               Bet[]
+  seasonContestants  SeasonContestant[]
 }
 
 model Season {
-  id         String   @id @default(cuid())
-  name       String
-  archivedAt DateTime @default(now())
-  rounds     Round[]
+  id           String             @id @default(cuid())
+  name         String
+  archivedAt   DateTime           @default(now())
+  rounds       Round[]
+  contestants  SeasonContestant[]
+}
+
+model SeasonContestant {
+  id       String  @id @default(cuid())
+  seasonId String?
+  userId   String
+  season   Season? @relation(fields: [seasonId], references: [id])
+  user     User    @relation(fields: [userId], references: [id])
 }
 
 model Round {

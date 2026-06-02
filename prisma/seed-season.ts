@@ -51,14 +51,32 @@ async function main() {
   const userIdMap = new Map(users.map((u) => [u.username, u.id]))
 
   // Check if season already exists to make it idempotent
-  const existing = await db.season.findFirst({ where: { name: "2025/26" } })
-  if (existing) {
-    console.log("Season 2025/26 already exists, skipping.")
-    return
+  let season = await db.season.findFirst({ where: { name: "2025/26" } })
+  if (season) {
+    console.log(`Season 2025/26 already exists (${season.id}), skipping rounds/matches/bets.`)
+  } else {
+    season = await db.season.create({ data: { name: "2025/26" } })
+    console.log(`Created season: ${season.name} (${season.id})`)
   }
 
-  const season = await db.season.create({ data: { name: "2025/26" } })
-  console.log(`Created season: ${season.name} (${season.id})`)
+  // Create contestant records for the 4 known participants (idempotent)
+  const contestantUsernames = ["dima", "sasha", "Danya", "daryna"]
+  for (const username of contestantUsernames) {
+    const userId = userIdMap.get(username)
+    if (!userId) continue
+    const exists = await db.seasonContestant.findFirst({ where: { seasonId: season.id, userId } })
+    if (!exists) {
+      await db.seasonContestant.create({ data: { seasonId: season.id, userId } })
+      console.log(`  Contestant added: ${username}`)
+    } else {
+      console.log(`  Contestant already exists: ${username}`)
+    }
+  }
+
+  if ((await db.round.count({ where: { seasonId: season.id } })) > 0) {
+    console.log("Rounds already seeded, skipping.")
+    return
+  }
 
   for (const roundData of seasonData as RoundEntry[]) {
     const roundDate = parseDate(roundData.date)

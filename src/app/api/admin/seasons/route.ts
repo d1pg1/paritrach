@@ -18,6 +18,16 @@ export async function POST(req: Request) {
       where: { seasonId: null },
       data: { seasonId: created.id },
     })
+    // Copy current contestants to the archived season
+    const currentContestants = await tx.seasonContestant.findMany({
+      where: { seasonId: null },
+      select: { userId: true },
+    })
+    if (currentContestants.length > 0) {
+      await tx.seasonContestant.createMany({
+        data: currentContestants.map((c) => ({ seasonId: created.id, userId: c.userId })),
+      })
+    }
     return created
   })
 
