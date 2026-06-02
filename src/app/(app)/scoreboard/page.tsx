@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
 import { SeasonSelector } from "@/components/SeasonSelector"
+import { UserAvatar } from "@/components/UserAvatar"
 
 export default async function ScoreboardPage({
   searchParams,
@@ -21,7 +22,7 @@ export default async function ScoreboardPage({
       orderBy: { archivedAt: "desc" },
       select: { id: true, name: true },
     }),
-    db.user.findMany({ select: { id: true, username: true, nickname: true } }),
+    db.user.findMany({ select: { id: true, username: true, nickname: true, logoUrl: true } }),
     db.bet.findMany({
       where: { isWinner: true, round: { seasonId: seasonId ?? null } },
       select: { userId: true, coefficient: true },
@@ -48,7 +49,7 @@ export default async function ScoreboardPage({
   const rows = filteredUsers
     .map((u) => {
       const stats = statsMap.get(u.id) ?? { points: 0, coefSum: 0 }
-      return { id: u.id, displayName: u.nickname ?? u.username, ...stats }
+      return { id: u.id, displayName: u.nickname ?? u.username, logoUrl: u.logoUrl, ...stats }
     })
     .sort((a, b) => b.points !== a.points ? b.points - a.points : b.coefSum - a.coefSum)
 
@@ -67,7 +68,7 @@ export default async function ScoreboardPage({
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-neutral-400 border-b border-neutral-800">
-                <th className="pb-3 pr-4 w-10">{t("rank")}</th>
+                <th className="pb-3 pr-3 w-10">{t("rank")}</th>
                 <th className="pb-3 pr-4">{t("player")}</th>
                 <th className="pb-3 pr-4 text-right">{t("points")}</th>
                 <th className="pb-3 text-right">{t("coefSum")}</th>
@@ -81,8 +82,13 @@ export default async function ScoreboardPage({
                     row.id === session.user.id ? "text-yellow-400" : ""
                   }`}
                 >
-                  <td className="py-3 pr-4 font-mono text-neutral-500">{i + 1}</td>
-                  <td className="py-3 pr-4 font-medium">{row.displayName}</td>
+                  <td className="py-3 pr-3 font-mono text-neutral-500">{i + 1}</td>
+                  <td className="py-3 pr-4">
+                    <div className="flex items-center gap-2.5">
+                      <UserAvatar logoUrl={row.logoUrl} displayName={row.displayName} size={40} />
+                      <span className="font-medium">{row.displayName}</span>
+                    </div>
+                  </td>
                   <td className="py-3 pr-4 text-right font-bold">{row.points}</td>
                   <td className="py-3 text-right text-neutral-400">{row.coefSum.toFixed(2)}</td>
                 </tr>

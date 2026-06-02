@@ -22,7 +22,7 @@ interface MatchRow {
     line: number | null
     coefficient: number
     isWinner: boolean | null
-    user: { username: string; nickname: string | null }
+    user: { username: string; nickname: string | null; logoUrl: string | null }
   }[]
 }
 
@@ -41,7 +41,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
         include: {
           oddsSnapshot: true,
           bets: {
-            include: { user: { select: { username: true, nickname: true } } },
+            include: { user: { select: { username: true, nickname: true, logoUrl: true } } },
             orderBy: { createdAt: "asc" },
           },
         },

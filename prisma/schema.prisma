@@ -29,6 +29,7 @@ model User {
   id                 String             @id @default(cuid())
   username           String             @unique
   nickname           String?
+  logoUrl            String?
   passwordHash       String
   role               Role               @default(USER)
   createdAt          DateTime           @default(now())

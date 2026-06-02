@@ -11,6 +11,7 @@ export default async function AdminUsersPage() {
       id: true,
       username: true,
       nickname: true,
+      logoUrl: true,
       role: true,
       createdAt: true,
       _count: { select: { bets: true } },

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
+import { UserAvatar } from "@/components/UserAvatar"
 
 interface Outcome {
   name: string
@@ -40,7 +41,7 @@ interface Bet {
 
 interface BetWithUser extends Bet {
   userId: string
-  user: { username: string; nickname: string | null }
+  user: { username: string; nickname: string | null; logoUrl: string | null }
 }
 
 
@@ -328,8 +329,15 @@ export function BettingCard({
             <tbody className="divide-y divide-neutral-800">
               {localAllBets.map((bet) => (
                 <tr key={bet.id}>
-                  <td className={`py-1.5 ${bet.userId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}`}>
-                    {bet.user.nickname ?? bet.user.username}
+                  <td className={`py-1.5 pr-2 ${bet.userId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}`}>
+                    <div className="flex items-center gap-1.5">
+                      <UserAvatar
+                        logoUrl={bet.user.logoUrl}
+                        displayName={bet.user.nickname ?? bet.user.username}
+                        size={24}
+                      />
+                      {bet.user.nickname ?? bet.user.username}
+                    </div>
                   </td>
                   <td className="py-1.5 text-neutral-300">
                     {marketLabel(bet.marketType)}: {bet.selection}{bet.line != null ? ` ${bet.line > 0 ? "+" : ""}${bet.line}` : ""}
