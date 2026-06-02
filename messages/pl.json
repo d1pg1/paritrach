@@ -54,7 +54,14 @@
     "updateBet": "Zmień zakład → {name} @ {price}",
     "placeBet": "Postaw zakład → {name} @ {price}",
     "matchStarted": "Mecz się rozpoczął — zakłady zamknięte",
-    "waitingResult": "Oczekiwanie na wynik…"
+    "waitingResult": "Oczekiwanie na wynik…",
+    "colUser": "Gracz",
+    "colBet": "Zakład",
+    "colCoef": "Kurs",
+    "colResult": "Wynik",
+    "betWon": "Wygrana",
+    "betLost": "Przegrana",
+    "betPending": "—"
   },
   "scoreboard": {
     "title": "Tabela",

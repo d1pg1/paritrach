@@ -54,7 +54,14 @@
     "updateBet": "Изменить ставку → {name} @ {price}",
     "placeBet": "Сделать ставку → {name} @ {price}",
     "matchStarted": "Матч начался — ставки закрыты",
-    "waitingResult": "Ожидание результата…"
+    "waitingResult": "Ожидание результата…",
+    "colUser": "Игрок",
+    "colBet": "Ставка",
+    "colCoef": "Коэф",
+    "colResult": "Результат",
+    "betWon": "Выигрыш",
+    "betLost": "Проигрыш",
+    "betPending": "—"
   },
   "scoreboard": {
     "title": "Таблица",

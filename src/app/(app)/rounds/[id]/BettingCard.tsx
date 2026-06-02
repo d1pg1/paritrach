@@ -38,14 +38,28 @@ interface Bet {
   isWinner: boolean | null
 }
 
+interface BetWithUser extends Bet {
+  userId: string
+  user: { username: string }
+}
+
+function formatBetSelection(bet: Bet): string {
+  const base = `${bet.marketType}: ${bet.selection}`
+  return bet.line != null ? `${base} ${bet.line}` : base
+}
+
 export function BettingCard({
   match,
   existingBet,
+  allBets,
+  currentUserId,
   isBettingOpen,
   isResults,
 }: {
   match: Match
   existingBet: Bet | null
+  allBets: BetWithUser[]
+  currentUserId: string
   isBettingOpen: boolean
   isResults: boolean
 }) {
@@ -251,6 +265,41 @@ export function BettingCard({
       )}
       {!canBet && !isResults && currentBet && matchStarted && (
         <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
+      )}
+
+      {allBets.length > 0 && (
+        <div className="mt-4 border-t border-neutral-800 pt-3">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-neutral-500 border-b border-neutral-800">
+                <th className="text-left pb-1.5 font-medium">{t("colUser")}</th>
+                <th className="text-left pb-1.5 font-medium">{t("colBet")}</th>
+                <th className="text-right pb-1.5 font-medium">{t("colCoef")}</th>
+                <th className="text-right pb-1.5 font-medium">{t("colResult")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-800">
+              {allBets.map((bet) => (
+                <tr key={bet.id}>
+                  <td className={`py-1.5 ${bet.userId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}`}>
+                    {bet.user.username}
+                  </td>
+                  <td className="py-1.5 text-neutral-300">{formatBetSelection(bet)}</td>
+                  <td className="py-1.5 text-right text-neutral-300">{bet.coefficient.toFixed(2)}</td>
+                  <td className="py-1.5 text-right">
+                    {bet.isWinner === true ? (
+                      <span className="text-green-400">{t("betWon")}</span>
+                    ) : bet.isWinner === false ? (
+                      <span className="text-red-400">{t("betLost")}</span>
+                    ) : (
+                      <span className="text-neutral-500">{t("betPending")}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   )

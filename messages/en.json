@@ -54,7 +54,14 @@
     "updateBet": "Update bet → {name} @ {price}",
     "placeBet": "Place bet → {name} @ {price}",
     "matchStarted": "Match started — betting closed",
-    "waitingResult": "Waiting for result…"
+    "waitingResult": "Waiting for result…",
+    "colUser": "User",
+    "colBet": "Bet",
+    "colCoef": "Coef",
+    "colResult": "Result",
+    "betWon": "Won",
+    "betLost": "Lost",
+    "betPending": "—"
   },
   "scoreboard": {
     "title": "Scoreboard",

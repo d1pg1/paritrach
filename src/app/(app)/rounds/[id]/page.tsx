@@ -16,11 +16,13 @@ interface MatchRow {
   oddsSnapshot: { oddsData: unknown } | null
   bets: {
     id: string
+    userId: string
     marketType: string
     selection: string
     line: number | null
     coefficient: number
     isWinner: boolean | null
+    user: { username: string }
   }[]
 }
 
@@ -38,7 +40,10 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
         where: { isEligible: true },
         include: {
           oddsSnapshot: true,
-          bets: { where: { userId: session.user.id } },
+          bets: {
+            include: { user: { select: { username: true } } },
+            orderBy: { createdAt: "asc" },
+          },
         },
         orderBy: { startTime: "asc" },
       },
@@ -69,7 +74,9 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
             <BettingCard
               key={match.id}
               match={match}
-              existingBet={match.bets[0] ?? null}
+              existingBet={match.bets.find((b) => b.userId === session.user.id) ?? null}
+              allBets={match.bets}
+              currentUserId={session.user.id}
               isBettingOpen={isBettingOpen}
               isResults={isResults}
             />
