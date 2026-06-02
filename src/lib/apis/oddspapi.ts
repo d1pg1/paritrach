@@ -148,9 +148,11 @@ function isHalfLine(line: number): boolean {
   return Math.abs(line % 1) === 0.5
 }
 
-// Best price across all bookmakers for each outcomeId
+// Median price across all bookmakers for each outcomeId.
+// Median is robust against bookmakers with misclassified markets providing outlier prices.
 function buildBestPriceMap(bookmakerOdds: OddsFixture["bookmakerOdds"]): Map<number, number> {
-  const map = new Map<number, number>()
+  const allPrices = new Map<number, number[]>()
+
   for (const bm of Object.values(bookmakerOdds)) {
     for (const market of Object.values(bm.markets)) {
       if (!market.marketActive) continue
@@ -158,12 +160,23 @@ function buildBestPriceMap(bookmakerOdds: OddsFixture["bookmakerOdds"]): Map<num
         const player = getPlayer(outcomeData)
         if (player?.active && player.price > 1) {
           const oid = parseInt(oidStr)
-          const existing = map.get(oid)
-          if (existing === undefined || player.price > existing) map.set(oid, player.price)
+          if (!allPrices.has(oid)) allPrices.set(oid, [])
+          allPrices.get(oid)!.push(player.price)
         }
       }
     }
   }
+
+  const map = new Map<number, number>()
+  for (const [oid, prices] of allPrices) {
+    const sorted = [...prices].sort((a, b) => a - b)
+    const mid = Math.floor(sorted.length / 2)
+    const median = sorted.length % 2 === 1
+      ? sorted[mid]
+      : (sorted[mid - 1] + sorted[mid]) / 2
+    map.set(oid, median)
+  }
+
   return map
 }
 
