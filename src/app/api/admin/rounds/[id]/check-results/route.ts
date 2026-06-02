@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { fetchResultsByDate, findEspnEventForMatch, parseScores, competitionToEspnSlug } from "@/lib/apis/espn"
+import { fetchResultsByDate, findEspnEventForMatch, parseScores, fetchHalftimeScores, parseFirstGoal, competitionToEspnSlug } from "@/lib/apis/espn"
 import { settleBet } from "@/lib/settlement"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -46,9 +46,18 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     const { homeScore, awayScore, completed } = parseScores(espnEvent)
     if (!completed) continue
 
+    const slug = competitionToEspnSlug(match.competition)
+    const halftime = await fetchHalftimeScores(espnEvent.id, slug)
+    const firstGoal = parseFirstGoal(espnEvent)
+
     await db.match.update({
       where: { id: match.id },
-      data: { homeScore, awayScore, status: "FINAL" },
+      data: {
+        homeScore,
+        awayScore,
+        status: "FINAL",
+        ...(halftime && { htHomeScore: halftime.htHomeScore, htAwayScore: halftime.htAwayScore }),
+      },
     })
     updated++
 
@@ -60,8 +69,11 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
         line: bet.line,
         homeScore,
         awayScore,
+        htHomeScore: halftime?.htHomeScore ?? match.htHomeScore ?? null,
+        htAwayScore: halftime?.htAwayScore ?? match.htAwayScore ?? null,
         homeTeam: match.homeTeam,
         awayTeam: match.awayTeam,
+        firstGoalTeam: firstGoal?.firstTeam ?? null,
       })
       if (won !== null) {
         await db.bet.update({ where: { id: bet.id }, data: { isWinner: won } })

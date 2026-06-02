@@ -3,11 +3,19 @@
 import { useEffect, useState } from "react"
 import { BettingCard } from "./BettingCard"
 
+interface GoalEvent {
+  minute: number
+  team: string
+  scorerName: string | null
+  eventType: string
+}
+
 interface LiveScore {
   matchId: string
   homeScore: number
   awayScore: number
   statusName: string
+  events: GoalEvent[]
 }
 
 type BettingCardProps = React.ComponentProps<typeof BettingCard>

@@ -61,7 +61,12 @@ export function BettingCard({
   currentUsername: string
   isBettingOpen: boolean
   isResults: boolean
-  liveScore?: { homeScore: number; awayScore: number; statusName: string } | null
+  liveScore?: {
+    homeScore: number
+    awayScore: number
+    statusName: string
+    events: { minute: number; team: string; scorerName: string | null; eventType: string }[]
+  } | null
 }) {
   const t = useTranslations("betting")
 
@@ -196,6 +201,21 @@ export function BettingCard({
             <p className="text-xs text-green-400 mt-0.5 animate-pulse">
               {liveScore.statusName}
             </p>
+            {liveScore.events.length > 0 && (
+              <div className="mt-1.5 space-y-0.5">
+                {liveScore.events.map((ev, i) => (
+                  <p key={i} className="text-xs text-neutral-400 text-right">
+                    <span className="text-neutral-500">{ev.minute}&apos;</span>{" "}
+                    <span className={ev.team === "home" ? "text-sky-400" : "text-orange-400"}>
+                      {ev.team === "home" ? match.homeTeam : match.awayTeam}
+                    </span>{" "}
+                    {ev.scorerName ?? "—"}
+                    {ev.eventType === "Own Goal" && <span className="text-neutral-500"> (OG)</span>}
+                    {ev.eventType === "Penalty" && <span className="text-neutral-500"> (P)</span>}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

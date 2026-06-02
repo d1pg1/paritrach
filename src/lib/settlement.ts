@@ -8,6 +8,7 @@ export interface BetContext {
   htAwayScore?: number | null
   homeTeam: string
   awayTeam: string
+  firstGoalTeam?: "home" | "away" | null
 }
 
 export function settleBet(ctx: BetContext): boolean | null {
@@ -67,9 +68,16 @@ export function settleBet(ctx: BetContext): boolean | null {
     }
     case "correct_score":
       return selection === `${homeScore}:${awayScore}`
-    case "first_goal":
-      // Cannot be settled from scoreboard data alone — requires manual input
+    case "first_goal": {
+      const { firstGoalTeam } = ctx
+      if (firstGoalTeam === undefined || firstGoalTeam === null) return null
+      const total = homeScore + awayScore
+      if (total === 0) return selection === "No Goal"
+      if (selection === "1") return firstGoalTeam === "home"
+      if (selection === "2") return firstGoalTeam === "away"
+      if (selection === "No Goal") return false
       return null
+    }
     case "combo_dc_total": {
       const [dc, total] = selection.split("+")
       const r1 = settleBet({ ...ctx, marketType: "double_chance", selection: dc })

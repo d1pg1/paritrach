@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { fetchResultsByDate, findEspnEventForMatch, parseScores, competitionToEspnSlug } from "@/lib/apis/espn"
+import { handleGoalDetected } from "@/lib/goal-detection"
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -17,7 +18,16 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       startTime: { lte: now },
       status: { not: "FINAL" },
     },
-    select: { id: true, homeTeam: true, awayTeam: true, startTime: true, competition: true },
+    select: {
+      id: true,
+      homeTeam: true,
+      awayTeam: true,
+      startTime: true,
+      competition: true,
+      liveHomeScore: true,
+      liveAwayScore: true,
+      apiFootballId: true,
+    },
   })
 
   if (matches.length === 0) return NextResponse.json([])
@@ -36,12 +46,49 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     await Promise.all(dateSlugPairs.map(({ date, slug }) => fetchResultsByDate(new Date(date), slug)))
   ).flat()
 
+  // Detect score changes and fetch goal events where needed
+  await Promise.all(
+    matches.map((match) => {
+      const event = findEspnEventForMatch(allEvents, match.homeTeam, match.awayTeam)
+      if (!event) return
+      const { homeScore, awayScore } = parseScores(event)
+      const prevTotal = (match.liveHomeScore ?? 0) + (match.liveAwayScore ?? 0)
+      if (homeScore + awayScore > prevTotal) {
+        return handleGoalDetected(match, homeScore, awayScore)
+      }
+      if (homeScore !== match.liveHomeScore || awayScore !== match.liveAwayScore) {
+        return db.match.update({ where: { id: match.id }, data: { liveHomeScore: homeScore, liveAwayScore: awayScore } })
+      }
+    })
+  )
+
+  // Load stored events for all in-progress matches
+  const storedEvents = await db.matchEvent.findMany({
+    where: { matchId: { in: matches.map((m) => m.id) } },
+    orderBy: { minute: "asc" },
+  })
+  const eventsByMatch = storedEvents.reduce<Record<string, typeof storedEvents>>(
+    (acc, ev) => { (acc[ev.matchId] ??= []).push(ev); return acc },
+    {}
+  )
+
   const results = matches.flatMap((match) => {
     const event = findEspnEventForMatch(allEvents, match.homeTeam, match.awayTeam)
     if (!event) return []
     const { homeScore, awayScore, completed } = parseScores(event)
-    const statusName = event.status.type.name
-    return [{ matchId: match.id, homeScore, awayScore, completed, statusName }]
+    return [{
+      matchId: match.id,
+      homeScore,
+      awayScore,
+      completed,
+      statusName: event.status.type.name,
+      events: (eventsByMatch[match.id] ?? []).map((ev) => ({
+        minute: ev.minute,
+        team: ev.team,
+        scorerName: ev.scorerName,
+        eventType: ev.eventType,
+      })),
+    }]
   })
 
   return NextResponse.json(results)

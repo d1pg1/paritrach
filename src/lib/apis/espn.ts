@@ -11,9 +11,18 @@ export function competitionToEspnSlug(competition: string | null | undefined): s
 
 export interface EspnCompetitor {
   homeAway: "home" | "away"
-  team: { displayName: string }
+  team: { id: string; displayName: string }
   score: string
   winner?: boolean
+}
+
+export interface EspnDetail {
+  scoringPlay: boolean
+  ownGoal: boolean
+  penaltyKick: boolean
+  clock: { displayValue: string }
+  team: { id: string }
+  athletesInvolved?: { displayName: string }[]
 }
 
 export interface EspnEvent {
@@ -23,8 +32,25 @@ export interface EspnEvent {
   status: { type: { name: string; completed: boolean } }
   competitions: {
     competitors: EspnCompetitor[]
-    details?: { clock: { displayValue: string }; team: { id: string } }[]
+    details?: EspnDetail[]
   }[]
+}
+
+export interface FirstGoalInfo {
+  firstTeam: "home" | "away"
+  scorerName: string | null
+}
+
+export function parseFirstGoal(event: EspnEvent): FirstGoalInfo | null {
+  const comp = event.competitions[0]
+  if (!comp) return null
+  const details = comp.details ?? []
+  const firstGoal = details.find((d) => d.scoringPlay)
+  if (!firstGoal) return null
+  const home = comp.competitors.find((c) => c.homeAway === "home")
+  const firstTeam = firstGoal.team.id === home?.team.id ? "home" : "away"
+  const scorerName = firstGoal.athletesInvolved?.[0]?.displayName ?? null
+  return { firstTeam, scorerName }
 }
 
 export async function fetchResultsByDate(date: Date, espnSlug: string = DEFAULT_ESPN_SLUG): Promise<EspnEvent[]> {
@@ -61,4 +87,33 @@ export function parseScores(event: EspnEvent): {
     awayScore: parseInt(away?.score ?? "0", 10),
     completed: event.status.type.completed,
   }
+}
+
+interface EspnSummaryCompetitor {
+  homeAway: "home" | "away"
+  linescores?: { displayValue: string }[]
+}
+
+interface EspnSummary {
+  header?: {
+    competitions?: {
+      competitors?: EspnSummaryCompetitor[]
+    }[]
+  }
+}
+
+export async function fetchHalftimeScores(
+  eventId: string,
+  espnSlug: string = DEFAULT_ESPN_SLUG
+): Promise<{ htHomeScore: number; htAwayScore: number } | null> {
+  const res = await fetch(`${ESPN_BASE}/${espnSlug}/summary?event=${eventId}`, { cache: "no-store" })
+  if (!res.ok) return null
+  const data: EspnSummary = await res.json()
+  const comps = data.header?.competitions?.[0]?.competitors ?? []
+  const home = comps.find((c) => c.homeAway === "home")
+  const away = comps.find((c) => c.homeAway === "away")
+  const htHomeScore = parseInt(home?.linescores?.[0]?.displayValue ?? "", 10)
+  const htAwayScore = parseInt(away?.linescores?.[0]?.displayValue ?? "", 10)
+  if (isNaN(htHomeScore) || isNaN(htAwayScore)) return null
+  return { htHomeScore, htAwayScore }
 }
