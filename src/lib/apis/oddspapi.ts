@@ -109,18 +109,20 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
 interface FixtureMeta { id: string; startTime: string }
 let fixtureCache: FixtureMeta[] | null = null
 
+const FIXTURE_TOURNAMENT_IDS = [16, 851] // World Cup 2026 + International Friendlies
+
 async function resolveFixtureId(startTime: Date | string): Promise<string | null> {
   if (!fixtureCache) {
-    const url = `${BASE}/v4/fixtures?tournamentId=16&apiKey=${KEY}`
-    const res = await fetch(url, { next: { revalidate: 0 } })
-    if (!res.ok) throw new Error(`OddsPapi fixtures error: ${res.status}`)
-    const data = await res.json()
-    fixtureCache = Array.isArray(data)
-      ? data.map((f: { fixtureId: string; startTime: string }) => ({
-          id: f.fixtureId,
-          startTime: f.startTime,
-        }))
-      : []
+    const responses = await Promise.all(
+      FIXTURE_TOURNAMENT_IDS.map(tid =>
+        fetch(`${BASE}/v4/fixtures?tournamentId=${tid}&apiKey=${KEY}`, { next: { revalidate: 0 } })
+          .then(r => r.ok ? r.json() : [])
+      )
+    )
+    fixtureCache = (responses.flat() as { fixtureId: string; startTime: string }[]).map(f => ({
+      id: f.fixtureId,
+      startTime: f.startTime,
+    }))
   }
   const target = new Date(startTime).getTime()
   const found = fixtureCache.find(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)

@@ -24,6 +24,7 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     data: toInsert.map((e) => ({
       roundId: id,
       externalId: e.id,
+      competition: "FIFA World Cup 2026",
       homeTeam: e.home_team,
       awayTeam: e.away_team,
       startTime: new Date(e.commence_time),

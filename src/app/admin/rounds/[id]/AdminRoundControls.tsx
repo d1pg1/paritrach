@@ -24,6 +24,7 @@ interface Match {
   status: string
   homeScore: number | null
   awayScore: number | null
+  competition: string | null
   oddsSnapshot: { fetchedAt: Date | string } | null
   _count: { bets: number }
   bets: BetDetail[]
@@ -109,6 +110,15 @@ export function AdminRoundControls({ round }: { round: Round }) {
               className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
               {loading === "import-fixtures" ? t("importing") : t("importFixtures")}
+            </button>
+          )}
+          {isSetup && (
+            <button
+              onClick={() => apiCall("import-friendlies")}
+              disabled={!!loading}
+              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+            >
+              {loading === "import-friendlies" ? t("importing") : t("importFriendlies")}
             </button>
           )}
           {isSetup && round.matches.some((m) => m.isEligible) && (
@@ -197,6 +207,9 @@ export function AdminRoundControls({ round }: { round: Round }) {
                           minute: "2-digit",
                         })}
                       </p>
+                      {match.competition && (
+                        <p className="text-xs text-neutral-500 mt-0.5">{match.competition}</p>
+                      )}
                     </div>
                     <div className="text-right text-xs text-neutral-400 shrink-0">
                       {match.oddsSnapshot ? (

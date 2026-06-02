@@ -58,6 +58,7 @@ model Match {
   roundId      String
   round        Round         @relation(fields: [roundId], references: [id])
   externalId   String?
+  competition  String?
   homeTeam     String
   awayTeam     String
   startTime    DateTime
