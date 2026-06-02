@@ -44,7 +44,8 @@
       "combo_dc_total": "Двойной шанс и Тотал",
       "result_and_total": "Результат и Тотал",
       "combo_dc_interval": "Двойной шанс и Интервал",
-      "combo_h2h_interval": "Результат и Интервал"
+      "combo_h2h_interval": "Результат и Интервал",
+      "legacy": "Ретро"
     },
     "won": "+1 очко (+{coef} коэф)",
     "lost": "Проигрыш",
@@ -92,6 +93,12 @@
     "deleteConfirm": "Удалить этот тур и все {bets} ставок? Это нельзя отменить.",
     "betWon": "Выигрыш",
     "betLost": "Проигрыш",
-    "betPending": "Ожидание"
+    "betPending": "Ожидание",
+    "archiveToSeason": "Архивировать в сезон",
+    "seasonNamePlaceholder": "Название сезона (напр. 2025/26)…",
+    "archive": "Архивировать"
+  },
+  "seasons": {
+    "current": "Текущий сезон"
   }
 }

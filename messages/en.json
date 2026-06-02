@@ -44,7 +44,8 @@
       "combo_dc_total": "Double Chance & Total",
       "result_and_total": "Result & Total",
       "combo_dc_interval": "Double Chance & Interval",
-      "combo_h2h_interval": "Result & Interval"
+      "combo_h2h_interval": "Result & Interval",
+      "legacy": "Legacy"
     },
     "won": "+1 pt (+{coef} coef)",
     "lost": "Lost",
@@ -92,6 +93,12 @@
     "deleteConfirm": "Delete this round and all {bets} bets? This cannot be undone.",
     "betWon": "Won",
     "betLost": "Lost",
-    "betPending": "Pending"
+    "betPending": "Pending",
+    "archiveToSeason": "Archive to Season",
+    "seasonNamePlaceholder": "Season name (e.g. 2025/26)…",
+    "archive": "Archive"
+  },
+  "seasons": {
+    "current": "Current Season"
   }
 }

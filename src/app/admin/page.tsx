@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 import { CreateRoundForm } from "./CreateRoundForm"
+import { CreateSeasonForm } from "./CreateSeasonForm"
 
 const STATUS_COLOR: Record<string, string> = {
   SETUP: "text-neutral-500",
@@ -31,7 +32,10 @@ export default async function AdminPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
-        <CreateRoundForm />
+        <div className="flex items-center gap-2">
+          <CreateSeasonForm />
+          <CreateRoundForm />
+        </div>
       </div>
 
       {rounds.length === 0 ? (

@@ -44,7 +44,8 @@
       "combo_dc_total": "Podwójna szansa i Łączna",
       "result_and_total": "Wynik i Łączna",
       "combo_dc_interval": "Podwójna szansa i Przedział",
-      "combo_h2h_interval": "Wynik i Przedział"
+      "combo_h2h_interval": "Wynik i Przedział",
+      "legacy": "Archiwalne"
     },
     "won": "+1 pkt (+{coef} wsp)",
     "lost": "Przegrana",
@@ -92,6 +93,12 @@
     "deleteConfirm": "Usunąć tę rundę i wszystkie {bets} zakładów? Tej operacji nie można cofnąć.",
     "betWon": "Wygrana",
     "betLost": "Przegrana",
-    "betPending": "Oczekuje"
+    "betPending": "Oczekuje",
+    "archiveToSeason": "Archiwizuj do sezonu",
+    "seasonNamePlaceholder": "Nazwa sezonu (np. 2025/26)…",
+    "archive": "Archiwizuj"
+  },
+  "seasons": {
+    "current": "Bieżący sezon"
   }
 }

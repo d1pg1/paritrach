@@ -1,0 +1,4829 @@
+[
+  {
+    "round": 1,
+    "date": "17.08.2025 20:29:31 UTC+02:00",
+    "bettors": {
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "АВ",
+            "team_b": "Ньюкасл",
+            "bet": "ТМ 3,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Кристал Пелес",
+            "bet": "1Х + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Арсенал",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "АВ",
+            "team_b": "Ньюкасл",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Кристал Пелес",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Арсенал",
+            "bet": "Арсенал ТБ 1,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "АВ",
+            "team_b": "Ньюкасл",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Кристал Пелес",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Арсенал",
+            "bet": "П2",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "АВ",
+            "team_b": "Ньюкасл",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Кристал Пелес",
+            "bet": "КП ТБ 0,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Арсенал",
+            "bet": "П2 + ТБ 1,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 2,
+    "date": "22.08.2025 23:00:03 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "РБЛ",
+            "bet": "Гости ТБ0,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Тоттенхэм",
+            "bet": "Ф2 +1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Ливерпуль",
+            "bet": "Х2 + 2-6",
+            "result": "win",
+            "_filled": "Liverpool won 3-2; X2 ✅ + 5 goals in 2-6 ✅"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "РБЛ",
+            "bet": "Гол Кейна",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Тоттенхэм",
+            "bet": "Сити ТБ 1,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Ливерпуль",
+            "bet": "ОЗ",
+            "result": "win",
+            "_filled": "Both teams scored ✅"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "РБЛ",
+            "bet": "ТМ 3,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Тоттенхэм",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Ливерпуль",
+            "bet": "ТБ 2,5",
+            "result": "win",
+            "_filled": "5 goals > 2.5 ✅"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "РБЛ",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Тоттенхэм",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Ливерпуль",
+            "bet": "П2",
+            "result": "win",
+            "_filled": "Liverpool (away) won ✅"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 3,
+    "date": "31.08.2025 10:37:32 UTC+02:00",
+    "bettors": {
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Арсенал",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Бильбао",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "Марсель",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Арсенал",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Бильбао",
+            "bet": "1Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "Марсель",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Арсенал",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Бильбао",
+            "bet": "12 + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "Марсель",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Арсенал",
+            "bet": "1Х + ТМ 3,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Бильбао",
+            "bet": "Х2 + 1-4",
+            "result": "win"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "Марсель",
+            "bet": "1Х + ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 4,
+    "date": "13.09.2025 22:41:52 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ювентус",
+            "team_b": "Интер",
+            "bet": "ТМ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Вильяреал",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ман Ю",
+            "bet": "1Х + 2-4",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ювентус",
+            "team_b": "Интер",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Вильяреал",
+            "bet": "1Х + 1-4",
+            "result": "win"
+          },
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ман Ю",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ювентус",
+            "team_b": "Интер",
+            "bet": "1-1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Вильяреал",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ман Ю",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ювентус",
+            "team_b": "Интер",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Вильяреал",
+            "bet": "1Х + ТМ 3,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ман Ю",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 5,
+    "date": "17.09.2025 19:21:33 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "Челси",
+            "bet": "ТМ 0,5 с 1-15 минуту",
+            "result": "win"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Атлетико М",
+            "bet": "Ф1 +1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Наполи",
+            "bet": "Х2",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "Челси",
+            "bet": "1Х + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Атлетико М",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Наполи",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "Челси",
+            "bet": "Бавария ТБ 1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Атлетико М",
+            "bet": "Голы в обеих таймах",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Наполи",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Бавария",
+            "team_b": "Челси",
+            "bet": "1Х + ТБ 1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Атлетико М",
+            "bet": "Ливерпуль 1 тайм: ТБ0,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Наполи",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 6,
+    "date": "20.09.2025 23:05:00 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Челси",
+            "bet": "Х2 + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Ман Сити",
+            "bet": "Х2 + ТМ 4.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Рома",
+            "bet": "Х2 + 1-4",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Челси",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Ман Сити",
+            "bet": "1Х + ТМ 4.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Рома",
+            "bet": "1Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Челси",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Ман Сити",
+            "bet": "Арсенал: ТБ 0.5 в 1-ом тайме",
+            "result": "loss"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Рома",
+            "bet": "1Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Челси",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Ман Сити",
+            "bet": "Ман Сити ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Рома",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 7,
+    "date": "27.09.2025 18:13:04 UTC+02:00",
+    "bettors": {
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "АМ",
+            "team_b": "Реал",
+            "bet": "ТМ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Атлетик",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Аталанта",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "АМ",
+            "team_b": "Реал",
+            "bet": "Х2 + 1-6",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Атлетик",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Аталанта",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "АМ",
+            "team_b": "Реал",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Атлетик",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Аталанта",
+            "bet": "ТМ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "АМ",
+            "team_b": "Реал",
+            "bet": "12 + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Атлетик",
+            "bet": "Атлетик ТБ 0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Аталанта",
+            "bet": "1Х + 1-4",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 8,
+    "date": "28.09.2025 22:07:30 UTC+02:00",
+    "bettors": {
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Арсенал",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал Сосьедад",
+            "bet": "1Х + ТМ 3,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Милан",
+            "team_b": "Наполи",
+            "bet": "Наполи ТБ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Арсенал",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал Сосьедад",
+            "bet": "Барса ТМ 2,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Милан",
+            "team_b": "Наполи",
+            "bet": "Х2",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Арсенал",
+            "bet": "ТМ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал Сосьедад",
+            "bet": "П1 + 2-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Милан",
+            "team_b": "Наполи",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Арсенал",
+            "bet": "Х2 + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал Сосьедад",
+            "bet": "1Х + 1-4",
+            "result": "win"
+          },
+          {
+            "team_a": "Милан",
+            "team_b": "Наполи",
+            "bet": "12 + 1-4",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 9,
+    "date": "01.10.2025 23:21:25 UTC+02:00",
+    "bettors": {
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "ПСЖ",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Атлетик Б",
+            "bet": "БД ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ювентус",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "ПСЖ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Атлетик Б",
+            "bet": "АБ ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ювентус",
+            "bet": "1Х + 1-5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "ПСЖ",
+            "bet": "Бараса забьет первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Атлетик Б",
+            "bet": "1Х + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ювентус",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "ПСЖ",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Атлетик Б",
+            "bet": "1Х + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ювентус",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 10,
+    "date": "08.10.2025 23:17:38 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ливерпуль",
+            "bet": "Х2 + ТБ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Милан",
+            "bet": "1Х + ТМ 2,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "РБЛ",
+            "bet": "Боруссия ИТБ 2,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ливерпуль",
+            "bet": "12 + ТБ 2,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Милан",
+            "bet": "ТМ 2,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "РБЛ",
+            "bet": "12 + ТБ 2,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ливерпуль",
+            "bet": "1Х +  тм2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Милан",
+            "bet": "ТБ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "РБЛ",
+            "bet": "1Х + ТБ 2,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ливерпуль",
+            "bet": "1Х + ТМ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Милан",
+            "bet": "ТБ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "РБЛ",
+            "bet": "ТМ 2,5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 11,
+    "date": "20.10.2025 01:09:17 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Бетис",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Боруссия Д",
+            "bet": "Ф2 +1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Интер",
+            "bet": "ТМ 2,5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Бетис",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Боруссия Д",
+            "bet": "Гол Кейна",
+            "result": "win"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Интер",
+            "bet": "Интер ТБ 1,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Бетис",
+            "bet": "Вильяреал: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Боруссия Д",
+            "bet": "1Х + 1-4",
+            "result": "win"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Интер",
+            "bet": "Х2 + 1-4",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Бетис",
+            "bet": "ТМ 3,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Боруссия Д",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Интер",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 12,
+    "date": "21.10.2025 21:50:01 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Атлетико",
+            "bet": "АМ ТБ 0,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ювентус",
+            "bet": "1Х + ТМ 3,5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Атлетико",
+            "bet": "ТМ 2,5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ман Сити",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ювентус",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Атлетико",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ман Сити",
+            "bet": "Ман Сити: гол первыми",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ювентус",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Атлетико",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Ман Сити",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ювентус",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 13,
+    "date": "25.10.2025 22:34:23 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Наполи",
+            "team_b": "Интер",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Барса",
+            "bet": "ОЗ + ТБ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Ман Сити",
+            "bet": "Астон Вилла ТБ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Наполи",
+            "team_b": "Интер",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Барса",
+            "bet": "ТМ 4,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Наполи",
+            "team_b": "Интер",
+            "bet": "Наполи ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Барса",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Ман Сити",
+            "bet": "1Х",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Наполи",
+            "team_b": "Интер",
+            "bet": "Х2 + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Барса",
+            "bet": "Реал: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Ман Сити",
+            "bet": "Сити: первый гол",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 14,
+    "date": "02.11.2025 11:44:02 UTC+02:00",
+    "bettors": {
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Астон Вилла",
+            "bet": "1Х + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Чесли",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Баер",
+            "bet": "П1 + 1-5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Астон Вилла",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Чесли",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Баер",
+            "bet": "ТБ 3,5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Астон Вилла",
+            "bet": "Астон Вилла ТБ 0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Чесли",
+            "bet": "Первый гол: Челси",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Баер",
+            "bet": "Гол Кейна: Да",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Астон Вилла",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Чесли",
+            "bet": "1Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Баер",
+            "bet": "Ф2 +2.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      }
+    }
+  },
+  {
+    "round": 15,
+    "date": "08.11.2025 12:15:55 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Реал",
+            "bet": "1-30 мин ТБ0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "1Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Боруссия Д",
+            "bet": "П1 + ТБ2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Реал",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Боруссия Д",
+            "bet": "Холанд: гол",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Реал",
+            "bet": "Реал: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Боруссия Д",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Реал",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Боруссия Д",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 16,
+    "date": "12.11.2025 23:34:41 UTC+02:00",
+    "bettors": {
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "ТТХ",
+            "team_b": "МЮ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Ливерпуль",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "ПСЖ",
+            "bet": "Х2 + 2-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "ТТХ",
+            "team_b": "МЮ",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Ливерпуль",
+            "bet": "Первый гол: Ман Сити",
+            "result": "win"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "ПСЖ",
+            "bet": "Первый гол: ПСЖ",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "ТТХ",
+            "team_b": "МЮ",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Ливерпуль",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "ПСЖ",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "ТТХ",
+            "team_b": "МЮ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Ливерпуль",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Лион",
+            "team_b": "ПСЖ",
+            "bet": "Х2 + 1-5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 17,
+    "date": "23.11.2025 12:14:04 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ньюксал",
+            "team_b": "Ман Сити",
+            "bet": "Сити ТБ 1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетик",
+            "bet": "Барселона ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Аталанта",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Штутгарт",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ньюксал",
+            "team_b": "Ман Сити",
+            "bet": "Х2 + 1-5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетик",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Аталанта",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Штутгарт",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ньюксал",
+            "team_b": "Ман Сити",
+            "bet": "Сити 1 тайм: ТБ 0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетик",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Аталанта",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Штутгарт",
+            "bet": "ТМ 3.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ньюксал",
+            "team_b": "Ман Сити",
+            "bet": "Сити первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетик",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Аталанта",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Штутгарт",
+            "bet": "БД первый гол",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 18,
+    "date": "25.11.2025 20:58:53 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "ТТХ",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Милан",
+            "bet": "Интер Тб 1.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "ТТХ",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Милан",
+            "bet": "Интер: первый гол",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "ТТХ",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Милан",
+            "bet": "1 тайм: ТМ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "ТТХ",
+            "bet": "1Х + ТМ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Милан",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 19,
+    "date": "25.11.2025 22:12:52 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "ТТХ",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Бавария",
+            "bet": "Х2 + 1-4",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Интер",
+            "bet": "Интер ТМ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Барселона",
+            "bet": "П2",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "ТТХ",
+            "bet": "П1 + 1-6",
+            "result": "loss"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Интер",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Барселона",
+            "bet": "П2",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 4
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "ТТХ",
+            "bet": "П1 + ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Интер",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Барселона",
+            "bet": "Х2",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "ТТХ",
+            "bet": "1 тайм: ПСЖ Тб 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Арсенал",
+            "team_b": "Бавария",
+            "bet": "Арсенла: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетико М",
+            "team_b": "Интер",
+            "bet": "АМ: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Барселона",
+            "bet": "Челси: первый гол",
+            "result": "win"
+          }
+        ],
+        "wins": 4,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 20,
+    "date": "02.12.2025 16:22:48 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Милан",
+            "team_b": "Лацио",
+            "bet": "Х2 + ОЗ: ДА",
+            "result": "loss"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Боруссия Д",
+            "bet": "Х2 + ТБ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2 + ТБ 1.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Милан",
+            "team_b": "Лацио",
+            "bet": "Ф2 +1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Боруссия Д",
+            "bet": "ГОСТИ: ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Милан",
+            "team_b": "Лацио",
+            "bet": "1.50",
+            "result": "win"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Боруссия Д",
+            "bet": "2 тайм гости: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Милан",
+            "team_b": "Лацио",
+            "bet": "Лацио ТМ0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Боруссия Д",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 21,
+    "date": "02.12.2025 20:15:54 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "ТТХ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Реал",
+            "bet": "Х2 + ТМ 4.5",
+            "result": "win",
+            "_filled": "Real won (X2 ✅) + 3 goals < 4.5 ✅"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "ТТХ",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Реал",
+            "bet": "ТМ 3.5",
+            "result": "win",
+            "_filled": "3 goals < 3.5 ✅"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "ТТХ",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "Хозяева: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Реал",
+            "bet": "Х2 + 1-4",
+            "result": "win",
+            "_filled": "Real won (X2 ✅) + 3 goals in 1-4 ✅"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "ТТХ",
+            "bet": "Гости ТБ0,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Реал",
+            "bet": "Х2 + 1-5",
+            "result": "win",
+            "_filled": "Real won (X2 ✅) + 3 goals in 1-5 ✅"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 22,
+    "date": "09.12.2025 17:36:58 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Бетис",
+            "team_b": "Барселона",
+            "bet": "ТБ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Атлетико",
+            "bet": "Х2 + ТМ4.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Ювентус",
+            "bet": "ТБ 1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Бетис",
+            "team_b": "Барселона",
+            "bet": "Гости: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Атлетико",
+            "bet": "1 тайм: ТБ 0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Ювентус",
+            "bet": "ТБ 1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Бетис",
+            "team_b": "Барселона",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Атлетико",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Ювентус",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Бетис",
+            "team_b": "Барселона",
+            "bet": "Х2 + 2-6",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетик",
+            "team_b": "Атлетико",
+            "bet": "Гости: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Ювентус",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 23,
+    "date": "14.12.2025 11:54:15 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Интер",
+            "team_b": "Ливерпуль",
+            "bet": "1 тайи: ТМ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Ньюкасл",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Интер",
+            "team_b": "Ливерпуль",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Ньюкасл",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Интер",
+            "team_b": "Ливерпуль",
+            "bet": "1Х + 1-6",
+            "result": "loss"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Ньюкасл",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "12 + 1-5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Интер",
+            "team_b": "Ливерпуль",
+            "bet": "1Х + 1-6",
+            "result": "loss",
+            "_filled": "Same bet as Дима (1X+1-6) who got ❌"
+          },
+          {
+            "team_a": "Баер",
+            "team_b": "Ньюкасл",
+            "bet": "ТМ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 24,
+    "date": "15.12.2025 20:59:49 UTC+02:00",
+    "bettors": {
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Монако",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Борнмут",
+            "bet": "Хозяева 1 тайм: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "КП",
+            "team_b": "Ман Сити",
+            "bet": "Х2 + 1-5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Монако",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Борнмут",
+            "bet": "Хозяева: ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "КП",
+            "team_b": "Ман Сити",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Монако",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Борнмут",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "КП",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Монако",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Борнмут",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "КП",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 25,
+    "date": "27.12.2025 10:21:29 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "РБЛ",
+            "team_b": "Баер",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "МЮ",
+            "bet": "Гости ТБ 1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "ТТХ",
+            "team_b": "Ливерпуль",
+            "bet": "1Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "РБЛ",
+            "team_b": "Баер",
+            "bet": "Гол в обоих таймах",
+            "result": "win"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "МЮ",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "ТТХ",
+            "team_b": "Ливерпуль",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "РБЛ",
+            "team_b": "Баер",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "МЮ",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ТТХ",
+            "team_b": "Ливерпуль",
+            "bet": "Х2 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "РБЛ",
+            "team_b": "Баер",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "МЮ",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "ТТХ",
+            "team_b": "Ливерпуль",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 26,
+    "date": "11.01.2026 22:17:40 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "ТБ 3,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Наполи",
+            "bet": "Ничья или ТМ 2,5",
+            "result": "win",
+            "_filled": "Draw 2-2 → \"Нічия або ТМ 2.5\" нічия condition ✅"
+          },
+          {
+            "team_a": "Тоттенхэм",
+            "team_b": "Астон Вилла",
+            "bet": "Проход хозяев",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "Кубок: Барса",
+            "result": "win",
+            "_filled": "Barcelona won Supercopa 3-2 ✅"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Наполи",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Тоттенхэм",
+            "team_b": "Астон Вилла",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "Кубок: Барса",
+            "result": "win",
+            "_filled": "Barcelona won Supercopa 3-2 ✅"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Наполи",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Тоттенхэм",
+            "team_b": "Астон Вилла",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "Кубок: Барса",
+            "result": "win",
+            "_filled": "Barcelona won Supercopa 3-2 ✅"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Наполи",
+            "bet": "Х2 + 1-6",
+            "result": "win",
+            "_filled": "Draw (X2 ✅) + 4 goals in 1-6 range ✅"
+          },
+          {
+            "team_a": "Тоттенхэм",
+            "team_b": "Астон Вилла",
+            "bet": "П2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 27,
+    "date": "20.01.2026 16:53:03 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Мю",
+            "team_b": "Ман Сити",
+            "bet": "Гости ТБ 1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Бавария",
+            "bet": "ТБ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Вельяреал",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Ман Сити",
+            "bet": "П2",
+            "result": "loss"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Бавария",
+            "bet": "Гости: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Вельяреал",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Ман Сити",
+            "bet": "П2",
+            "result": "loss"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Бавария",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Вельяреал",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "МЮ",
+            "team_b": "Ман Сити",
+            "bet": "❌",
+            "result": "loss",
+            "_filled": "Result ❌ from raw message; bet type not captured"
+          },
+          {
+            "team_a": "Бетис",
+            "team_b": "Вельяреал",
+            "bet": "Х2",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 28,
+    "date": "23.01.2026 19:51:40 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Тотенхэм",
+            "team_b": "Боруссия Д",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Арсенал",
+            "bet": "Х или ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Галатасарай",
+            "team_b": "Атлетико М",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Ливерпуль",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Тотенхэм",
+            "team_b": "Боруссия Д",
+            "bet": "Гости: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Арсенал",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Галатасарай",
+            "team_b": "Атлетико М",
+            "bet": "Хозяева: ТМ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Ливерпуль",
+            "bet": "П2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Тотенхэм",
+            "team_b": "Боруссия Д",
+            "bet": "Гости: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Арсенал",
+            "bet": "Гости ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Галатасарай",
+            "team_b": "Атлетико М",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Ливерпуль",
+            "bet": "2 тайм: Гости ТБ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Тотенхэм",
+            "team_b": "Боруссия Д",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Арсенал",
+            "bet": "1 тайм: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Галатасарай",
+            "team_b": "Атлетико М",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Ливерпуль",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 29,
+    "date": "27.01.2026 10:28:36 UTC+02:00",
+    "bettors": {
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "МЮ",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Реал",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Наполи",
+            "bet": "Гости: ТБ 0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Милан",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "МЮ",
+            "bet": "Гссти: ТБ 0,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Реал",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Наполи",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Милан",
+            "bet": "1Х + ТМ 4.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "МЮ",
+            "bet": "Гости: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Реал",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Наполи",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Милан",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "МЮ",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Вильяреал",
+            "team_b": "Реал",
+            "bet": "Х2 + 2-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ювентус",
+            "team_b": "Наполи",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Милан",
+            "bet": "ТМ 2.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 30,
+    "date": "30.01.2026 14:52:10 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Интер",
+            "bet": "1Х + 2-5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Челси",
+            "bet": "ОЗ: Нет",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ньюкасл",
+            "bet": "1 тайм: ничья",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Интер",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Челси",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ньюкасл",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Интер",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Челси",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ньюкасл",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Интер",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Челси",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ньюкасл",
+            "bet": "12 + 1-4",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 31,
+    "date": "14.02.2026 13:23:56 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Марсель",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "ТТХ",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Ман сити",
+            "bet": "Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Марсель",
+            "bet": "Хозяева ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "ТТХ",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Ман сити",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Марсель",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "ТТХ",
+            "bet": "МЮ: Первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Ман сити",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Марсель",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "ТТХ",
+            "bet": "ТБ2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Ман сити",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 32,
+    "date": "17.02.2026 21:06:02 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Страсбург",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Ювентус",
+            "bet": "1Х + 1-3",
+            "result": "loss"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Рома",
+            "bet": "Х2 + 1-5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Страсбург",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Ювентус",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Рома",
+            "bet": "ТБ 1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Страсбург",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Ювентус",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Рома",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Марсель",
+            "team_b": "Страсбург",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Интер",
+            "team_b": "Ювентус",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Наполи",
+            "team_b": "Рома",
+            "bet": "Х2 + 1-6",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 33,
+    "date": "21.02.2026 11:37:08 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Бенфика",
+            "team_b": "Реал",
+            "bet": "1Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "ТМ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Аталанта",
+            "bet": "Хозяева: ТБ 1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Бенфика",
+            "team_b": "Реал",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Аталанта",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Бенфика",
+            "team_b": "Реал",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Аталанта",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Бенфика",
+            "team_b": "Реал",
+            "bet": "Х2 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Монако",
+            "team_b": "ПСЖ",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Боруссия Д",
+            "team_b": "Аталанта",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 34,
+    "date": "24.02.2026 18:26:20 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ньюкасл",
+            "bet": "Ф2 +1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Боруссия Д",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Арсенал",
+            "bet": "Хозяева: ТБ 1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ньюкасл",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Боруссия Д",
+            "bet": "Хозяева ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Арсенал",
+            "bet": "Гости: первый гол",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ньюкасл",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Боруссия Д",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Арсенал",
+            "bet": "Гости: первый гол",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Манчестер Сити",
+            "team_b": "Ньюкасл",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "РБЛ",
+            "team_b": "Боруссия Д",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 35,
+    "date": "04.03.2026 19:21:48 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Челси",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "БД",
+            "team_b": "Бавария",
+            "bet": "Ф1 +1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Лион",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Ювентус",
+            "bet": "1Х",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Челси",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "БД",
+            "team_b": "Бавария",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Лион",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Ювентус",
+            "bet": "Гости 2 тайм: ТБ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Челси",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "БД",
+            "team_b": "Бавария",
+            "bet": "-",
+            "result": "loss"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Лион",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Ювентус",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Челси",
+            "bet": "Гости 2 тайм: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "БД",
+            "team_b": "Бавария",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Марсель",
+            "team_b": "Лион",
+            "bet": "ТБ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Рома",
+            "team_b": "Ювентус",
+            "bet": "1Х",
+            "result": "win"
+          }
+        ],
+        "wins": 4,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 36,
+    "date": "10.03.2026 18:20:10 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Челси",
+            "bet": "1Х + ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "МЮ",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Монако",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Челси",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "МЮ",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Монако",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Челси",
+            "bet": "ТМ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "МЮ",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Монако",
+            "bet": "П1 + ТБ 1.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Астон Вилла",
+            "team_b": "Челси",
+            "bet": "ТМ 3.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ньюкасал",
+            "team_b": "МЮ",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Монако",
+            "bet": "П1 + ТБ 1.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      }
+    }
+  },
+  {
+    "round": 37,
+    "date": "14.03.2026 10:09:00 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Атлетико",
+            "team_b": "ТТХ",
+            "bet": "Гости: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Барселона",
+            "bet": "Хозяева: ТМ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Челси",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "Гости: ТБ 1.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Атлетико",
+            "team_b": "ТТХ",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Барселона",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Челси",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Дарина": {
+        "bets": [
+          {
+            "team_a": "Атлетико",
+            "team_b": "ТТХ",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Барселона",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Челси",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "ОЗ",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 3
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Атлетико",
+            "team_b": "ТТХ",
+            "bet": "Гости: ТБ 0.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ньюкасл",
+            "team_b": "Барселона",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Челси",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Реал",
+            "team_b": "Ман Сити",
+            "bet": "П2",
+            "result": "loss"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 38,
+    "date": "17.03.2026 16:56:08 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ньюкасл",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Астон Вилла",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Штутгарт",
+            "team_b": "РБЛ",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ньюкасл",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Астон Вилла",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Штутгарт",
+            "team_b": "РБЛ",
+            "bet": "Хозяева: ТБ1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "Ньюкасл",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Астон Вилла",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Штутгарт",
+            "team_b": "РБЛ",
+            "bet": "ТБ 3.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 5
+      }
+    }
+  },
+  {
+    "round": 39,
+    "date": "22.03.2026 12:33:22 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Баер",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "ПСЖ",
+            "bet": "Хозяева ТБ 1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Реал",
+            "bet": "1 тайм: ТБ 1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Баер",
+            "bet": "ТМ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "ПСЖ",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Реал",
+            "bet": "Гости: ТБ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "Баер",
+            "bet": "ТМ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Челси",
+            "team_b": "ПСЖ",
+            "bet": "1Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Реал",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 40,
+    "date": "12.04.2026 12:03:04 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Реал",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ливерпуль",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Реал",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ливерпуль",
+            "bet": "ТБ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "П1",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Реал",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Ливерпуль",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Атлетико",
+            "bet": "П1",
+            "result": "loss"
+          }
+        ],
+        "wins": 0,
+        "losses": 3
+      }
+    }
+  },
+  {
+    "round": 41,
+    "date": "14.04.2026 15:02:15 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ман Сити",
+            "bet": "П2",
+            "result": "win"
+          },
+          {
+            "team_a": "Комо",
+            "team_b": "Интер",
+            "bet": "Хозяева ТМ 1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико Б",
+            "team_b": "Вильяреалл",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ман Сити",
+            "bet": "Х2 + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Комо",
+            "team_b": "Интер",
+            "bet": "ОЗ",
+            "result": "win"
+          },
+          {
+            "team_a": "Атлетико Б",
+            "team_b": "Вильяреалл",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "Ман Сити",
+            "bet": "Гости: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Комо",
+            "team_b": "Интер",
+            "bet": "ТМ 2.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Атлетико Б",
+            "team_b": "Вильяреалл",
+            "bet": "Хозяева: ТМ 1,5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 42,
+    "date": "18.04.2026 12:29:55 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "АТМ",
+            "team_b": "Барселона",
+            "bet": "1Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "ПСЖ",
+            "bet": "1 тайм: ТБ 1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Реал",
+            "bet": "Ф2 +1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "АТМ",
+            "team_b": "Барселона",
+            "bet": "Проход: Барселона",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "ПСЖ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Реал",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "АТМ",
+            "team_b": "Барселона",
+            "bet": "Гости: ТМ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "ПСЖ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Реал",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 43,
+    "date": "20.04.2026 20:59:35 UTC+02:00",
+    "bettors": {
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "МЮ",
+            "bet": "ТМ 2.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Арсенал",
+            "bet": "Хозяева: первый гол",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Штутгарт",
+            "bet": "Хозяева: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Лион",
+            "bet": "Гости: ТБ 0.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "МЮ",
+            "bet": "Х2",
+            "result": "win"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Арсенал",
+            "bet": "Хозяева: ТБ1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Штутгарт",
+            "bet": "Ф2 +1.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Лион",
+            "bet": "Ф2 +1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Челси",
+            "team_b": "МЮ",
+            "bet": "Хозяева: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Ман Сити",
+            "team_b": "Арсенал",
+            "bet": "1Х + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "Штутгарт",
+            "bet": "ТБ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Лион",
+            "bet": "П1 + 1-5",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 44,
+    "date": "02.05.2026 11:09:39 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "ПСЖ ТБ1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "АТМ",
+            "team_b": "Арсенал",
+            "bet": "1Х + 2-6",
+            "result": "win"
+          },
+          {
+            "team_a": "Шахтер",
+            "team_b": "Кристал Пелас",
+            "bet": "1Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "ТБ 2,5",
+            "result": "win"
+          },
+          {
+            "team_a": "АТМ",
+            "team_b": "Арсенал",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Шахтер",
+            "team_b": "Кристал Пелас",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "ПСЖ",
+            "team_b": "Бавария",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "АТМ",
+            "team_b": "Арсенал",
+            "bet": "1Х",
+            "result": "win"
+          },
+          {
+            "team_a": "Шахтер",
+            "team_b": "Кристал Пелас",
+            "bet": "1Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 45,
+    "date": "04.05.2026 14:11:22 UTC+02:00",
+    "bettors": {
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Баер",
+            "team_b": "РБЛ",
+            "bet": "Баер ТБ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Ливерпуль",
+            "bet": "Ф2 +0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "АВ",
+            "team_b": "Тотенхем",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Баер",
+            "team_b": "РБЛ",
+            "bet": "ТБ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Ливерпуль",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "АВ",
+            "team_b": "Тотенхем",
+            "bet": "1Х + 1-5",
+            "result": "loss"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Баер",
+            "team_b": "РБЛ",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "МЮ",
+            "team_b": "Ливерпуль",
+            "bet": "1Х + 1-6",
+            "result": "win"
+          },
+          {
+            "team_a": "АВ",
+            "team_b": "Тотенхем",
+            "bet": "Х2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      }
+    }
+  },
+  {
+    "round": 46,
+    "date": "09.05.2026 09:32:45 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "АТМ",
+            "bet": "Проход: АТМ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "ПСЖ",
+            "bet": "Ф2 +1,5",
+            "result": "win"
+          },
+          {
+            "team_a": "Кристал Пэлас",
+            "team_b": "Шахтер",
+            "bet": "Ф2 +1.5",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "АТМ",
+            "bet": "Гости: ТБ 0.5",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "ПСЖ",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Кристал Пэлас",
+            "team_b": "Шахтер",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Арсенал",
+            "team_b": "АТМ",
+            "bet": "Х",
+            "result": "loss"
+          },
+          {
+            "team_a": "Бавария",
+            "team_b": "ПСЖ",
+            "bet": "Проход: Бавария",
+            "result": "loss"
+          },
+          {
+            "team_a": "Кристал Пэлас",
+            "team_b": "Шахтер",
+            "bet": "ОЗ",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 47,
+    "date": "15.05.2026 12:56:13 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Челси",
+            "bet": "Гости: ТМ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "Ф1 - 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Штутгарт",
+            "team_b": "Баер",
+            "bet": "ТБ 3.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Интер",
+            "bet": "Хозяева: ТБ 0.5",
+            "result": "loss"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Челси",
+            "bet": "Гости: ТМ 1.5",
+            "result": "win"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Штутгарт",
+            "team_b": "Баер",
+            "bet": "Штутгарт: первый гол",
+            "result": "loss"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Интер",
+            "bet": "П2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 1
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Ливерпуль",
+            "team_b": "Челси",
+            "bet": "П1",
+            "result": "loss"
+          },
+          {
+            "team_a": "Барселона",
+            "team_b": "Реал",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Штутгарт",
+            "team_b": "Баер",
+            "bet": "1Х + 1-5",
+            "result": "win"
+          },
+          {
+            "team_a": "Лацио",
+            "team_b": "Интер",
+            "bet": "1Х",
+            "result": "loss"
+          }
+        ],
+        "wins": 2,
+        "losses": 2
+      }
+    }
+  },
+  {
+    "round": 48,
+    "date": "27.05.2026 19:33:12 UTC+02:00",
+    "bettors": {
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Эвертон",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "ВХ",
+            "team_b": "Лидс",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "Фрайбург",
+            "team_b": "АВ",
+            "bet": "П2",
+            "result": "win"
+          }
+        ],
+        "wins": 3,
+        "losses": 0
+      },
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Эвертон",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "ВХ",
+            "team_b": "Лидс",
+            "bet": "Х2",
+            "result": "loss"
+          },
+          {
+            "team_a": "Фрайбург",
+            "team_b": "АВ",
+            "bet": "АВ: гол в обоих таймах: ДА",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "Тотенхем",
+            "team_b": "Эвертон",
+            "bet": "П1",
+            "result": "win"
+          },
+          {
+            "team_a": "ВХ",
+            "team_b": "Лидс",
+            "bet": "ОЗ",
+            "result": "loss"
+          },
+          {
+            "team_a": "Фрайбург",
+            "team_b": "АВ",
+            "bet": "Гости: Первый гол",
+            "result": "win"
+          }
+        ],
+        "wins": 2,
+        "losses": 1
+      }
+    }
+  },
+  {
+    "round": 49,
+    "date": "30.05.2026 10:45:26 UTC+02:00",
+    "bettors": {
+      "Даня": {
+        "bets": [
+          {
+            "team_a": "КП",
+            "team_b": "Райо",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 0
+      },
+      "Саша": {
+        "bets": [
+          {
+            "team_a": "КП",
+            "team_b": "Райо",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 0
+      },
+      "Дима": {
+        "bets": [
+          {
+            "team_a": "КП",
+            "team_b": "Райо",
+            "bet": "П1",
+            "result": "win"
+          }
+        ],
+        "wins": 1,
+        "losses": 0
+      }
+    }
+  }
+]

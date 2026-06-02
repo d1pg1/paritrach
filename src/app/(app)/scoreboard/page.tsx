@@ -1,16 +1,31 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
+import { Suspense } from "react"
+import { SeasonSelector } from "@/components/SeasonSelector"
 
-export default async function ScoreboardPage() {
+export default async function ScoreboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ seasonId?: string }>
+}) {
   const session = await auth()
   if (!session?.user) return null
 
   const t = await getTranslations("scoreboard")
+  const { seasonId: rawSeasonId } = await searchParams
+  const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
 
-  const [users, winningBets] = await Promise.all([
+  const [seasons, users, winningBets] = await Promise.all([
+    db.season.findMany({
+      orderBy: { archivedAt: "desc" },
+      select: { id: true, name: true },
+    }),
     db.user.findMany({ select: { id: true, username: true } }),
-    db.bet.findMany({ where: { isWinner: true }, select: { userId: true, coefficient: true } }),
+    db.bet.findMany({
+      where: { isWinner: true, round: { seasonId: seasonId ?? null } },
+      select: { userId: true, coefficient: true },
+    }),
   ])
 
   const statsMap = new Map<string, { points: number; coefSum: number }>()
@@ -30,7 +45,12 @@ export default async function ScoreboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
+      {seasons.length > 0 && (
+        <Suspense fallback={<div className="h-10 mb-6" />}>
+          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} />
+        </Suspense>
+      )}
       {rows.length === 0 ? (
         <p className="text-neutral-400">{t("empty")}</p>
       ) : (

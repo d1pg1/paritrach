@@ -34,11 +34,20 @@ model User {
   bets         Bet[]
 }
 
+model Season {
+  id         String   @id @default(cuid())
+  name       String
+  archivedAt DateTime @default(now())
+  rounds     Round[]
+}
+
 model Round {
   id        String      @id @default(cuid())
   name      String
   status    RoundStatus @default(SETUP)
   createdAt DateTime    @default(now())
+  seasonId  String?
+  season    Season?     @relation(fields: [seasonId], references: [id])
   matches   Match[]
   bets      Bet[]
 }

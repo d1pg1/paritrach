@@ -9,6 +9,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "npx tsx prisma/seed.ts",
+    "db:seed-season": "npx tsx prisma/seed-season.ts",
     "db:simulate": "npx tsx prisma/simulate-results.ts",
     "set-password": "npx tsx scripts/set-password.ts",
     "set-role": "npx tsx scripts/set-role.ts"
