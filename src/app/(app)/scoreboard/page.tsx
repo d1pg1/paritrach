@@ -27,7 +27,7 @@ export default async function ScoreboardPage({
     db.user.findMany({ select: { id: true, username: true, nickname: true, logoUrl: true } }),
     db.bet.findMany({
       where: { isWinner: true, round: { seasonId: seasonId ?? null } },
-      select: { userId: true, coefficient: true },
+      select: { userId: true, roundId: true, coefficient: true },
     }),
     db.bet.findMany({
       where: { round: { seasonId: seasonId ?? null } },
@@ -51,12 +51,26 @@ export default async function ScoreboardPage({
     roundsMap.set(bet.userId, rounds)
   }
 
-  const statsMap = new Map<string, { points: number; coefSum: number }>()
+  // Group winning bets: userId → roundId → coefficients[]
+  const winsByRound = new Map<string, Map<string, number[]>>()
   for (const bet of winningBets) {
-    const entry = statsMap.get(bet.userId) ?? { points: 0, coefSum: 0 }
-    entry.points += 1
-    entry.coefSum += bet.coefficient
-    statsMap.set(bet.userId, entry)
+    const byRound = winsByRound.get(bet.userId) ?? new Map<string, number[]>()
+    const coefs = byRound.get(bet.roundId) ?? []
+    coefs.push(bet.coefficient)
+    byRound.set(bet.roundId, coefs)
+    winsByRound.set(bet.userId, byRound)
+  }
+
+  // points = total won bets; coefSum = sum of per-round products
+  const statsMap = new Map<string, { points: number; coefSum: number }>()
+  for (const [userId, byRound] of winsByRound) {
+    let points = 0
+    let coefSum = 0
+    for (const coefs of byRound.values()) {
+      points += coefs.length
+      coefSum += coefs.reduce((acc, c) => acc * c, 1)
+    }
+    statsMap.set(userId, { points, coefSum })
   }
 
   const rows = filteredUsers
