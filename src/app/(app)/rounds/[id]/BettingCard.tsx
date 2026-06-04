@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { UserAvatar } from "@/components/UserAvatar"
 import { TeamLogo } from "@/components/TeamLogo"
+import { TeamHistoryPanel, type HistoryType } from "@/components/TeamHistoryPanel"
 
 interface Outcome {
   name: string
@@ -83,6 +84,7 @@ export function BettingCard({
   const [currentBet, setCurrentBet] = useState<Bet | null>(existingBet)
   const [localAllBets, setLocalAllBets] = useState<BetWithUser[]>(allBets)
   const [error, setError] = useState("")
+  const [historyView, setHistoryView] = useState<HistoryType | null>(null)
 
   function marketLabel(key: string): string {
     const knownKeys = ["h2h", "double_chance", "btts", "totals", "team_totals", "h2h_h1", "spreads", "player_first_goalscorer", "goals_interval", "combo_dc_total", "result_and_total", "combo_dc_interval", "combo_h2h_interval", "legacy"] as const
@@ -236,6 +238,35 @@ export function BettingCard({
           </div>
         )}
       </div>
+
+      {/* History buttons */}
+      <div className="flex items-center gap-1.5 mb-3 flex-wrap">
+        {[
+          { type: "home" as HistoryType, label: match.homeTeam },
+          { type: "away" as HistoryType, label: match.awayTeam },
+          { type: "h2h" as HistoryType, label: "H2H" },
+        ].map(({ type, label }) => (
+          <button
+            key={type}
+            onClick={() => setHistoryView(historyView === type ? null : type)}
+            className={`text-xs px-2 py-0.5 rounded border transition-colors ${
+              historyView === type
+                ? "border-neutral-500 text-neutral-200 bg-neutral-800"
+                : "border-neutral-700 text-neutral-500 hover:border-neutral-600 hover:text-neutral-300"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      {historyView && (
+        <TeamHistoryPanel
+          home={match.homeTeam}
+          away={match.awayTeam}
+          type={historyView}
+          teamLogoMap={teamLogoMap}
+        />
+      )}
 
       {/* Current bet info (read-only) */}
       {currentBet && (

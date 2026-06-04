@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { TeamLogo } from "@/components/TeamLogo"
 import type { H2HOdds } from "@/lib/apis/odds-api"
+import { TeamHistoryPanel, type HistoryType } from "@/components/TeamHistoryPanel"
 
 interface BetDetail {
   id: string
@@ -51,6 +52,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
   const [error, setError] = useState("")
   const [search, setSearch] = useState("")
   const [expandedMatchId, setExpandedMatchId] = useState<string | null>(null)
+  const [historyView, setHistoryView] = useState<{ matchId: string; type: HistoryType } | null>(null)
   const router = useRouter()
 
   async function apiCall(path: string, method = "POST") {
@@ -217,6 +219,31 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                       {match.competition && (
                         <p className="text-xs text-neutral-500 mt-0.5">{match.competition}</p>
                       )}
+                      <div className="flex items-center gap-1 mt-1.5 flex-wrap">
+                        {([
+                          { type: "home" as HistoryType, label: match.homeTeam },
+                          { type: "away" as HistoryType, label: match.awayTeam },
+                          { type: "h2h" as HistoryType, label: "H2H" },
+                        ]).map(({ type, label }) => {
+                          const active =
+                            historyView?.matchId === match.id && historyView.type === type
+                          return (
+                            <button
+                              key={type}
+                              onClick={() =>
+                                setHistoryView(active ? null : { matchId: match.id, type })
+                              }
+                              className={`text-xs px-2 py-0.5 rounded border transition-colors ${
+                                active
+                                  ? "border-neutral-500 text-neutral-200 bg-neutral-800"
+                                  : "border-neutral-700 text-neutral-500 hover:border-neutral-600 hover:text-neutral-300"
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          )
+                        })}
+                      </div>
                     </div>
                     <div className="text-right text-xs text-neutral-400 shrink-0">
                       {match.externalId && h2hOdds[match.externalId] && (
@@ -251,6 +278,17 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                       )}
                     </div>
                   </div>
+
+                  {historyView?.matchId === match.id && (
+                    <div className="border border-t-0 border-neutral-800 rounded-b-lg bg-neutral-950 px-4 py-3">
+                      <TeamHistoryPanel
+                        home={match.homeTeam}
+                        away={match.awayTeam}
+                        type={historyView.type}
+                        teamLogoMap={teamLogoMap}
+                      />
+                    </div>
+                  )}
 
                   {expandedMatchId === match.id && match.bets.length > 0 && (
                     <div className="border border-t-0 border-neutral-800 rounded-b-lg bg-neutral-950 px-4 py-3">
