@@ -68,15 +68,21 @@ async function getEspnTeamId(teamName: string): Promise<string | null> {
   return hit?.id ?? null
 }
 
+interface EspnScore {
+  value?: number
+  displayValue?: string
+}
+
 interface EspnCompetitor {
   homeAway: "home" | "away"
   team: { id: string; displayName: string }
-  score: string
+  score: string | EspnScore
 }
 
 interface EspnScheduleEvent {
   id: string
   date: string
+  season?: { displayName?: string }
   competitions: {
     status?: { type?: { completed?: boolean } }
     competitors: EspnCompetitor[]
@@ -107,8 +113,14 @@ async function fetchTeamSchedule(
       const away = comp.competitors.find((c) => c.homeAway === "away")
       if (!home || !away) continue
 
-      const homeScore = parseInt(home.score, 10)
-      const awayScore = parseInt(away.score, 10)
+      const parseScore = (s: string | EspnScore): number => {
+        if (typeof s === "string") return parseInt(s, 10)
+        if (typeof s?.value === "number") return s.value
+        return parseInt(s?.displayValue ?? "", 10)
+      }
+
+      const homeScore = parseScore(home.score)
+      const awayScore = parseScore(away.score)
       if (isNaN(homeScore) || isNaN(awayScore)) continue
 
       results.push({
@@ -117,7 +129,7 @@ async function fetchTeamSchedule(
         awayTeam: away.team.displayName,
         homeScore,
         awayScore,
-        competition: comp.notes?.[0]?.headline ?? null,
+        competition: event.season?.displayName ?? comp.notes?.[0]?.headline ?? null,
       })
     }
 
