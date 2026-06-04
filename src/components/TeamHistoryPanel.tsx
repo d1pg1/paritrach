@@ -55,7 +55,11 @@ export function TeamHistoryPanel({
         <p className="text-xs text-red-400 py-1.5">Could not load match history</p>
       )}
       {!loading && !error && matches.length === 0 && (
-        <p className="text-xs text-neutral-500 py-1.5">No recent matches found</p>
+        <p className="text-xs text-neutral-500 py-1.5">
+          {type === "h2h"
+            ? "No meetings found in the last ~2 years (ESPN data window)"
+            : "No recent matches found"}
+        </p>
       )}
       {!loading && !error && matches.length > 0 && (
         <div className="space-y-1">

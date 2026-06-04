@@ -90,20 +90,24 @@ interface EspnScheduleEvent {
   }[]
 }
 
-async function fetchTeamSchedule(
-  teamId: string,
-  season: number
-): Promise<HistoryMatch[]> {
+interface RawScheduleEntry {
+  id: string
+  match: HistoryMatch
+}
+
+// ESPN ignores the season param and always returns the same ~25 most recent matches.
+async function fetchTeamScheduleRaw(teamId: string): Promise<RawScheduleEntry[]> {
   try {
+    const year = new Date().getFullYear()
     const res = await fetch(
-      `${ESPN_BASE}/all/teams/${teamId}/schedule?season=${season}`,
+      `${ESPN_BASE}/all/teams/${teamId}/schedule?season=${year}`,
       { next: { revalidate: 3600 } }
     )
     if (!res.ok) return []
     const data = await res.json()
 
     const events: EspnScheduleEvent[] = data.events ?? []
-    const results: HistoryMatch[] = []
+    const results: RawScheduleEntry[] = []
 
     for (const event of events) {
       const comp = event.competitions?.[0]
@@ -124,12 +128,15 @@ async function fetchTeamSchedule(
       if (isNaN(homeScore) || isNaN(awayScore)) continue
 
       results.push({
-        date: event.date,
-        homeTeam: home.team.displayName,
-        awayTeam: away.team.displayName,
-        homeScore,
-        awayScore,
-        competition: event.season?.displayName ?? comp.notes?.[0]?.headline ?? null,
+        id: event.id,
+        match: {
+          date: event.date,
+          homeTeam: home.team.displayName,
+          awayTeam: away.team.displayName,
+          homeScore,
+          awayScore,
+          competition: event.season?.displayName ?? comp.notes?.[0]?.headline ?? null,
+        },
       })
     }
 
@@ -147,46 +154,36 @@ export async function getTeamRecentMatches(
   if (!teamId) return []
 
   const now = new Date()
-  const currentYear = now.getFullYear()
-  const pastMatches: HistoryMatch[] = []
-
-  for (let year = currentYear; year >= currentYear - 5; year--) {
-    const matches = await fetchTeamSchedule(teamId, year)
-    const past = matches.filter((m) => new Date(m.date) < now)
-    pastMatches.push(...past)
-    if (pastMatches.length >= limit) break
-  }
-
-  return pastMatches
+  const entries = await fetchTeamScheduleRaw(teamId)
+  return entries
+    .map((e) => e.match)
+    .filter((m) => new Date(m.date) < now)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, limit)
 }
 
+// H2H: intersect both teams' ESPN schedules by event ID.
+// ESPN only returns ~25 most recent matches per team (~2 years).
+// Meetings older than that window will not appear.
 export async function getH2HMatches(
   teamA: string,
   teamB: string,
   limit = 5
 ): Promise<HistoryMatch[]> {
-  const teamId = await getEspnTeamId(teamA)
-  if (!teamId) return []
+  const [idA, idB] = await Promise.all([getEspnTeamId(teamA), getEspnTeamId(teamB)])
+  if (!idA || !idB) return []
 
+  const [entriesA, entriesB] = await Promise.all([
+    fetchTeamScheduleRaw(idA),
+    fetchTeamScheduleRaw(idB),
+  ])
+
+  const idsB = new Set(entriesB.map((e) => e.id))
   const now = new Date()
-  const currentYear = now.getFullYear()
-  const normB = normName(teamB)
-  const h2h: HistoryMatch[] = []
 
-  for (let year = currentYear; year >= currentYear - 5; year--) {
-    const matches = await fetchTeamSchedule(teamId, year)
-    const filtered = matches.filter(
-      (m) =>
-        new Date(m.date) < now &&
-        (normName(m.homeTeam) === normB || normName(m.awayTeam) === normB)
-    )
-    h2h.push(...filtered)
-    if (h2h.length >= limit) break
-  }
-
-  return h2h
+  return entriesA
+    .filter((e) => idsB.has(e.id) && new Date(e.match.date) < now)
+    .map((e) => e.match)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, limit)
 }
