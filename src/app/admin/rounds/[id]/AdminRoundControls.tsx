@@ -43,7 +43,7 @@ function formatBetSelection(bet: BetDetail): string {
   return bet.line != null ? `${base} ${bet.line}` : base
 }
 
-export function AdminRoundControls({ round }: { round: Round }) {
+export function AdminRoundControls({ round, teamLogoMap = {} }: { round: Round; teamLogoMap?: Record<string, string> }) {
   const t = useTranslations("admin")
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
@@ -197,10 +197,10 @@ export function AdminRoundControls({ round }: { round: Round }) {
                     />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-white flex items-center gap-1.5 flex-wrap">
-                        <TeamLogo name={match.homeTeam} size={18} />
+                        <TeamLogo name={match.homeTeam} size={18} logoUrl={teamLogoMap[match.homeTeam.toLowerCase()]} />
                         {match.homeTeam}
                         <span className="text-neutral-500">vs</span>
-                        <TeamLogo name={match.awayTeam} size={18} />
+                        <TeamLogo name={match.awayTeam} size={18} logoUrl={teamLogoMap[match.awayTeam.toLowerCase()]} />
                         {match.awayTeam}
                       </p>
                       <p className="text-xs text-neutral-400" suppressHydrationWarning>

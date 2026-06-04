@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { ensureTeamLogos } from "@/lib/team-logo-resolver"
 
 const FRIENDLIES_TOURNAMENT_ID = 851
 
@@ -43,6 +44,9 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
       startTime: new Date(e.startTime),
     })),
   })
+
+  const teamNames = toInsert.flatMap((e) => [e.participant1Name, e.participant2Name])
+  void ensureTeamLogos(teamNames)
 
   return NextResponse.json({ imported: toInsert.length, total: upcoming.length })
 }

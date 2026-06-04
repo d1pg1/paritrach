@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { fetchWorldCupEvents } from "@/lib/apis/odds-api"
+import { ensureTeamLogos } from "@/lib/team-logo-resolver"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -30,6 +31,9 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
       startTime: new Date(e.commence_time),
     })),
   })
+
+  const teamNames = toInsert.flatMap((e) => [e.home_team, e.away_team])
+  void ensureTeamLogos(teamNames)
 
   return NextResponse.json({ imported: toInsert.length, total: events.length })
 }

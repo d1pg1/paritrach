@@ -1,6 +1,7 @@
 import { db } from "@/lib/db"
 import { notFound } from "next/navigation"
 import { AdminRoundControls } from "./AdminRoundControls"
+import { getTeamLogoMap } from "@/lib/team-logo-resolver"
 
 export default async function AdminRoundPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -24,5 +25,8 @@ export default async function AdminRoundPage({ params }: { params: Promise<{ id:
 
   if (!round) notFound()
 
-  return <AdminRoundControls round={round} />
+  const teamNames = round.matches.flatMap((m) => [m.homeTeam, m.awayTeam])
+  const teamLogoMap = await getTeamLogoMap(teamNames)
+
+  return <AdminRoundControls round={round} teamLogoMap={teamLogoMap} />
 }

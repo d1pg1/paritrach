@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { after } from "next/server"
 import { LiveScorePoller } from "./LiveScorePoller"
 import { settleRound } from "@/lib/settle-round"
+import { getTeamLogoMap } from "@/lib/team-logo-resolver"
 
 interface MatchRow {
   id: string
@@ -54,6 +55,9 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
 
   if (!round) notFound()
 
+  const teamNames = round.matches.flatMap((m) => [m.homeTeam, m.awayTeam])
+  const teamLogoMap = await getTeamLogoMap(teamNames)
+
   const isBettingOpen = round.status === "BETTING"
   const isResults = round.status === "RESULTS"
 
@@ -90,6 +94,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
             currentUsername: session.user.name ?? "",
             isBettingOpen,
             isResults,
+            teamLogoMap,
           }}
         />
       )}

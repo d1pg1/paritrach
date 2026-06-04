@@ -55,6 +55,7 @@ export function BettingCard({
   isBettingOpen,
   isResults,
   liveScore,
+  teamLogoMap = {},
 }: {
   match: Match
   existingBet: Bet | null
@@ -69,6 +70,7 @@ export function BettingCard({
     statusName: string
     events: { minute: number; team: string; scorerName: string | null; eventType: string }[]
   } | null
+  teamLogoMap?: Record<string, string>
 }) {
   const t = useTranslations("betting")
 
@@ -160,12 +162,12 @@ export function BettingCard({
         <div>
           <p className="font-semibold text-base text-gray-100 flex items-center gap-2 flex-wrap">
             <span className="flex items-center gap-1.5">
-              <TeamLogo name={match.homeTeam} size={20} />
+              <TeamLogo name={match.homeTeam} size={20} logoUrl={teamLogoMap[match.homeTeam.toLowerCase()]} />
               {match.homeTeam}
             </span>
             <span className="text-neutral-500">vs</span>
             <span className="flex items-center gap-1.5">
-              <TeamLogo name={match.awayTeam} size={20} />
+              <TeamLogo name={match.awayTeam} size={20} logoUrl={teamLogoMap[match.awayTeam.toLowerCase()]} />
               {match.awayTeam}
             </span>
           </p>
@@ -216,7 +218,11 @@ export function BettingCard({
                 {liveScore.events.map((ev, i) => (
                   <p key={i} className="text-xs text-neutral-400 text-right flex items-center justify-end gap-1">
                     <span className="text-neutral-500">{ev.minute}&apos;</span>
-                    <TeamLogo name={ev.team === "home" ? match.homeTeam : match.awayTeam} size={14} />
+                    <TeamLogo
+                      name={ev.team === "home" ? match.homeTeam : match.awayTeam}
+                      size={14}
+                      logoUrl={teamLogoMap[(ev.team === "home" ? match.homeTeam : match.awayTeam).toLowerCase()]}
+                    />
                     <span className={ev.team === "home" ? "text-sky-400" : "text-orange-400"}>
                       {ev.team === "home" ? match.homeTeam : match.awayTeam}
                     </span>
