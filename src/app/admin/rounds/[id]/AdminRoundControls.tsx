@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { TeamLogo } from "@/components/TeamLogo"
+import type { H2HOdds } from "@/lib/apis/odds-api"
 
 interface BetDetail {
   id: string
@@ -18,6 +19,7 @@ interface BetDetail {
 
 interface Match {
   id: string
+  externalId: string | null
   homeTeam: string
   awayTeam: string
   startTime: Date | string
@@ -43,7 +45,7 @@ function formatBetSelection(bet: BetDetail): string {
   return bet.line != null ? `${base} ${bet.line}` : base
 }
 
-export function AdminRoundControls({ round, teamLogoMap = {} }: { round: Round; teamLogoMap?: Record<string, string> }) {
+export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { round: Round; teamLogoMap?: Record<string, string>; h2hOdds?: Record<string, H2HOdds> }) {
   const t = useTranslations("admin")
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
@@ -217,6 +219,15 @@ export function AdminRoundControls({ round, teamLogoMap = {} }: { round: Round; 
                       )}
                     </div>
                     <div className="text-right text-xs text-neutral-400 shrink-0">
+                      {match.externalId && h2hOdds[match.externalId] && (
+                        <p className="font-mono tabular-nums mb-0.5">
+                          {h2hOdds[match.externalId].home.toFixed(2)}
+                          <span className="text-neutral-600"> × </span>
+                          {h2hOdds[match.externalId].draw.toFixed(2)}
+                          <span className="text-neutral-600"> × </span>
+                          {h2hOdds[match.externalId].away.toFixed(2)}
+                        </p>
+                      )}
                       {match.oddsSnapshot ? (
                         <span className="text-yellow-400">{t("oddsLocked")}</span>
                       ) : match.isEligible ? (

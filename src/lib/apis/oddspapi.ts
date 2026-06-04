@@ -368,6 +368,70 @@ function computeDerivedMarkets(markets: Record<string, OddsMarket>): void {
 
 // ── Public API ─────────────────────────────────────────────────────────────────
 
+import type { H2HOdds } from "./odds-api"
+
+export async function fetchFriendliesH2HOdds(): Promise<Record<string, H2HOdds>> {
+  const [res, meta] = await Promise.all([
+    fetch(`${BASE}/v4/odds-by-tournaments?tournamentIds=851&bookmaker=pinnacle&apiKey=${KEY}`, {
+      next: { revalidate: 300 },
+    }),
+    fetchMarketMeta(),
+  ])
+  if (!res.ok) return {}
+
+  interface BulkFixture {
+    fixtureId: string
+    bookmakerOdds: Record<string, {
+      markets: Record<string, {
+        marketActive: boolean
+        outcomes: Record<string, { players: Record<string, { price: number }> }>
+      }>
+    }>
+  }
+
+  const fixtures = (await res.json()) as BulkFixture[]
+
+  const h2hMarketIds = new Set<number>()
+  for (const [id, info] of meta.markets) {
+    if (info.cat === "h2h") h2hMarketIds.add(id)
+  }
+
+  const result: Record<string, H2HOdds> = {}
+
+  for (const fixture of fixtures) {
+    const pinnacle = fixture.bookmakerOdds["pinnacle"]
+    if (!pinnacle) continue
+
+    for (const [midStr, market] of Object.entries(pinnacle.markets)) {
+      if (!h2hMarketIds.has(parseInt(midStr)) || !market.marketActive) continue
+
+      let home: number | null = null
+      let draw: number | null = null
+      let away: number | null = null
+
+      for (const [oidStr, outcomeData] of Object.entries(market.outcomes)) {
+        const price = Object.values(outcomeData.players)[0]?.price
+        if (!price || price <= 1) continue
+        const name = meta.names.get(parseInt(oidStr))
+        if (name === "1") home = price
+        else if (name === "X") draw = price
+        else if (name === "2") away = price
+      }
+
+      if (home !== null && draw !== null && away !== null) {
+        result[fixture.fixtureId] = {
+          home: parseFloat(home.toFixed(2)),
+          draw: parseFloat(draw.toFixed(2)),
+          away: parseFloat(away.toFixed(2)),
+        }
+        break
+      }
+    }
+  }
+
+  return result
+}
+
 // OddsPapi fixture IDs start with "id"; The Odds API IDs are UUIDs
 function isOddsPapiFixtureId(id: string): boolean {
   return id.startsWith("id")
