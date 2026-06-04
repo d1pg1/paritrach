@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { UserAvatar } from "@/components/UserAvatar"
+import { TeamLogo } from "@/components/TeamLogo"
 
 interface Outcome {
   name: string
@@ -157,8 +158,16 @@ export function BettingCard({
       {/* Match header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="font-semibold text-base text-gray-100">
-            {match.homeTeam} <span className="text-neutral-500">vs</span> {match.awayTeam}
+          <p className="font-semibold text-base text-gray-100 flex items-center gap-2 flex-wrap">
+            <span className="flex items-center gap-1.5">
+              <TeamLogo name={match.homeTeam} size={20} />
+              {match.homeTeam}
+            </span>
+            <span className="text-neutral-500">vs</span>
+            <span className="flex items-center gap-1.5">
+              <TeamLogo name={match.awayTeam} size={20} />
+              {match.awayTeam}
+            </span>
           </p>
           <p className="text-xs text-neutral-400 mt-0.5" suppressHydrationWarning>
             {new Date(match.startTime).toLocaleString("uk-UA", {
@@ -205,11 +214,12 @@ export function BettingCard({
             {liveScore.events.length > 0 && (
               <div className="mt-1.5 space-y-0.5">
                 {liveScore.events.map((ev, i) => (
-                  <p key={i} className="text-xs text-neutral-400 text-right">
-                    <span className="text-neutral-500">{ev.minute}&apos;</span>{" "}
+                  <p key={i} className="text-xs text-neutral-400 text-right flex items-center justify-end gap-1">
+                    <span className="text-neutral-500">{ev.minute}&apos;</span>
+                    <TeamLogo name={ev.team === "home" ? match.homeTeam : match.awayTeam} size={14} />
                     <span className={ev.team === "home" ? "text-sky-400" : "text-orange-400"}>
                       {ev.team === "home" ? match.homeTeam : match.awayTeam}
-                    </span>{" "}
+                    </span>
                     {ev.scorerName ?? "—"}
                     {ev.eventType === "Own Goal" && <span className="text-neutral-500"> (OG)</span>}
                     {ev.eventType === "Penalty" && <span className="text-neutral-500"> (P)</span>}

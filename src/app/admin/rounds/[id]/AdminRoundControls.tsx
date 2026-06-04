@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
+import { TeamLogo } from "@/components/TeamLogo"
 
 interface BetDetail {
   id: string
@@ -195,8 +196,12 @@ export function AdminRoundControls({ round }: { round: Round }) {
                       className="w-4 h-4 accent-yellow-400"
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate text-white">
-                        {match.homeTeam} vs {match.awayTeam}
+                      <p className="font-medium text-sm text-white flex items-center gap-1.5 flex-wrap">
+                        <TeamLogo name={match.homeTeam} size={18} />
+                        {match.homeTeam}
+                        <span className="text-neutral-500">vs</span>
+                        <TeamLogo name={match.awayTeam} size={18} />
+                        {match.awayTeam}
                       </p>
                       <p className="text-xs text-neutral-400" suppressHydrationWarning>
                         {new Date(match.startTime).toLocaleString("uk-UA", {
