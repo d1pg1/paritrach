@@ -45,6 +45,11 @@ model Season {
   contestants  SeasonContestant[]
 }
 
+model Settings {
+  id                String  @id @default("singleton")
+  currentSeasonName String?
+}
+
 model SeasonContestant {
   id       String  @id @default(cuid())
   seasonId String?

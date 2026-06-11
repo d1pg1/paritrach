@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 import { CreateRoundForm } from "./CreateRoundForm"
 import { CreateSeasonForm } from "./CreateSeasonForm"
+import { CurrentSeasonNameEditor } from "./CurrentSeasonNameEditor"
 
 const STATUS_COLOR: Record<string, string> = {
   SETUP: "text-neutral-500",
@@ -21,12 +22,15 @@ interface RoundRow {
 export default async function AdminPage() {
   const t = await getTranslations("admin")
 
-  const rounds = await db.round.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: { select: { matches: true, bets: true } },
-    },
-  })
+  const [rounds, settings] = await Promise.all([
+    db.round.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        _count: { select: { matches: true, bets: true } },
+      },
+    }),
+    db.settings.findUnique({ where: { id: "singleton" } }),
+  ])
 
   return (
     <div>
@@ -39,10 +43,12 @@ export default async function AdminPage() {
           >
             {t("contestants")}
           </Link>
-          <CreateSeasonForm />
+          <CreateSeasonForm initialName={settings?.currentSeasonName ?? null} />
           <CreateRoundForm />
         </div>
       </div>
+
+      <CurrentSeasonNameEditor initialName={settings?.currentSeasonName ?? null} />
 
       {rounds.length === 0 ? (
         <p className="text-neutral-400">{t("noRounds")}</p>

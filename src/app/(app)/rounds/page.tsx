@@ -31,7 +31,7 @@ export default async function RoundsPage({
   const { seasonId: rawSeasonId } = await searchParams
   const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
 
-  const [seasons, rounds] = await Promise.all([
+  const [seasons, rounds, settings] = await Promise.all([
     db.season.findMany({
       orderBy: { archivedAt: "desc" },
       select: { id: true, name: true },
@@ -43,6 +43,7 @@ export default async function RoundsPage({
         _count: { select: { matches: { where: { isEligible: true } } } },
       },
     }),
+    db.settings.findUnique({ where: { id: "singleton" } }),
   ])
 
   return (
@@ -50,7 +51,7 @@ export default async function RoundsPage({
       <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
       {seasons.length > 0 && (
         <Suspense fallback={<div className="h-10 mb-6" />}>
-          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} />
+          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} currentSeasonName={settings?.currentSeasonName} />
         </Suspense>
       )}
       {rounds.length === 0 ? (

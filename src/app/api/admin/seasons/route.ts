@@ -28,6 +28,11 @@ export async function POST(req: Request) {
         data: currentContestants.map((c) => ({ seasonId: created.id, userId: c.userId })),
       })
     }
+    await tx.settings.upsert({
+      where: { id: "singleton" },
+      update: { currentSeasonName: null },
+      create: { id: "singleton", currentSeasonName: null },
+    })
     return created
   })
 

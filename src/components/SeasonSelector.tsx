@@ -11,9 +11,10 @@ interface Season {
 interface Props {
   seasons: Season[]
   currentSeasonId: string | null
+  currentSeasonName?: string | null
 }
 
-export function SeasonSelector({ seasons, currentSeasonId }: Props) {
+export function SeasonSelector({ seasons, currentSeasonId, currentSeasonName }: Props) {
   const t = useTranslations("seasons")
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -39,7 +40,7 @@ export function SeasonSelector({ seasons, currentSeasonId }: Props) {
             : "border-neutral-700 text-neutral-400 hover:border-neutral-500"
         }`}
       >
-        {t("current")}
+        {currentSeasonName || t("current")}
       </button>
       {seasons.map((s) => (
         <button

@@ -4,9 +4,13 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 
-export function CreateSeasonForm() {
+interface Props {
+  initialName: string | null
+}
+
+export function CreateSeasonForm({ initialName }: Props) {
   const t = useTranslations("admin")
-  const [name, setName] = useState("")
+  const [name, setName] = useState(initialName ?? "")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")

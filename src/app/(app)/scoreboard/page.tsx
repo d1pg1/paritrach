@@ -19,7 +19,7 @@ export default async function ScoreboardPage({
   const { seasonId: rawSeasonId } = await searchParams
   const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
 
-  const [seasons, users, winningBets, allBets, contestants] = await Promise.all([
+  const [seasons, users, winningBets, allBets, contestants, settings] = await Promise.all([
     db.season.findMany({
       orderBy: { archivedAt: "desc" },
       select: { id: true, name: true },
@@ -37,6 +37,7 @@ export default async function ScoreboardPage({
       where: { seasonId: seasonId ?? null },
       select: { userId: true },
     }),
+    db.settings.findUnique({ where: { id: "singleton" } }),
   ])
 
   const contestantIds = new Set(contestants.map((c) => c.userId))
@@ -95,7 +96,7 @@ export default async function ScoreboardPage({
       <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
       {seasons.length > 0 && (
         <Suspense fallback={<div className="h-10 mb-6" />}>
-          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} />
+          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} currentSeasonName={settings?.currentSeasonName} />
         </Suspense>
       )}
       {rows.length === 0 ? (
