@@ -61,9 +61,12 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
   const isBettingOpen = round.status === "BETTING"
   const isResults = round.status === "RESULTS"
 
-  if (round.status === "BETTING" && round.matches.length > 0) {
-    const latestStart = Math.max(...round.matches.map((m) => new Date(m.startTime).getTime()))
-    if (Date.now() > latestStart + 100 * 60 * 1000) {
+  if (round.status === "BETTING") {
+    const cutoff = new Date(Date.now() - 100 * 60 * 1000)
+    const hasUnsettledPastMatch = round.matches.some(
+      (m) => m.status !== "FINAL" && m.startTime <= cutoff
+    )
+    if (hasUnsettledPastMatch) {
       after(() => settleRound(id).catch(console.error))
     }
   }
