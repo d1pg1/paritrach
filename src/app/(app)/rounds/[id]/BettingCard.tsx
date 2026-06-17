@@ -94,6 +94,13 @@ export function BettingCard({
     return key
   }
 
+  function formatLine(line: number, marketType?: string, selection?: string): string {
+    if (marketType !== "spreads") return String(line)
+    // The stored line is always relative to home ("1"); flip it for away ("2")
+    const effective = selection === "2" ? -line : line
+    return (effective > 0 ? "+" : "") + effective
+  }
+
   const odds = match.oddsSnapshot?.oddsData as OddsData | null
   const markets = odds ? Object.values(odds) : []
   const activeMarket = markets.find((m) => m.key === selectedMarket) ?? markets[0]
@@ -276,7 +283,7 @@ export function BettingCard({
           </span>
           <span className="font-medium">{currentBet.selection}</span>
           {currentBet.line !== null && (
-            <span className="text-neutral-400">({currentBet.line > 0 ? "+" : ""}{currentBet.line})</span>
+            <span className="text-neutral-400">({formatLine(currentBet.line, currentBet.marketType, currentBet.selection)})</span>
           )}
           <span className="ml-auto text-yellow-400 font-semibold">
             {currentBet.coefficient.toFixed(2)}
@@ -326,8 +333,7 @@ export function BettingCard({
                     <span className="text-xs">{o.name}</span>
                     {o.point !== undefined && (
                       <span className="text-xs opacity-70">
-                        {o.point > 0 ? "+" : ""}
-                        {o.point}
+                        {formatLine(o.point, selectedMarket, o.name)}
                       </span>
                     )}
                     <span className="font-bold text-sm mt-0.5">{o.price.toFixed(2)}</span>
@@ -387,7 +393,7 @@ export function BettingCard({
                     </div>
                   </td>
                   <td className="py-1.5 text-neutral-300">
-                    {marketLabel(bet.marketType)}: {bet.selection}{bet.line != null ? ` ${bet.line > 0 ? "+" : ""}${bet.line}` : ""}
+                    {marketLabel(bet.marketType)}: {bet.selection}{bet.line != null ? ` ${formatLine(bet.line, bet.marketType, bet.selection)}` : ""}
                   </td>
                   <td className="py-1.5 text-right text-neutral-300">{bet.coefficient.toFixed(2)}</td>
                   <td className="py-1.5 text-right">
