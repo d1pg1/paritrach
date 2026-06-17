@@ -21,7 +21,10 @@ export async function settleRound(roundId: string): Promise<{
   const dateSlugPairs = [
     ...new Map(
       round.matches.map((m) => {
-        const date = m.startTime.toISOString().slice(0, 10)
+        // ESPN buckets matches by US Eastern time (UTC-4/5). Subtract 6h so matches
+        // starting before 06:00 UTC (e.g. 01:00 UTC = 21:00 ET) map to the correct ESPN day.
+        const espnDate = new Date(m.startTime.getTime() - 6 * 60 * 60 * 1000)
+        const date = espnDate.toISOString().slice(0, 10)
         const slug = competitionToEspnSlug(m.competition)
         return [`${date}|${slug}`, { date, slug }]
       })
