@@ -192,7 +192,7 @@ export function BettingCard({
             })}
           </p>
         </div>
-        {isResults && match.status === "FINAL" && match.homeScore !== null && (
+        {match.status === "FINAL" && match.homeScore !== null && (
           <div className="text-right">
             <p className="text-2xl font-bold">
               {match.homeScore} : {match.awayScore}
@@ -366,7 +366,7 @@ export function BettingCard({
       {matchStarted && !isResults && !currentBet && (
         <p className="text-sm text-neutral-500 mt-2">{t("matchStarted")}</p>
       )}
-      {!canBet && !isResults && currentBet && matchStarted && (
+      {!canBet && match.status !== "FINAL" && currentBet && matchStarted && (
         <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
       )}
 

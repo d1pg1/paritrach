@@ -66,7 +66,7 @@ export function findEspnEventForMatch(
   homeTeam: string,
   awayTeam: string
 ): EspnEvent | undefined {
-  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, "")
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "")
   return events.find((e) => {
     const comps = e.competitions[0]?.competitors ?? []
     const names = comps.map((c) => norm(c.team.displayName))
