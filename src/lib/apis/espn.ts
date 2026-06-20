@@ -61,12 +61,25 @@ export async function fetchResultsByDate(date: Date, espnSlug: string = DEFAULT_
   return data.events ?? []
 }
 
+// OddsPapi ↔ ESPN name discrepancies
+const TEAM_NAME_ALIASES: Record<string, string> = {
+  usa: "unitedstates",
+  unitedstates: "unitedstates",
+  southkorea: "southkorea",
+  korearepublic: "southkorea",
+  ivorycoast: "cotedivoire",
+  cotedivoire: "cotedivoire",
+}
+
 export function findEspnEventForMatch(
   events: EspnEvent[],
   homeTeam: string,
   awayTeam: string
 ): EspnEvent | undefined {
-  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "")
+  const norm = (s: string) => {
+    const key = s.toLowerCase().replace(/[^a-z0-9]/g, "")
+    return TEAM_NAME_ALIASES[key] ?? key
+  }
   return events.find((e) => {
     const comps = e.competitions[0]?.competitors ?? []
     const names = comps.map((c) => norm(c.team.displayName))
