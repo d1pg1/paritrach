@@ -105,9 +105,8 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
   return marketMetaCache
 }
 
-// ── Fixture cache ──────────────────────────────────────────────────────────────
+// ── Fixture lookup ─────────────────────────────────────────────────────────────
 interface FixtureMeta { id: string; startTime: string; home: string; away: string }
-let fixtureCache: FixtureMeta[] | null = null
 
 const FIXTURE_TOURNAMENT_IDS = [16, 851] // World Cup 2026 + International Friendlies
 
@@ -127,22 +126,21 @@ function teamNamesMatch(a: string, b: string): boolean {
 }
 
 async function resolveFixtureId(startTime: Date | string, homeTeam: string, awayTeam: string): Promise<string | null> {
-  if (!fixtureCache) {
-    const responses = await Promise.all(
-      FIXTURE_TOURNAMENT_IDS.map(tid =>
-        fetch(`${BASE}/v4/fixtures?tournamentId=${tid}&apiKey=${KEY}`, { next: { revalidate: 0 } })
-          .then(r => r.ok ? r.json() : [])
-      )
+  const responses = await Promise.all(
+    FIXTURE_TOURNAMENT_IDS.map(tid =>
+      fetch(`${BASE}/v4/fixtures?tournamentId=${tid}&apiKey=${KEY}`, { next: { revalidate: 300 } })
+        .then(r => r.ok ? r.json() : [])
     )
-    fixtureCache = (responses.flat() as { fixtureId: string; startTime: string; participant1Name: string; participant2Name: string }[]).map(f => ({
-      id: f.fixtureId,
-      startTime: f.startTime,
-      home: f.participant1Name ?? "",
-      away: f.participant2Name ?? "",
-    }))
-  }
+  )
+  const fixtures = (responses.flat() as { fixtureId: string; startTime: string; participant1Name: string; participant2Name: string }[]).map(f => ({
+    id: f.fixtureId,
+    startTime: f.startTime,
+    home: f.participant1Name ?? "",
+    away: f.participant2Name ?? "",
+  }) satisfies FixtureMeta)
+
   const target = new Date(startTime).getTime()
-  const timeMatches = fixtureCache.filter(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)
+  const timeMatches = fixtures.filter(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)
   if (timeMatches.length === 0) return null
   if (timeMatches.length === 1) return timeMatches[0].id
 
