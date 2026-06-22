@@ -106,7 +106,7 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
 }
 
 // ── Fixture cache ──────────────────────────────────────────────────────────────
-interface FixtureMeta { id: string; startTime: string; homeTeam: string; awayTeam: string }
+interface FixtureMeta { id: string; startTime: string; home: string; away: string }
 let fixtureCache: FixtureMeta[] | null = null
 
 const FIXTURE_TOURNAMENT_IDS = [16, 851] // World Cup 2026 + International Friendlies
@@ -129,11 +129,11 @@ async function resolveFixtureId(startTime: Date | string, homeTeam: string, away
           .then(r => r.ok ? r.json() : [])
       )
     )
-    fixtureCache = (responses.flat() as { fixtureId: string; startTime: string; homeTeam: string; awayTeam: string }[]).map(f => ({
+    fixtureCache = (responses.flat() as { fixtureId: string; startTime: string; participant1Name: string; participant2Name: string }[]).map(f => ({
       id: f.fixtureId,
       startTime: f.startTime,
-      homeTeam: f.homeTeam ?? "",
-      awayTeam: f.awayTeam ?? "",
+      home: f.participant1Name ?? "",
+      away: f.participant2Name ?? "",
     }))
   }
   const target = new Date(startTime).getTime()
@@ -143,7 +143,7 @@ async function resolveFixtureId(startTime: Date | string, homeTeam: string, away
 
   // Multiple fixtures at same time — disambiguate by team name
   const exact = timeMatches.find(
-    f => teamNamesMatch(f.homeTeam, homeTeam) && teamNamesMatch(f.awayTeam, awayTeam)
+    f => teamNamesMatch(f.home, homeTeam) && teamNamesMatch(f.away, awayTeam)
   )
   return exact?.id ?? timeMatches[0].id
 }
