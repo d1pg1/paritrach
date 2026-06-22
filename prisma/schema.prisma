@@ -1,10 +1,126 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["partialIndexes"]
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id                String            @id @default(cuid())
+  username          String            @unique
+  passwordHash      String
+  role              Role              @default(USER)
+  createdAt         DateTime          @default(now())
+  nickname          String?
+  logoUrl           String?
+  bets              Bet[]
+  seasonContestants SeasonContestant?
+}
+
+model Season {
+  id          String             @id @default(cuid())
+  name        String
+  archivedAt  DateTime           @default(now())
+  rounds      Round[]
+  contestants SeasonContestant[]
+}
+
+model Settings {
+  id                String  @id @default("singleton")
+  currentSeasonName String?
+}
+
+model SeasonContestant {
+  id       String  @id @default(cuid())
+  seasonId String?
+  userId   String  @unique(map: "sc_current_user_uniq", where: raw("(\"seasonId\" IS NULL)"))
+  season   Season? @relation(fields: [seasonId], references: [id])
+  user     User    @relation(fields: [userId], references: [id])
+
+  @@unique([seasonId, userId], map: "sc_season_user_uniq", where: raw("(\"seasonId\" IS NOT NULL)"))
+}
+
+model Round {
+  id        String      @id @default(cuid())
+  name      String
+  status    RoundStatus @default(SETUP)
+  createdAt DateTime    @default(now())
+  seasonId  String?
+  bets      Bet[]
+  matches   Match[]
+  season    Season?     @relation(fields: [seasonId], references: [id])
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  logoUrl   String?
+  createdAt DateTime @default(now())
+}
+
+model Match {
+  id            String        @id @default(cuid())
+  roundId       String
+  externalId    String?
+  homeTeam      String
+  awayTeam      String
+  startTime     DateTime
+  homeScore     Int?
+  awayScore     Int?
+  htHomeScore   Int?
+  htAwayScore   Int?
+  status        MatchStatus   @default(SCHEDULED)
+  isEligible    Boolean       @default(false)
+  competition   String?
+  liveHomeScore Int?
+  liveAwayScore Int?
+  apiFootballId Int?
+  bets          Bet[]
+  round         Round         @relation(fields: [roundId], references: [id])
+  events        MatchEvent[]
+  oddsSnapshot  OddsSnapshot?
+}
+
+model MatchEvent {
+  id         String   @id @default(cuid())
+  matchId    String
+  minute     Int
+  team       String
+  scorerName String?
+  eventType  String
+  createdAt  DateTime @default(now())
+  match      Match    @relation(fields: [matchId], references: [id])
+
+  @@unique([matchId, minute, team])
+}
+
+model OddsSnapshot {
+  id        String   @id @default(cuid())
+  matchId   String   @unique
+  fetchedAt DateTime @default(now())
+  oddsData  Json
+  match     Match    @relation(fields: [matchId], references: [id])
+}
+
+model Bet {
+  id          String   @id @default(cuid())
+  userId      String
+  matchId     String
+  roundId     String
+  marketType  String
+  selection   String
+  line        Float?
+  coefficient Float
+  isWinner    Boolean?
+  createdAt   DateTime @default(now())
+  match       Match    @relation(fields: [matchId], references: [id])
+  round       Round    @relation(fields: [roundId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, matchId])
 }
 
 enum Role {
@@ -23,117 +139,4 @@ enum MatchStatus {
   SCHEDULED
   IN_PROGRESS
   FINAL
-}
-
-model User {
-  id                 String             @id @default(cuid())
-  username           String             @unique
-  nickname           String?
-  logoUrl            String?
-  passwordHash       String
-  role               Role               @default(USER)
-  createdAt          DateTime           @default(now())
-  bets               Bet[]
-  seasonContestants  SeasonContestant[]
-}
-
-model Season {
-  id           String             @id @default(cuid())
-  name         String
-  archivedAt   DateTime           @default(now())
-  rounds       Round[]
-  contestants  SeasonContestant[]
-}
-
-model Settings {
-  id                String  @id @default("singleton")
-  currentSeasonName String?
-}
-
-model SeasonContestant {
-  id       String  @id @default(cuid())
-  seasonId String?
-  userId   String
-  season   Season? @relation(fields: [seasonId], references: [id])
-  user     User    @relation(fields: [userId], references: [id])
-}
-
-model Round {
-  id        String      @id @default(cuid())
-  name      String
-  status    RoundStatus @default(SETUP)
-  createdAt DateTime    @default(now())
-  seasonId  String?
-  season    Season?     @relation(fields: [seasonId], references: [id])
-  matches   Match[]
-  bets      Bet[]
-}
-
-model Team {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  logoUrl   String?
-  createdAt DateTime @default(now())
-}
-
-model Match {
-  id            String        @id @default(cuid())
-  roundId       String
-  round         Round         @relation(fields: [roundId], references: [id])
-  externalId    String?
-  competition   String?
-  homeTeam      String
-  awayTeam      String
-  startTime     DateTime
-  homeScore     Int?
-  awayScore     Int?
-  htHomeScore   Int?
-  htAwayScore   Int?
-  liveHomeScore Int?
-  liveAwayScore Int?
-  apiFootballId Int?
-  status        MatchStatus   @default(SCHEDULED)
-  isEligible    Boolean       @default(false)
-  oddsSnapshot  OddsSnapshot?
-  bets          Bet[]
-  events        MatchEvent[]
-}
-
-model MatchEvent {
-  id         String   @id @default(cuid())
-  matchId    String
-  match      Match    @relation(fields: [matchId], references: [id])
-  minute     Int
-  team       String
-  scorerName String?
-  eventType  String
-  createdAt  DateTime @default(now())
-
-  @@unique([matchId, minute, team])
-}
-
-model OddsSnapshot {
-  id        String   @id @default(cuid())
-  matchId   String   @unique
-  match     Match    @relation(fields: [matchId], references: [id])
-  fetchedAt DateTime @default(now())
-  oddsData  Json
-}
-
-model Bet {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  matchId     String
-  match       Match    @relation(fields: [matchId], references: [id])
-  roundId     String
-  round       Round    @relation(fields: [roundId], references: [id])
-  marketType  String
-  selection   String
-  line        Float?
-  coefficient Float
-  isWinner    Boolean?
-  createdAt   DateTime @default(now())
-
-  @@unique([userId, matchId])
 }

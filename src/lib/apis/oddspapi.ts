@@ -111,14 +111,19 @@ let fixtureCache: FixtureMeta[] | null = null
 
 const FIXTURE_TOURNAMENT_IDS = [16, 851] // World Cup 2026 + International Friendlies
 
-function normalizeTeamName(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, "")
-}
+const GEO_STOP_WORDS = new Set(["south", "north", "east", "west", "republic", "united", "kingdom", "democratic", "island", "islands", "federal", "federation"])
 
 function teamNamesMatch(a: string, b: string): boolean {
-  const na = normalizeTeamName(a)
-  const nb = normalizeTeamName(b)
-  return na === nb || na.includes(nb) || nb.includes(na)
+  if (!a || !b) return false
+  const na = a.toLowerCase().replace(/[^a-z0-9]/g, "")
+  const nb = b.toLowerCase().replace(/[^a-z0-9]/g, "")
+  if (na === nb || na.includes(nb) || nb.includes(na)) return true
+  // Fuzzy: match on meaningful words, handles "Czechia"/"Czech Republic", "Korea Republic"/"South Korea"
+  const meaningful = (s: string) => s.toLowerCase().split(/\s+/).filter(w => w.length >= 5 && !GEO_STOP_WORDS.has(w))
+  const wa = meaningful(a)
+  const wb = meaningful(b)
+  if (wa.length === 0 || wb.length === 0) return false
+  return wa.some(x => wb.some(y => x === y || x.includes(y) || y.includes(x)))
 }
 
 async function resolveFixtureId(startTime: Date | string, homeTeam: string, awayTeam: string): Promise<string | null> {
