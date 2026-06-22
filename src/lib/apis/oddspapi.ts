@@ -106,12 +106,22 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
 }
 
 // ── Fixture cache ──────────────────────────────────────────────────────────────
-interface FixtureMeta { id: string; startTime: string }
+interface FixtureMeta { id: string; startTime: string; homeTeam: string; awayTeam: string }
 let fixtureCache: FixtureMeta[] | null = null
 
 const FIXTURE_TOURNAMENT_IDS = [16, 851] // World Cup 2026 + International Friendlies
 
-async function resolveFixtureId(startTime: Date | string): Promise<string | null> {
+function normalizeTeamName(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]/g, "")
+}
+
+function teamNamesMatch(a: string, b: string): boolean {
+  const na = normalizeTeamName(a)
+  const nb = normalizeTeamName(b)
+  return na === nb || na.includes(nb) || nb.includes(na)
+}
+
+async function resolveFixtureId(startTime: Date | string, homeTeam: string, awayTeam: string): Promise<string | null> {
   if (!fixtureCache) {
     const responses = await Promise.all(
       FIXTURE_TOURNAMENT_IDS.map(tid =>
@@ -119,14 +129,23 @@ async function resolveFixtureId(startTime: Date | string): Promise<string | null
           .then(r => r.ok ? r.json() : [])
       )
     )
-    fixtureCache = (responses.flat() as { fixtureId: string; startTime: string }[]).map(f => ({
+    fixtureCache = (responses.flat() as { fixtureId: string; startTime: string; homeTeam: string; awayTeam: string }[]).map(f => ({
       id: f.fixtureId,
       startTime: f.startTime,
+      homeTeam: f.homeTeam ?? "",
+      awayTeam: f.awayTeam ?? "",
     }))
   }
   const target = new Date(startTime).getTime()
-  const found = fixtureCache.find(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)
-  return found?.id ?? null
+  const timeMatches = fixtureCache.filter(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)
+  if (timeMatches.length === 0) return null
+  if (timeMatches.length === 1) return timeMatches[0].id
+
+  // Multiple fixtures at same time — disambiguate by team name
+  const exact = timeMatches.find(
+    f => teamNamesMatch(f.homeTeam, homeTeam) && teamNamesMatch(f.awayTeam, awayTeam)
+  )
+  return exact?.id ?? timeMatches[0].id
 }
 
 // ── API ────────────────────────────────────────────────────────────────────────
@@ -448,7 +467,7 @@ export async function extractMarketsForMatch(
   const directId = externalId && isOddsPapiFixtureId(externalId) ? externalId : null
 
   const [fixtureId, meta] = await Promise.all([
-    directId ? Promise.resolve(directId) : resolveFixtureId(startTime),
+    directId ? Promise.resolve(directId) : resolveFixtureId(startTime, homeTeam, awayTeam),
     fetchMarketMeta(),
   ])
   if (!fixtureId) return {}
