@@ -69,6 +69,12 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   korearepublic: "southkorea",
   ivorycoast: "cotedivoire",
   cotedivoire: "cotedivoire",
+  // ESPN uses "Czechia"; our DB uses "Czech Republic"
+  czechia: "czechrepublic",
+  czechrepublic: "czechrepublic",
+  // ESPN uses "México" (accented); stripping non-ASCII gives "mxico"
+  mxico: "mexico",
+  mexico: "mexico",
 }
 
 export function findEspnEventForMatch(
