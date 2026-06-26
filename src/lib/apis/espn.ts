@@ -75,6 +75,10 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   // ESPN uses "México" (accented); stripping non-ASCII gives "mxico"
   mxico: "mexico",
   mexico: "mexico",
+  // ESPN uses "Türkiye"; stripping ü gives "trkiye". DB has both "Turkey" and "Turkiye"
+  trkiye: "turkey",
+  turkiye: "turkey",
+  turkey: "turkey",
 }
 
 export function findEspnEventForMatch(
