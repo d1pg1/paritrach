@@ -128,7 +128,7 @@ interface EspnSummary {
 export async function fetchHalftimeScores(
   eventId: string,
   espnSlug: string = DEFAULT_ESPN_SLUG
-): Promise<{ htHomeScore: number; htAwayScore: number } | null> {
+): Promise<{ htHomeScore: number; htAwayScore: number; rtHomeScore: number | null; rtAwayScore: number | null } | null> {
   const res = await fetch(`${ESPN_BASE}/${espnSlug}/summary?event=${eventId}`, { cache: "no-store" })
   if (!res.ok) return null
   const data: EspnSummary = await res.json()
@@ -138,5 +138,11 @@ export async function fetchHalftimeScores(
   const htHomeScore = parseInt(home?.linescores?.[0]?.displayValue ?? "", 10)
   const htAwayScore = parseInt(away?.linescores?.[0]?.displayValue ?? "", 10)
   if (isNaN(htHomeScore) || isNaN(htAwayScore)) return null
-  return { htHomeScore, htAwayScore }
+  // Regular-time score = 1st-half + 2nd-half goals. If the match went to AET,
+  // this is less than the final score stored in the ESPN "score" field.
+  const p2Home = parseInt(home?.linescores?.[1]?.displayValue ?? "", 10)
+  const p2Away = parseInt(away?.linescores?.[1]?.displayValue ?? "", 10)
+  const rtHomeScore = isNaN(p2Home) ? null : htHomeScore + p2Home
+  const rtAwayScore = isNaN(p2Away) ? null : htAwayScore + p2Away
+  return { htHomeScore, htAwayScore, rtHomeScore, rtAwayScore }
 }

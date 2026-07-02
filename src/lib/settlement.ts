@@ -6,13 +6,18 @@ export interface BetContext {
   awayScore: number
   htHomeScore?: number | null
   htAwayScore?: number | null
+  rtHomeScore?: number | null
+  rtAwayScore?: number | null
   homeTeam: string
   awayTeam: string
   firstGoalTeam?: "home" | "away" | null
 }
 
 export function settleBet(ctx: BetContext): boolean | null {
-  const { marketType, selection, line, homeScore, awayScore } = ctx
+  const { marketType, selection, line } = ctx
+  // Use regular-time (90-min) score for all basic-time markets; fall back to final score
+  const homeScore = ctx.rtHomeScore ?? ctx.homeScore
+  const awayScore = ctx.rtAwayScore ?? ctx.awayScore
   const total = homeScore + awayScore
 
   switch (marketType) {

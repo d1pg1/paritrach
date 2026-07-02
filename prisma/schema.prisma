@@ -72,6 +72,8 @@ model Match {
   awayScore     Int?
   htHomeScore   Int?
   htAwayScore   Int?
+  rtHomeScore   Int?
+  rtAwayScore   Int?
   status        MatchStatus   @default(SCHEDULED)
   isEligible    Boolean       @default(false)
   competition   String?
