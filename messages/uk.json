@@ -138,6 +138,8 @@
     "betsCount": "Ставки",
     "roleUser": "Користувач",
     "roleAdmin": "Адміністратор",
-    "noNickname": "без нікнейму"
+    "noNickname": "без нікнейму",
+    "telegramLabel": "Telegram",
+    "noTelegram": "немає telegram"
   }
 }

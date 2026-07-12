@@ -21,6 +21,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/pg": "^8.20.0",
     "@types/sharp": "^0.31.1",
+    "@upstash/qstash": "^2.11.1",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "i18n-iso-countries": "^7.14.0",

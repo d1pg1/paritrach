@@ -138,6 +138,8 @@
     "betsCount": "Bets",
     "roleUser": "User",
     "roleAdmin": "Admin",
-    "noNickname": "no nickname"
+    "noNickname": "no nickname",
+    "telegramLabel": "Telegram",
+    "noTelegram": "no telegram"
   }
 }

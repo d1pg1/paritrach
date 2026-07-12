@@ -7,12 +7,16 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (session?.user?.role !== "ADMIN") return new NextResponse("Forbidden", { status: 403 })
 
   const { id } = await params
-  const { nickname } = await req.json()
+  const { nickname, telegramUsername } = await req.json()
+
+  const data: { nickname?: string | null; telegramUsername?: string | null } = {}
+  if (nickname !== undefined) data.nickname = nickname?.trim() || null
+  if (telegramUsername !== undefined) data.telegramUsername = telegramUsername?.trim().replace(/^@/, "") || null
 
   const user = await db.user.update({
     where: { id },
-    data: { nickname: nickname?.trim() || null },
-    select: { id: true, username: true, nickname: true, role: true, createdAt: true, _count: { select: { bets: true } } },
+    data,
+    select: { id: true, username: true, nickname: true, telegramUsername: true, role: true, createdAt: true, _count: { select: { bets: true } } },
   })
 
   return NextResponse.json(user)

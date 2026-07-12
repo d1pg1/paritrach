@@ -134,6 +134,8 @@
     "betsCount": "Zakłady",
     "roleUser": "Użytkownik",
     "roleAdmin": "Administrator",
-    "noNickname": "brak pseudonimu"
+    "noNickname": "brak pseudonimu",
+    "telegramLabel": "Telegram",
+    "noTelegram": "brak telegramu"
   }
 }

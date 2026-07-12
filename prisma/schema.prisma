@@ -16,6 +16,7 @@ model User {
   createdAt         DateTime          @default(now())
   nickname          String?
   logoUrl           String?
+  telegramUsername  String?
   bets              Bet[]
   seasonContestants SeasonContestant?
 }
@@ -44,14 +45,15 @@ model SeasonContestant {
 }
 
 model Round {
-  id        String      @id @default(cuid())
-  name      String
-  status    RoundStatus @default(SETUP)
-  createdAt DateTime    @default(now())
-  seasonId  String?
-  bets      Bet[]
-  matches   Match[]
-  season    Season?     @relation(fields: [seasonId], references: [id])
+  id                        String      @id @default(cuid())
+  name                      String
+  status                    RoundStatus @default(SETUP)
+  createdAt                 DateTime    @default(now())
+  seasonId                  String?
+  telegramReminderMessageId String?
+  bets                      Bet[]
+  matches                   Match[]
+  season                    Season?     @relation(fields: [seasonId], references: [id])
 }
 
 model Team {

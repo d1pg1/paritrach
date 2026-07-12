@@ -35,5 +35,12 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
 
   await db.round.update({ where: { id }, data: { status: "BETTING" } })
 
+  // fire & forget — don't let telegram failure block the response
+  fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/telegram/round-opened`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-internal-secret": process.env.INTERNAL_API_SECRET! },
+    body: JSON.stringify({ roundId: id }),
+  }).catch(() => {})
+
   return NextResponse.json({ status: "BETTING", snapshotsCreated: snapshotCount })
 }

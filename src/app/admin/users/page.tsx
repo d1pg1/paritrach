@@ -12,6 +12,7 @@ export default async function AdminUsersPage() {
       username: true,
       nickname: true,
       logoUrl: true,
+      telegramUsername: true,
       role: true,
       createdAt: true,
       _count: { select: { bets: true } },

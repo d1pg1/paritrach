@@ -10,6 +10,7 @@ interface UserRow {
   username: string
   nickname: string | null
   logoUrl: string | null
+  telegramUsername: string | null
   role: string
   createdAt: string | Date
   _count: { bets: number }
@@ -28,6 +29,10 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editNickname, setEditNickname] = useState("")
   const [savingId, setSavingId] = useState<string | null>(null)
+
+  const [editingTelegramId, setEditingTelegramId] = useState<string | null>(null)
+  const [editTelegramUsername, setEditTelegramUsername] = useState("")
+  const [savingTelegramId, setSavingTelegramId] = useState<string | null>(null)
 
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [uploadingId, setUploadingId] = useState<string | null>(null)
@@ -72,6 +77,27 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
     if (res.ok) {
       setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, nickname: data.nickname } : u)))
       setEditingId(null)
+      router.refresh()
+    }
+  }
+
+  function startEditTelegram(user: UserRow) {
+    setEditingTelegramId(user.id)
+    setEditTelegramUsername(user.telegramUsername ?? "")
+  }
+
+  async function handleSaveTelegramUsername(id: string) {
+    setSavingTelegramId(id)
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ telegramUsername: editTelegramUsername.replace(/^@/, "") }),
+    })
+    const data = await res.json().catch(() => ({}))
+    setSavingTelegramId(null)
+    if (res.ok) {
+      setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, telegramUsername: data.telegramUsername } : u)))
+      setEditingTelegramId(null)
       router.refresh()
     }
   }
@@ -151,6 +177,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                 <th className="pb-3 pr-4 w-10">Logo</th>
                 <th className="pb-3 pr-4">{t("usernameLabel")}</th>
                 <th className="pb-3 pr-4">{t("nicknameLabel")}</th>
+                <th className="pb-3 pr-4">{t("telegramLabel")}</th>
                 <th className="pb-3 pr-4">{t("roleLabel")}</th>
                 <th className="pb-3 pr-4 text-right">{t("betsCount")}</th>
                 <th className="pb-3" />
@@ -226,6 +253,46 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                         className="text-neutral-300 hover:text-yellow-400 transition-colors text-left"
                       >
                         {user.nickname ?? <span className="text-neutral-600 italic">{t("noNickname")}</span>}
+                      </button>
+                    )}
+                  </td>
+                  <td className="py-3 pr-4">
+                    {editingTelegramId === user.id ? (
+                      <div className="flex items-center gap-2">
+                        <input
+                          className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-yellow-500 w-32"
+                          value={editTelegramUsername}
+                          onChange={(e) => setEditTelegramUsername(e.target.value)}
+                          autoFocus
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") handleSaveTelegramUsername(user.id)
+                            if (e.key === "Escape") setEditingTelegramId(null)
+                          }}
+                        />
+                        <button
+                          onClick={() => handleSaveTelegramUsername(user.id)}
+                          disabled={savingTelegramId === user.id}
+                          className="text-xs text-yellow-400 hover:text-yellow-300 disabled:opacity-50"
+                        >
+                          {savingTelegramId === user.id ? "…" : t("save")}
+                        </button>
+                        <button
+                          onClick={() => setEditingTelegramId(null)}
+                          className="text-xs text-neutral-500 hover:text-white"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => startEditTelegram(user)}
+                        className="text-neutral-300 hover:text-yellow-400 transition-colors text-left"
+                      >
+                        {user.telegramUsername ? (
+                          `@${user.telegramUsername}`
+                        ) : (
+                          <span className="text-neutral-600 italic">{t("noTelegram")}</span>
+                        )}
                       </button>
                     )}
                   </td>
