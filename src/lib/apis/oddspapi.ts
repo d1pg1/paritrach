@@ -14,6 +14,7 @@ const MARKET_CATEGORY: Record<string, { cat: string; team: 0 | 1 | 2 }> = {
   "Over Under Team 1":       { cat: "team_totals",   team: 1 },
   "Over Under Team 2":       { cat: "team_totals",   team: 2 },
   "Correct Score Full Time": { cat: "correct_score", team: 0 },
+  "Winner (incl. overtime)": { cat: "to_qualify", team: 0 },
 }
 
 // OddsPapi names "2X"; our settlement expects "X2"
@@ -265,6 +266,9 @@ function extractMarkets(
   if (result.h2h) {
     const order = ["1", "X", "2"]
     result.h2h.outcomes.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name))
+  }
+  if (result.to_qualify) {
+    result.to_qualify.outcomes.sort((a, b) => a.name.localeCompare(b.name))
   }
   if (result.totals) result.totals.outcomes.sort((a, b) => byLine(a, b) || (a.name === "Over" ? -1 : 1))
   if (result.spreads) result.spreads.outcomes.sort((a, b) => byLine(a, b) || (a.name === "1" ? -1 : 1))

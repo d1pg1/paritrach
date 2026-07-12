@@ -45,6 +45,7 @@
       "result_and_total": "Результат и Тотал",
       "combo_dc_interval": "Двойной шанс и Интервал",
       "combo_h2h_interval": "Результат и Интервал",
+      "to_qualify": "Выход дальше",
       "legacy": "Ретро"
     },
     "won": "+1 очко (+{coef} коэф)",

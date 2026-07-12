@@ -11,6 +11,7 @@ export interface BetContext {
   homeTeam: string
   awayTeam: string
   firstGoalTeam?: "home" | "away" | null
+  advancingTeam?: "home" | "away" | null
 }
 
 export function settleBet(ctx: BetContext): boolean | null {
@@ -73,6 +74,15 @@ export function settleBet(ctx: BetContext): boolean | null {
     }
     case "correct_score":
       return selection === `${homeScore}:${awayScore}`
+    case "to_qualify": {
+      // Knockout stage: can end level after extra time/penalties, so the raw score
+      // isn't enough — prefer the actual advancing team when known.
+      const { advancingTeam } = ctx
+      if (advancingTeam) return selection === (advancingTeam === "home" ? "1" : "2")
+      if (homeScore > awayScore) return selection === "1"
+      if (homeScore < awayScore) return selection === "2"
+      return null // level after regulation and no penalty result known — needs manual review
+    }
     case "first_goal": {
       const { firstGoalTeam } = ctx
       if (firstGoalTeam === undefined || firstGoalTeam === null) return null

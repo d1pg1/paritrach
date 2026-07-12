@@ -45,6 +45,7 @@
       "result_and_total": "Result & Total",
       "combo_dc_interval": "Double Chance & Interval",
       "combo_h2h_interval": "Result & Interval",
+      "to_qualify": "To Qualify",
       "legacy": "Legacy"
     },
     "won": "+1 pt (+{coef} coef)",

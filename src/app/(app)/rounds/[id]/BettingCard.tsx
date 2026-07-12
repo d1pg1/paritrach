@@ -87,7 +87,7 @@ export function BettingCard({
   const [historyView, setHistoryView] = useState<HistoryType | null>(null)
 
   function marketLabel(key: string): string {
-    const knownKeys = ["h2h", "double_chance", "btts", "totals", "team_totals", "h2h_h1", "spreads", "player_first_goalscorer", "goals_interval", "combo_dc_total", "result_and_total", "combo_dc_interval", "combo_h2h_interval", "legacy"] as const
+    const knownKeys = ["h2h", "double_chance", "btts", "totals", "team_totals", "h2h_h1", "spreads", "player_first_goalscorer", "goals_interval", "combo_dc_total", "result_and_total", "combo_dc_interval", "combo_h2h_interval", "to_qualify", "legacy"] as const
     if ((knownKeys as readonly string[]).includes(key)) {
       return t(`markets.${key}` as `markets.${typeof knownKeys[number]}`)
     }

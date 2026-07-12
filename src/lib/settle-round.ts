@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { fetchResultsByDate, findEspnEventForMatch, parseScores, fetchHalftimeScores, parseFirstGoal, competitionToEspnSlug } from "@/lib/apis/espn"
+import { fetchResultsByDate, findEspnEventForMatch, parseScores, fetchHalftimeScores, parseFirstGoal, parseAdvancingTeam, competitionToEspnSlug } from "@/lib/apis/espn"
 import { settleBet } from "@/lib/settlement"
 
 export async function settleRound(roundId: string): Promise<{
@@ -48,6 +48,7 @@ export async function settleRound(roundId: string): Promise<{
     const slug = competitionToEspnSlug(match.competition)
     const halftime = await fetchHalftimeScores(espnEvent.id, slug)
     const firstGoal = parseFirstGoal(espnEvent)
+    const advancingTeam = parseAdvancingTeam(espnEvent)
 
     await db.match.update({
       where: { id: match.id },
@@ -73,6 +74,7 @@ export async function settleRound(roundId: string): Promise<{
         homeTeam: match.homeTeam,
         awayTeam: match.awayTeam,
         firstGoalTeam: firstGoal?.firstTeam ?? null,
+        advancingTeam,
       })
       if (won !== null) {
         await db.bet.update({ where: { id: bet.id }, data: { isWinner: won } })

@@ -112,6 +112,17 @@ export function parseScores(event: EspnEvent): {
   }
 }
 
+// Knockout-stage matches can end level on the scoreboard (extra time / penalties still tied
+// 1-1) while ESPN's `winner` flag on the competitor identifies who actually advanced.
+export function parseAdvancingTeam(event: EspnEvent): "home" | "away" | null {
+  const comps = event.competitions[0]?.competitors ?? []
+  const home = comps.find((c) => c.homeAway === "home")
+  const away = comps.find((c) => c.homeAway === "away")
+  if (home?.winner === true) return "home"
+  if (away?.winner === true) return "away"
+  return null
+}
+
 interface EspnSummaryCompetitor {
   homeAway: "home" | "away"
   linescores?: { displayValue: string }[]

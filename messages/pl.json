@@ -45,6 +45,7 @@
       "result_and_total": "Wynik i Łączna",
       "combo_dc_interval": "Podwójna szansa i Przedział",
       "combo_h2h_interval": "Wynik i Przedział",
+      "to_qualify": "Awans dalej",
       "legacy": "Archiwalne"
     },
     "won": "+1 pkt (+{coef} wsp)",
