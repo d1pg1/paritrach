@@ -104,7 +104,9 @@ export function BettingCard({
   }
 
   const odds = match.oddsSnapshot?.oddsData as OddsData | null
-  const markets = odds ? Object.values(odds) : []
+  const markets = odds
+    ? [...Object.values(odds)].sort((a, b) => (a.key === "to_qualify" ? -1 : b.key === "to_qualify" ? 1 : 0))
+    : []
   const activeMarket = markets.find((m) => m.key === selectedMarket) ?? markets[0]
 
   const matchStarted = new Date() >= new Date(match.startTime)

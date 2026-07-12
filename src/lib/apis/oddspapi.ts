@@ -63,10 +63,14 @@ interface MarketMeta {
   markets: Map<number, MarketInfo> // marketId → category + team side + handicap
 }
 
-let marketMetaCache: MarketMeta | null = null
+// No expiry would mean a long-lived server process keeps serving the catalog snapshot from
+// its first request forever — new/changed MARKET_CATEGORY mappings silently never take effect
+// (e.g. "refresh odds" on an existing round stays stuck on stale markets) until a restart.
+const MARKET_META_TTL_MS = 60 * 60 * 1000
+let marketMetaCache: { meta: MarketMeta; expiresAt: number } | null = null
 
 async function fetchMarketMeta(): Promise<MarketMeta> {
-  if (marketMetaCache) return marketMetaCache
+  if (marketMetaCache && marketMetaCache.expiresAt > Date.now()) return marketMetaCache.meta
 
   const url = `${BASE}/v4/markets?sportId=10&apiKey=${KEY}`
   const res = await fetch(url, { next: { revalidate: 0 } })
@@ -102,8 +106,8 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
     }
   }
 
-  marketMetaCache = { names, markets }
-  return marketMetaCache
+  marketMetaCache = { meta: { names, markets }, expiresAt: Date.now() + MARKET_META_TTL_MS }
+  return marketMetaCache.meta
 }
 
 // ── Fixture lookup ─────────────────────────────────────────────────────────────
