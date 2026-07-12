@@ -57,6 +57,7 @@ export function BettingCard({
   isResults,
   liveScore,
   teamLogoMap = {},
+  onBetPlaced,
 }: {
   match: Match
   existingBet: Bet | null
@@ -72,6 +73,7 @@ export function BettingCard({
     events: { minute: number; team: string; scorerName: string | null; eventType: string }[]
   } | null
   teamLogoMap?: Record<string, string>
+  onBetPlaced?: (matchId: string) => void
 }) {
   const t = useTranslations("betting")
 
@@ -160,6 +162,7 @@ export function BettingCard({
       }
       return [...prev, betWithUser]
     })
+    onBetPlaced?.(match.id)
   }
 
   const winIndicator = currentBet?.isWinner === true

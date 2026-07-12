@@ -28,7 +28,10 @@
     "bettingOpen": "Place one bet per match before it starts.",
     "resultsIn": "Results are in. See how you did!",
     "closed": "Betting closed. Waiting for results.",
-    "noMatches": "No eligible matches yet."
+    "noMatches": "No eligible matches yet.",
+    "allBetted": "You've bet on every match in this round.",
+    "betsProgress": "{count} of {total} matches betted",
+    "leaveWarning": "You've only bet on {count} of {total} matches. Leave anyway?"
   },
   "betting": {
     "markets": {

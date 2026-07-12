@@ -28,7 +28,10 @@
     "bettingOpen": "Postaw jeden zakład na mecz przed jego rozpoczęciem.",
     "resultsIn": "Wyniki są dostępne. Sprawdź swoje zakłady!",
     "closed": "Zakłady zamknięte. Czekamy na wyniki.",
-    "noMatches": "Brak dostępnych meczów."
+    "noMatches": "Brak dostępnych meczów.",
+    "allBetted": "Postawiłeś zakład na każdy mecz w tej kolejce.",
+    "betsProgress": "Zakłady postawione na {count} z {total} meczów",
+    "leaveWarning": "Postawiłeś zakład tylko na {count} z {total} meczów. Mimo to opuścić stronę?"
   },
   "betting": {
     "markets": {
