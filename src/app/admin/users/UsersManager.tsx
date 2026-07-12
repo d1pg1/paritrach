@@ -4,6 +4,7 @@ import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { UserAvatar } from "@/components/UserAvatar"
+import { InlineEditCell } from "@/components/InlineEditCell"
 
 interface UserRow {
   id: string
@@ -25,14 +26,6 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
   const [newPassword, setNewPassword] = useState("")
   const [creating, setCreating] = useState(false)
   const [createError, setCreateError] = useState("")
-
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [editNickname, setEditNickname] = useState("")
-  const [savingId, setSavingId] = useState<string | null>(null)
-
-  const [editingTelegramId, setEditingTelegramId] = useState<string | null>(null)
-  const [editTelegramUsername, setEditTelegramUsername] = useState("")
-  const [savingTelegramId, setSavingTelegramId] = useState<string | null>(null)
 
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [uploadingId, setUploadingId] = useState<string | null>(null)
@@ -60,46 +53,16 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
     router.refresh()
   }
 
-  function startEdit(user: UserRow) {
-    setEditingId(user.id)
-    setEditNickname(user.nickname ?? "")
-  }
-
-  async function handleSaveNickname(id: string) {
-    setSavingId(id)
+  async function savePatchField(id: string, field: "nickname" | "telegramUsername", value: string) {
     const res = await fetch(`/api/admin/users/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nickname: editNickname }),
+      body: JSON.stringify({ [field]: value }),
     })
-    const data = await res.json().catch(() => ({}))
-    setSavingId(null)
-    if (res.ok) {
-      setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, nickname: data.nickname } : u)))
-      setEditingId(null)
-      router.refresh()
-    }
-  }
-
-  function startEditTelegram(user: UserRow) {
-    setEditingTelegramId(user.id)
-    setEditTelegramUsername(user.telegramUsername ?? "")
-  }
-
-  async function handleSaveTelegramUsername(id: string) {
-    setSavingTelegramId(id)
-    const res = await fetch(`/api/admin/users/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ telegramUsername: editTelegramUsername.replace(/^@/, "") }),
-    })
-    const data = await res.json().catch(() => ({}))
-    setSavingTelegramId(null)
-    if (res.ok) {
-      setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, telegramUsername: data.telegramUsername } : u)))
-      setEditingTelegramId(null)
-      router.refresh()
-    }
+    if (!res.ok) throw new Error("save failed")
+    const data = await res.json()
+    setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, [field]: data[field] } : u)))
+    router.refresh()
   }
 
   async function handleDelete(id: string) {
@@ -221,80 +184,21 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                   </td>
                   <td className="py-3 pr-4 font-medium text-white">{user.username}</td>
                   <td className="py-3 pr-4">
-                    {editingId === user.id ? (
-                      <div className="flex items-center gap-2">
-                        <input
-                          className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-yellow-500 w-32"
-                          value={editNickname}
-                          onChange={(e) => setEditNickname(e.target.value)}
-                          autoFocus
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") handleSaveNickname(user.id)
-                            if (e.key === "Escape") setEditingId(null)
-                          }}
-                        />
-                        <button
-                          onClick={() => handleSaveNickname(user.id)}
-                          disabled={savingId === user.id}
-                          className="text-xs text-yellow-400 hover:text-yellow-300 disabled:opacity-50"
-                        >
-                          {savingId === user.id ? "…" : t("save")}
-                        </button>
-                        <button
-                          onClick={() => setEditingId(null)}
-                          className="text-xs text-neutral-500 hover:text-white"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => startEdit(user)}
-                        className="text-neutral-300 hover:text-yellow-400 transition-colors text-left"
-                      >
-                        {user.nickname ?? <span className="text-neutral-600 italic">{t("noNickname")}</span>}
-                      </button>
-                    )}
+                    <InlineEditCell
+                      value={user.nickname}
+                      placeholder={t("noNickname")}
+                      saveLabel={t("save")}
+                      onSave={(value) => savePatchField(user.id, "nickname", value)}
+                    />
                   </td>
                   <td className="py-3 pr-4">
-                    {editingTelegramId === user.id ? (
-                      <div className="flex items-center gap-2">
-                        <input
-                          className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-yellow-500 w-32"
-                          value={editTelegramUsername}
-                          onChange={(e) => setEditTelegramUsername(e.target.value)}
-                          autoFocus
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") handleSaveTelegramUsername(user.id)
-                            if (e.key === "Escape") setEditingTelegramId(null)
-                          }}
-                        />
-                        <button
-                          onClick={() => handleSaveTelegramUsername(user.id)}
-                          disabled={savingTelegramId === user.id}
-                          className="text-xs text-yellow-400 hover:text-yellow-300 disabled:opacity-50"
-                        >
-                          {savingTelegramId === user.id ? "…" : t("save")}
-                        </button>
-                        <button
-                          onClick={() => setEditingTelegramId(null)}
-                          className="text-xs text-neutral-500 hover:text-white"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => startEditTelegram(user)}
-                        className="text-neutral-300 hover:text-yellow-400 transition-colors text-left"
-                      >
-                        {user.telegramUsername ? (
-                          `@${user.telegramUsername}`
-                        ) : (
-                          <span className="text-neutral-600 italic">{t("noTelegram")}</span>
-                        )}
-                      </button>
-                    )}
+                    <InlineEditCell
+                      value={user.telegramUsername}
+                      placeholder={t("noTelegram")}
+                      saveLabel={t("save")}
+                      displayValue={(v) => `@${v}`}
+                      onSave={(value) => savePatchField(user.id, "telegramUsername", value)}
+                    />
                   </td>
                   <td className="py-3 pr-4">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded ${

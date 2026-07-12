@@ -1,45 +1,36 @@
-import { Receiver } from "@upstash/qstash"
+import { Client, QstashError, Receiver } from "@upstash/qstash"
 
-export async function scheduleReminder(roundId: string, fireAt: Date): Promise<string> {
+function getClient(): Client {
   const token = process.env.QSTASH_TOKEN
   if (!token) throw new Error("QStash not configured")
+  return new Client({ token })
+}
 
-  const destination = `${process.env.NEXT_PUBLIC_APP_URL}/api/telegram/reminder`
-  const notBefore = Math.floor(fireAt.getTime() / 1000)
+// Vercel sets VERCEL_URL automatically as a fallback when NEXT_PUBLIC_APP_URL
+// hasn't been configured for the deployment.
+function getAppUrl(): string {
+  const url = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "")
+  if (!url) throw new Error("NEXT_PUBLIC_APP_URL (or VERCEL_URL) is not configured")
+  return url
+}
 
-  const res = await fetch(`https://qstash.upstash.io/v2/publish/${destination}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      "Upstash-Not-Before": String(notBefore),
-    },
-    body: JSON.stringify({ roundId }),
+export async function scheduleReminder(roundId: string, fireAt: Date): Promise<string> {
+  const { messageId } = await getClient().publishJSON({
+    url: `${getAppUrl()}/api/telegram/reminder`,
+    body: { roundId },
+    notBefore: Math.floor(fireAt.getTime() / 1000),
   })
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => "")
-    throw new Error(`QStash publish failed: ${res.status} ${body}`)
-  }
-
-  const { messageId } = await res.json()
   return messageId
 }
 
 // Cancels a scheduled message that hasn't fired yet (e.g. round was deleted).
-// Safe to call on an already-delivered/cancelled message — QStash just 404s, which we swallow.
+// Safe to call on an already-delivered/cancelled message — QStash 404s, which we swallow.
 export async function cancelReminder(messageId: string): Promise<void> {
-  const token = process.env.QSTASH_TOKEN
-  if (!token) throw new Error("QStash not configured")
-
-  const res = await fetch(`https://qstash.upstash.io/v2/messages/${messageId}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  })
-
-  if (!res.ok && res.status !== 404) {
-    const body = await res.text().catch(() => "")
-    throw new Error(`QStash cancel failed: ${res.status} ${body}`)
+  try {
+    await getClient().messages.cancel(messageId)
+  } catch (err) {
+    if (err instanceof QstashError && err.status === 404) return
+    throw err
   }
 }
 

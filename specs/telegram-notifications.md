@@ -37,6 +37,8 @@ TELEGRAM_TIMEZONE=           # IANA timezone of the group, e.g. "Europe/Kyiv"
 QSTASH_TOKEN=                # from Upstash console
 QSTASH_CURRENT_SIGNING_KEY=  # for verifying incoming QStash requests
 QSTASH_NEXT_SIGNING_KEY=     # for key rotation
+NEXT_PUBLIC_APP_URL=         # this deployment's public URL — QStash needs it to call back
+                              # into /api/telegram/reminder; falls back to VERCEL_URL if unset
 ```
 
 ---
@@ -46,8 +48,9 @@ QSTASH_NEXT_SIGNING_KEY=     # for key rotation
 ```
 Admin: open-betting
   └─ round status → BETTING
-  └─ POST /api/telegram/round-opened   (fire & forget, same request)
-  └─ POST QStash: delay=(firstMatchTime - 3h), url=/api/telegram/reminder, body={roundId}
+  └─ after(): notifyRoundOpened(roundId)   (runs post-response, same process — no HTTP hop)
+       └─ send group message (round opened)
+       └─ POST QStash: delay=(firstMatchTime - 3h), url=/api/telegram/reminder, body={roundId}
 
 QStash (at scheduled time)
   └─ POST /api/telegram/reminder  { roundId }
@@ -113,18 +116,25 @@ Logic:
 
 ---
 
-### 5. `/api/telegram/round-opened` — POST route
+### 5. `notifyRoundOpened(roundId)` — `src/lib/telegram-notifications.ts`
 
-Called internally from `open-betting` route (fire & forget, no await on the full chain).
+Called directly (not over HTTP) from `open-betting`'s route via Next's `after()`, so it
+runs once the response has been sent without needing a public URL or a shared secret
+to reach itself.
 
 Steps:
 1. Get round with name and first eligible match `startTime`
-2. Send group message: `"🟡 Round <b>{name}</b> is open for betting!"`
+2. Send group message: `"🟡 Round <b>{escaped name}</b> is open for betting!"` — failure here
+   is logged and does not prevent step 4 from running
 3. Compute `fireAt`:
    - Start with `firstMatch.startTime - 3 hours`
    - Apply quiet-hours adjustment (see below)
    - If `fireAt` is still in the past after adjustment → skip reminder entirely
 4. Schedule QStash reminder at adjusted `fireAt`
+
+All free-text values (round name, usernames) are HTML-escaped before being interpolated
+into a `parse_mode: "HTML"` Telegram message — an unescaped `&`/`<`/`>` would otherwise
+cause Telegram to reject the whole message.
 
 #### Quiet-hours adjustment
 
@@ -142,7 +152,7 @@ Example: match at 01:00, `firstMatch - 3h` = 22:00 → already fine, no shift.
 Example: match at 00:30, `firstMatch - 3h` = 21:30 → fine.  
 Example: match at 03:00, `firstMatch - 3h` = 00:00 → falls in quiet zone → shift to 22:00 the previous evening.
 
-Auth: internal — validate via a shared `INTERNAL_API_SECRET` header, or restrict to same-origin.
+Auth: none needed — this is a direct in-process function call, not an HTTP endpoint.
 
 ---
 
@@ -170,12 +180,9 @@ Steps:
 In `src/app/api/admin/rounds/[id]/open-betting/route.ts`, after the round status update:
 
 ```ts
-// fire & forget — don't let telegram failure block the response
-fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/telegram/round-opened`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json", "x-internal-secret": process.env.INTERNAL_API_SECRET! },
-  body: JSON.stringify({ roundId: id }),
-}).catch(() => {})
+// Runs after the response is sent, but Next keeps the invocation alive until it
+// settles — unlike a bare un-awaited call, it can't be cut off by the runtime.
+after(() => notifyRoundOpened(id))
 ```
 
 ---

@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server"
+import { NextResponse, after } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { extractMarketsForMatch } from "@/lib/apis/oddspapi"
+import { notifyRoundOpened } from "@/lib/telegram-notifications"
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -35,12 +36,9 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
 
   await db.round.update({ where: { id }, data: { status: "BETTING" } })
 
-  // fire & forget — don't let telegram failure block the response
-  fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/telegram/round-opened`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-internal-secret": process.env.INTERNAL_API_SECRET! },
-    body: JSON.stringify({ roundId: id }),
-  }).catch(() => {})
+  // Runs after the response is sent, but Next keeps the invocation alive until it
+  // settles — unlike a bare un-awaited call, it can't be cut off by the runtime.
+  after(() => notifyRoundOpened(id))
 
   return NextResponse.json({ status: "BETTING", snapshotsCreated: snapshotCount })
 }
