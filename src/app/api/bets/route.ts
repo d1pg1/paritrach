@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { notifyMinCoefBet } from "@/lib/telegram-notifications"
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -35,7 +36,7 @@ export async function POST(req: Request) {
   if (new Date() >= match.startTime)
     return new NextResponse("Match has already started", { status: 400 })
   if (!match.oddsSnapshot) return new NextResponse("Odds not locked yet", { status: 400 })
-  if (coefficient <= 1.4) return new NextResponse("Coefficient must be greater than 1.4", { status: 400 })
+  if (coefficient < 1.4) return new NextResponse("Coefficient must be at least 1.4", { status: 400 })
 
   // Enforce one bet per match per user
   const existing = await db.bet.findUnique({
@@ -54,6 +55,11 @@ export async function POST(req: Request) {
       coefficient,
     },
   })
+
+  if (coefficient === 1.4) {
+    void notifyMinCoefBet(session.user.name ?? "Someone", match.homeTeam, match.awayTeam)
+  }
+
   return NextResponse.json(bet, { status: 201 })
 }
 
@@ -68,11 +74,16 @@ export async function PATCH(req: Request) {
     return new NextResponse("Bet not found", { status: 404 })
   if (new Date() >= bet.match.startTime)
     return new NextResponse("Cannot edit — match already started", { status: 400 })
-  if (coefficient <= 1.4) return new NextResponse("Coefficient must be greater than 1.4", { status: 400 })
+  if (coefficient < 1.4) return new NextResponse("Coefficient must be at least 1.4", { status: 400 })
 
   const updated = await db.bet.update({
     where: { id: betId },
     data: { marketType, selection, line: line ?? null, coefficient },
   })
+
+  if (coefficient === 1.4) {
+    void notifyMinCoefBet(session.user.name ?? "Someone", bet.match.homeTeam, bet.match.awayTeam)
+  }
+
   return NextResponse.json(updated)
 }

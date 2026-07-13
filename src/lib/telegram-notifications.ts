@@ -5,6 +5,32 @@ import { escapeHtml, sendGroupMessage } from "@/lib/telegram"
 
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000
 
+const MIN_COEF_JOKES = [
+  "living life on the edge of the couch.",
+  "risk management 101.",
+  "found the safest bet in the building and still hesitated.",
+  "bold strategy: betting like it's someone else's money and still playing it safe.",
+  "the thrill of almost taking a risk.",
+  "playing chess while everyone else plays roulette.",
+]
+
+// Fired when a bet is placed or edited to sit exactly at the minimum
+// allowed coefficient — a lighthearted jab at the safest possible pick.
+export async function notifyMinCoefBet(
+  username: string,
+  homeTeam: string,
+  awayTeam: string
+): Promise<void> {
+  const joke = MIN_COEF_JOKES[Math.floor(Math.random() * MIN_COEF_JOKES.length)]
+  try {
+    await sendGroupMessage(
+      `🐢 <b>${escapeHtml(username)}</b> just bet the bare minimum (1.40) on <b>${escapeHtml(homeTeam)} vs ${escapeHtml(awayTeam)}</b> — ${escapeHtml(joke)}`
+    )
+  } catch (err) {
+    console.error("[telegram] failed to send min-coef bet notification", err)
+  }
+}
+
 export async function getUsersWithMissingBets(
   roundId: string
 ): Promise<{ username: string; telegramUsername: string }[]> {

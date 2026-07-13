@@ -116,7 +116,7 @@ export function BettingCard({
 
   async function placeBet() {
     if (!selectedOutcome) return
-    if (selectedOutcome.price <= 1.4) {
+    if (selectedOutcome.price < 1.4) {
       setError(t("minCoefError"))
       return
     }
