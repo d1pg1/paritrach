@@ -2,8 +2,9 @@ import { db } from "@/lib/db"
 import { notFound } from "next/navigation"
 import { AdminRoundControls } from "./AdminRoundControls"
 import { getTeamLogoMap } from "@/lib/team-logo-resolver"
-import { fetchWorldCupH2HOdds, type H2HOdds } from "@/lib/apis/odds-api"
-import { fetchFriendliesH2HOdds } from "@/lib/apis/oddspapi"
+import { fetchH2HOddsForSport, type H2HOdds } from "@/lib/apis/odds-api"
+import { fetchH2HOddsForTournaments } from "@/lib/apis/oddspapi"
+import { competitionByLabel } from "@/lib/competitions"
 
 export default async function AdminRoundPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -42,13 +43,24 @@ export default async function AdminRoundPage({ params }: { params: Promise<{ id:
     getTeamLogoMap(teamNames),
     (async (): Promise<Record<string, H2HOdds>> => {
       if (round.status !== "SETUP" || round.matches.length === 0) return {}
-      const hasWorldCup = round.matches.some((m) => m.competition === "FIFA World Cup 2026")
-      const hasFriendlies = round.matches.some((m) => m.competition === "International Friendlies")
-      const [wcOdds, frOdds] = await Promise.all([
-        hasWorldCup ? fetchWorldCupH2HOdds().catch(() => ({})) : Promise.resolve({}),
-        hasFriendlies ? fetchFriendliesH2HOdds().catch(() => ({})) : Promise.resolve({}),
+
+      const active = [...new Set(round.matches.map((m) => m.competition))]
+        .map(competitionByLabel)
+        .filter((c) => c !== undefined)
+
+      const oddsApiCompetitions = active.filter((c) => c.oddsApiSportKey)
+      const oddsPapiTournamentIds = active
+        .filter((c) => !c.oddsApiSportKey)
+        .map((c) => c.oddsPapiTournamentId)
+
+      const [oddsApiResults, oddsPapiOdds] = await Promise.all([
+        Promise.all(oddsApiCompetitions.map((c) => fetchH2HOddsForSport(c.oddsApiSportKey).catch(() => ({})))),
+        oddsPapiTournamentIds.length
+          ? fetchH2HOddsForTournaments(oddsPapiTournamentIds).catch(() => ({}))
+          : Promise.resolve({}),
       ])
-      return { ...wcOdds, ...frOdds }
+
+      return Object.assign({}, ...oddsApiResults, oddsPapiOdds)
     })(),
   ])
 

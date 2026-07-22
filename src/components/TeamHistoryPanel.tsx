@@ -18,11 +18,13 @@ export function TeamHistoryPanel({
   home,
   away,
   type,
+  competition,
   teamLogoMap = {},
 }: {
   home: string
   away: string
   type: HistoryType
+  competition?: string | null
   teamLogoMap?: Record<string, string>
 }) {
   const [matches, setMatches] = useState<HistoryMatch[]>([])
@@ -32,8 +34,9 @@ export function TeamHistoryPanel({
   useEffect(() => {
     setLoading(true)
     setError(false)
+    const competitionParam = competition ? `&competition=${encodeURIComponent(competition)}` : ""
     fetch(
-      `/api/team-history?home=${encodeURIComponent(home)}&away=${encodeURIComponent(away)}&type=${type}`
+      `/api/team-history?home=${encodeURIComponent(home)}&away=${encodeURIComponent(away)}&type=${type}${competitionParam}`
     )
       .then((r) => r.json())
       .then((data) => {
@@ -42,7 +45,7 @@ export function TeamHistoryPanel({
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false))
-  }, [home, away, type])
+  }, [home, away, type, competition])
 
   const focusTeam = type === "home" ? home : type === "away" ? away : null
 

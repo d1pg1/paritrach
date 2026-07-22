@@ -110,20 +110,20 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
         <div className="flex gap-2 flex-wrap justify-end">
           {isSetup && (
             <button
-              onClick={() => apiCall("import-fixtures")}
+              onClick={() => apiCall("import/leagues")}
               disabled={!!loading}
               className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
-              {loading === "import-fixtures" ? t("importing") : t("importFixtures")}
+              {loading === "import/leagues" ? t("importing") : t("importLeagues")}
             </button>
           )}
           {isSetup && (
             <button
-              onClick={() => apiCall("import-friendlies")}
+              onClick={() => apiCall("import/cups")}
               disabled={!!loading}
               className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
-              {loading === "import-friendlies" ? t("importing") : t("importFriendlies")}
+              {loading === "import/cups" ? t("importing") : t("importCups")}
             </button>
           )}
           {isSetup && round.matches.some((m) => m.isEligible) && (
@@ -285,6 +285,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                         home={match.homeTeam}
                         away={match.awayTeam}
                         type={historyView.type}
+                        competition={match.competition}
                         teamLogoMap={teamLogoMap}
                       />
                     </div>

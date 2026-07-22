@@ -1,4 +1,7 @@
+import { fetchEspnTeams, type EspnTeamInfo } from "@/lib/apis/espn"
+
 const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
+const DEFAULT_ESPN_SLUG = "fifa.world"
 
 export interface HistoryMatch {
   date: string
@@ -8,15 +11,6 @@ export interface HistoryMatch {
   awayScore: number
   competition: string | null
 }
-
-interface EspnTeam {
-  id: string
-  displayName: string
-  shortDisplayName: string
-}
-
-// Module-level cache so repeated calls within the same process don't re-fetch
-let teamsCache: EspnTeam[] | null = null
 
 function normName(s: string): string {
   return s
@@ -29,26 +23,8 @@ function normName(s: string): string {
     .replace(/^northmacedonia$/, "northmacedonia")
 }
 
-async function getEspnTeams(): Promise<EspnTeam[]> {
-  if (teamsCache) return teamsCache
-  try {
-    const res = await fetch(`${ESPN_BASE}/fifa.world/teams`, {
-      next: { revalidate: 86400 },
-    })
-    if (!res.ok) return []
-    const data = await res.json()
-    teamsCache =
-      (data.sports?.[0]?.leagues?.[0]?.teams ?? []).map(
-        (entry: { team: EspnTeam }) => entry.team
-      )
-    return teamsCache!
-  } catch {
-    return []
-  }
-}
-
-async function getEspnTeamId(teamName: string): Promise<string | null> {
-  const teams = await getEspnTeams()
+async function getEspnTeamId(teamName: string, espnSlug: string): Promise<string | null> {
+  const teams: EspnTeamInfo[] = await fetchEspnTeams(espnSlug)
   const input = normName(teamName)
 
   // Exact match first
@@ -148,9 +124,10 @@ async function fetchTeamScheduleRaw(teamId: string): Promise<RawScheduleEntry[]>
 
 export async function getTeamRecentMatches(
   teamName: string,
+  espnSlug: string = DEFAULT_ESPN_SLUG,
   limit = 5
 ): Promise<HistoryMatch[]> {
-  const teamId = await getEspnTeamId(teamName)
+  const teamId = await getEspnTeamId(teamName, espnSlug)
   if (!teamId) return []
 
   const now = new Date()
@@ -168,9 +145,10 @@ export async function getTeamRecentMatches(
 export async function getH2HMatches(
   teamA: string,
   teamB: string,
+  espnSlug: string = DEFAULT_ESPN_SLUG,
   limit = 5
 ): Promise<HistoryMatch[]> {
-  const [idA, idB] = await Promise.all([getEspnTeamId(teamA), getEspnTeamId(teamB)])
+  const [idA, idB] = await Promise.all([getEspnTeamId(teamA, espnSlug), getEspnTeamId(teamB, espnSlug)])
   if (!idA || !idB) return []
 
   const [entriesA, entriesB] = await Promise.all([

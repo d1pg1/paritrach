@@ -15,8 +15,8 @@ export interface H2HOdds {
   away: number
 }
 
-export async function fetchWorldCupEvents(): Promise<OddsApiEvent[]> {
-  const url = `${BASE}/sports/soccer_fifa_world_cup/events?apiKey=${KEY}`
+export async function fetchEventsForSport(sportKey: string): Promise<OddsApiEvent[]> {
+  const url = `${BASE}/sports/${sportKey}/events?apiKey=${KEY}`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`The Odds API error: ${res.status}`)
   return res.json()
@@ -38,8 +38,8 @@ function median(prices: number[]): number {
   return sorted.length % 2 === 1 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2
 }
 
-export async function fetchWorldCupH2HOdds(): Promise<Record<string, H2HOdds>> {
-  const url = `${BASE}/sports/soccer_fifa_world_cup/odds?apiKey=${KEY}&regions=eu&markets=h2h&oddsFormat=decimal`
+export async function fetchH2HOddsForSport(sportKey: string): Promise<Record<string, H2HOdds>> {
+  const url = `${BASE}/sports/${sportKey}/odds?apiKey=${KEY}&regions=eu&markets=h2h&oddsFormat=decimal`
   const res = await fetch(url, { next: { revalidate: 300 } })
   if (!res.ok) return {}
   const events: OddsApiEventWithOdds[] = await res.json()

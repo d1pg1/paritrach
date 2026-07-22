@@ -1,6 +1,7 @@
 import countries from "i18n-iso-countries"
 import en from "i18n-iso-countries/langs/en.json"
 import { db } from "@/lib/db"
+import { fetchEspnTeams } from "@/lib/apis/espn"
 
 countries.registerLocale(en)
 
@@ -63,11 +64,30 @@ async function fetchFromTheSportsDB(name: string): Promise<string | null> {
   }
 }
 
-async function resolveLogoUrl(name: string): Promise<string | null> {
-  return getFlagUrl(name) ?? fetchFromTheSportsDB(name)
+function normName(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]/g, "")
 }
 
-export async function ensureTeamLogos(names: string[]): Promise<void> {
+async function fetchFromEspnClub(name: string, espnSlug: string): Promise<string | null> {
+  const teams = await fetchEspnTeams(espnSlug)
+  const input = normName(name)
+  const hit =
+    teams.find((t) => normName(t.displayName) === input || normName(t.shortDisplayName) === input) ??
+    teams.find((t) => normName(t.displayName).includes(input) || input.includes(normName(t.displayName)))
+  return hit?.logo ?? null
+}
+
+async function resolveLogoUrl(name: string, espnSlug?: string): Promise<string | null> {
+  const flag = getFlagUrl(name)
+  if (flag) return flag
+  if (espnSlug) {
+    const espnLogo = await fetchFromEspnClub(name, espnSlug)
+    if (espnLogo) return espnLogo
+  }
+  return fetchFromTheSportsDB(name)
+}
+
+export async function ensureTeamLogos(names: string[], espnSlug?: string): Promise<void> {
   const unique = [...new Set(names)]
   const existing = new Set(
     (await db.team.findMany({ where: { name: { in: unique } }, select: { name: true } })).map(
@@ -79,7 +99,7 @@ export async function ensureTeamLogos(names: string[]): Promise<void> {
 
   await Promise.all(
     missing.map(async (name) => {
-      const logoUrl = await resolveLogoUrl(name)
+      const logoUrl = await resolveLogoUrl(name, espnSlug)
       await db.team
         .create({ data: { name, logoUrl } })
         .catch(() => {}) // ignore race-condition duplicates

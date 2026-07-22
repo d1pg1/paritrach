@@ -1,12 +1,43 @@
+import { competitionByLabel } from "@/lib/competitions"
+
 const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 
-const COMPETITION_TO_ESPN_SLUG: Record<string, string> = {
-  "International Friendlies": "fifa.friendly",
-}
 const DEFAULT_ESPN_SLUG = "fifa.world"
 
 export function competitionToEspnSlug(competition: string | null | undefined): string {
-  return (competition && COMPETITION_TO_ESPN_SLUG[competition]) ?? DEFAULT_ESPN_SLUG
+  return competitionByLabel(competition)?.espnSlug ?? DEFAULT_ESPN_SLUG
+}
+
+export interface EspnTeamInfo {
+  id: string
+  displayName: string
+  shortDisplayName: string
+  logo: string | null
+}
+
+const espnTeamsCache = new Map<string, EspnTeamInfo[]>()
+
+export async function fetchEspnTeams(espnSlug: string): Promise<EspnTeamInfo[]> {
+  const cached = espnTeamsCache.get(espnSlug)
+  if (cached) return cached
+
+  try {
+    const res = await fetch(`${ESPN_BASE}/${espnSlug}/teams`, { next: { revalidate: 86400 } })
+    if (!res.ok) return []
+    const data = await res.json()
+    const teams: EspnTeamInfo[] = (data.sports?.[0]?.leagues?.[0]?.teams ?? []).map(
+      (entry: { team: { id: string; displayName: string; shortDisplayName: string; logos?: { href: string }[] } }) => ({
+        id: entry.team.id,
+        displayName: entry.team.displayName,
+        shortDisplayName: entry.team.shortDisplayName,
+        logo: entry.team.logos?.[0]?.href ?? null,
+      }),
+    )
+    espnTeamsCache.set(espnSlug, teams)
+    return teams
+  } catch {
+    return []
+  }
 }
 
 export interface EspnCompetitor {

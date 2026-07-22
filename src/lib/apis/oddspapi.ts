@@ -1,3 +1,5 @@
+import { COMPETITIONS } from "@/lib/competitions"
+
 const BASE = "https://api.oddspapi.io"
 const KEY = process.env.ODDSPAPI_API_KEY!
 
@@ -113,7 +115,7 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
 // ── Fixture lookup ─────────────────────────────────────────────────────────────
 interface FixtureMeta { id: string; startTime: string; home: string; away: string }
 
-const FIXTURE_TOURNAMENT_IDS = [16, 851] // World Cup 2026 + International Friendlies
+const FIXTURE_TOURNAMENT_IDS = COMPETITIONS.map((c) => c.oddsPapiTournamentId)
 
 const GEO_STOP_WORDS = new Set(["south", "north", "east", "west", "republic", "united", "kingdom", "democratic", "island", "islands", "federal", "federation"])
 
@@ -400,9 +402,9 @@ function computeDerivedMarkets(markets: Record<string, OddsMarket>): void {
 
 import type { H2HOdds } from "./odds-api"
 
-export async function fetchFriendliesH2HOdds(): Promise<Record<string, H2HOdds>> {
+export async function fetchH2HOddsForTournaments(tournamentIds: number[]): Promise<Record<string, H2HOdds>> {
   const [res, meta] = await Promise.all([
-    fetch(`${BASE}/v4/odds-by-tournaments?tournamentIds=851&bookmaker=pinnacle&apiKey=${KEY}`, {
+    fetch(`${BASE}/v4/odds-by-tournaments?tournamentIds=${tournamentIds.join(",")}&bookmaker=pinnacle&apiKey=${KEY}`, {
       next: { revalidate: 300 },
     }),
     fetchMarketMeta(),

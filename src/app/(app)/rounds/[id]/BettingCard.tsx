@@ -29,6 +29,7 @@ interface Match {
   homeScore: number | null
   awayScore: number | null
   status: string
+  competition: string | null
   oddsSnapshot: { oddsData: unknown } | null
 }
 
@@ -278,6 +279,7 @@ export function BettingCard({
           home={match.homeTeam}
           away={match.awayTeam}
           type={historyView}
+          competition={match.competition}
           teamLogoMap={teamLogoMap}
         />
       )}

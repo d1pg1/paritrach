@@ -17,6 +17,7 @@ interface MatchRow {
   awayScore: number | null
   status: string
   isEligible: boolean
+  competition: string | null
   oddsSnapshot: { oddsData: unknown } | null
   bets: {
     id: string
