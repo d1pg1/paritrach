@@ -59,10 +59,10 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
     setLoading(path)
     setError("")
     const res = await fetch(`/api/admin/rounds/${round.id}/${path}`, { method })
-    const data = await res.json().catch(() => ({}))
     setLoading(null)
     if (!res.ok) {
-      setError(`Error: ${data.message ?? res.statusText}`)
+      const message = await res.text().catch(() => "")
+      setError(`Error: ${message || res.statusText || res.status}`)
     } else {
       router.refresh()
     }
@@ -70,13 +70,19 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
 
   async function toggleEligible(matchId: string, eligible: boolean) {
     setLoading(matchId)
-    await fetch(`/api/admin/rounds/${round.id}/eligible`, {
+    setError("")
+    const res = await fetch(`/api/admin/rounds/${round.id}/eligible`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ matchId, eligible }),
     })
     setLoading(null)
-    router.refresh()
+    if (!res.ok) {
+      const message = await res.text().catch(() => "")
+      setError(`Error: ${message || res.statusText || res.status}`)
+    } else {
+      router.refresh()
+    }
   }
 
   async function deleteRound() {
@@ -86,8 +92,8 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
     setError("")
     const res = await fetch(`/api/admin/rounds/${round.id}`, { method: "DELETE" })
     if (!res.ok) {
-      const data = await res.json().catch(() => ({}))
-      setError(`Error: ${data.message ?? res.statusText}`)
+      const message = await res.text().catch(() => "")
+      setError(`Error: ${message || res.statusText || res.status}`)
       setLoading(null)
     } else {
       router.push("/admin")
