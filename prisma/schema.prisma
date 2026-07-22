@@ -25,6 +25,7 @@ model Season {
   id          String             @id @default(cuid())
   name        String
   archivedAt  DateTime           @default(now())
+  format      SeasonFormat       @default(SOLO)
   rounds      Round[]
   contestants SeasonContestant[]
 }
@@ -32,14 +33,16 @@ model Season {
 model Settings {
   id                String  @id @default("singleton")
   currentSeasonName String?
+  currentSeasonId   String?
 }
 
 model SeasonContestant {
-  id       String  @id @default(cuid())
-  seasonId String?
-  userId   String  @unique(map: "sc_current_user_uniq", where: raw("(\"seasonId\" IS NULL)"))
-  season   Season? @relation(fields: [seasonId], references: [id])
-  user     User    @relation(fields: [userId], references: [id])
+  id           String  @id @default(cuid())
+  seasonId     String?
+  userId       String  @unique(map: "sc_current_user_uniq", where: raw("(\"seasonId\" IS NULL)"))
+  drawPosition Int?
+  season       Season? @relation(fields: [seasonId], references: [id])
+  user         User    @relation(fields: [userId], references: [id])
 
   @@unique([seasonId, userId], map: "sc_season_user_uniq", where: raw("(\"seasonId\" IS NOT NULL)"))
 }
@@ -50,6 +53,7 @@ model Round {
   status                    RoundStatus @default(SETUP)
   createdAt                 DateTime    @default(now())
   seasonId                  String?
+  sequenceNumber            Int?
   telegramReminderMessageId String?
   bets                      Bet[]
   matches                   Match[]
@@ -130,6 +134,11 @@ model Bet {
 enum Role {
   ADMIN
   USER
+}
+
+enum SeasonFormat {
+  SOLO
+  H2H
 }
 
 enum RoundStatus {

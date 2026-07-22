@@ -31,7 +31,8 @@
     "noMatches": "Немає доступних матчів.",
     "allBetted": "Ви зробили ставки на всі матчі цього туру.",
     "betsProgress": "Ставки зроблено на {count} з {total} матчів",
-    "leaveWarning": "Ви зробили ставки лише на {count} з {total} матчів. Все одно вийти?"
+    "leaveWarning": "Ви зробили ставки лише на {count} з {total} матчів. Все одно вийти?",
+    "h2hVsOpponent": "Ви проти {opponent}"
   },
   "betting": {
     "markets": {
@@ -111,6 +112,9 @@
     "archiveToSeason": "Архівувати в сезон",
     "seasonNamePlaceholder": "Назва сезону (напр. 2025/26)…",
     "archive": "Архівувати",
+    "startSeason": "Почати сезон (H2H)",
+    "startSeasonNamePlaceholder": "Назва нового сезону (напр. 2026/27)…",
+    "start": "Почати",
     "save": "Зберегти",
     "edit": "Редагувати",
     "currentSeasonName": "Назва поточного сезону",

@@ -6,6 +6,7 @@ import { after } from "next/server"
 import { LiveScorePoller } from "./LiveScorePoller"
 import { settleRound } from "@/lib/settle-round"
 import { getTeamLogoMap } from "@/lib/team-logo-resolver"
+import { getViewerH2HScoreline } from "@/lib/h2h-scoring"
 
 interface MatchRow {
   id: string
@@ -56,7 +57,10 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
   if (!round) notFound()
 
   const teamNames = round.matches.flatMap((m) => [m.homeTeam, m.awayTeam])
-  const teamLogoMap = await getTeamLogoMap(teamNames)
+  const [teamLogoMap, h2h] = await Promise.all([
+    getTeamLogoMap(teamNames),
+    getViewerH2HScoreline(id, session.user.id),
+  ])
 
   const isBettingOpen = round.status === "BETTING"
   const isResults = round.status === "RESULTS"
@@ -92,6 +96,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
             existingBet: match.bets.find((b) => b.userId === session.user.id) ?? null,
             allBets: match.bets,
           }))}
+          initialH2H={h2h}
           shared={{
             currentUserId: session.user.id,
             currentUsername: session.user.name ?? "",

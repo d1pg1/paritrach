@@ -6,6 +6,8 @@ import { after } from "next/server"
 import { SeasonSelector } from "@/components/SeasonSelector"
 import { UserAvatar } from "@/components/UserAvatar"
 import { settleRound } from "@/lib/settle-round"
+import { resolveCurrentSeason } from "@/lib/current-season"
+import { computeH2HStandings } from "@/lib/h2h-scoring"
 
 export default async function ScoreboardPage({
   searchParams,
@@ -17,18 +19,19 @@ export default async function ScoreboardPage({
 
   const t = await getTranslations("scoreboard")
   const { seasonId: rawSeasonId } = await searchParams
-  const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
+  const { seasonId, selectorSeasonId, seasons, currentSeasonName } = await resolveCurrentSeason(rawSeasonId)
 
-  const [seasons, users, winningBets, allBets, contestants, settings] = await Promise.all([
-    db.season.findMany({
-      orderBy: { archivedAt: "desc" },
-      select: { id: true, name: true },
-    }),
+  const season = seasonId ? await db.season.findUnique({ where: { id: seasonId }, select: { format: true } }) : null
+  const isH2H = season?.format === "H2H"
+
+  const [users, winningBets, allBets, contestants] = await Promise.all([
     db.user.findMany({ select: { id: true, username: true, nickname: true, logoUrl: true } }),
-    db.bet.findMany({
-      where: { isWinner: true, round: { seasonId: seasonId ?? null } },
-      select: { userId: true, roundId: true, coefficient: true },
-    }),
+    isH2H
+      ? Promise.resolve([])
+      : db.bet.findMany({
+          where: { isWinner: true, round: { seasonId: seasonId ?? null } },
+          select: { userId: true, roundId: true, coefficient: true },
+        }),
     db.bet.findMany({
       where: { round: { seasonId: seasonId ?? null } },
       select: { userId: true, roundId: true },
@@ -37,7 +40,6 @@ export default async function ScoreboardPage({
       where: { seasonId: seasonId ?? null },
       select: { userId: true },
     }),
-    db.settings.findUnique({ where: { id: "singleton" } }),
   ])
 
   const contestantIds = new Set(contestants.map((c) => c.userId))
@@ -52,26 +54,31 @@ export default async function ScoreboardPage({
     roundsMap.set(bet.userId, rounds)
   }
 
-  // Group winning bets: userId → roundId → coefficients[]
-  const winsByRound = new Map<string, Map<string, number[]>>()
-  for (const bet of winningBets) {
-    const byRound = winsByRound.get(bet.userId) ?? new Map<string, number[]>()
-    const coefs = byRound.get(bet.roundId) ?? []
-    coefs.push(bet.coefficient)
-    byRound.set(bet.roundId, coefs)
-    winsByRound.set(bet.userId, byRound)
-  }
-
-  // points = total won bets; coefSum = sum of per-round products
-  const statsMap = new Map<string, { points: number; coefSum: number }>()
-  for (const [userId, byRound] of winsByRound) {
-    let points = 0
-    let coefSum = 0
-    for (const coefs of byRound.values()) {
-      points += coefs.length
-      coefSum += coefs.reduce((acc, c) => acc * c, 1)
+  let statsMap: Map<string, { points: number; coefSum: number }>
+  if (isH2H && seasonId) {
+    statsMap = await computeH2HStandings(seasonId)
+  } else {
+    // Group winning bets: userId → roundId → coefficients[]
+    const winsByRound = new Map<string, Map<string, number[]>>()
+    for (const bet of winningBets) {
+      const byRound = winsByRound.get(bet.userId) ?? new Map<string, number[]>()
+      const coefs = byRound.get(bet.roundId) ?? []
+      coefs.push(bet.coefficient)
+      byRound.set(bet.roundId, coefs)
+      winsByRound.set(bet.userId, byRound)
     }
-    statsMap.set(userId, { points, coefSum })
+
+    // points = total won bets; coefSum = sum of per-round products
+    statsMap = new Map<string, { points: number; coefSum: number }>()
+    for (const [userId, byRound] of winsByRound) {
+      let points = 0
+      let coefSum = 0
+      for (const coefs of byRound.values()) {
+        points += coefs.length
+        coefSum += coefs.reduce((acc, c) => acc * c, 1)
+      }
+      statsMap.set(userId, { points, coefSum })
+    }
   }
 
   const rows = filteredUsers
@@ -96,7 +103,7 @@ export default async function ScoreboardPage({
       <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
       {seasons.length > 0 && (
         <Suspense fallback={<div className="h-10 mb-6" />}>
-          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} currentSeasonName={settings?.currentSeasonName} />
+          <SeasonSelector seasons={seasons} currentSeasonId={selectorSeasonId} currentSeasonName={currentSeasonName} />
         </Suspense>
       )}
       {rows.length === 0 ? (

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 import { Suspense } from "react"
 import { SeasonSelector } from "@/components/SeasonSelector"
+import { resolveCurrentSeason } from "@/lib/current-season"
 
 const STATUS_COLOR: Record<string, string> = {
   SETUP: "text-neutral-500",
@@ -29,29 +30,22 @@ export default async function RoundsPage({
 
   const t = await getTranslations("rounds")
   const { seasonId: rawSeasonId } = await searchParams
-  const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
+  const { seasonId, selectorSeasonId, seasons, currentSeasonName } = await resolveCurrentSeason(rawSeasonId)
 
-  const [seasons, rounds, settings] = await Promise.all([
-    db.season.findMany({
-      orderBy: { archivedAt: "desc" },
-      select: { id: true, name: true },
-    }),
-    db.round.findMany({
-      where: { status: { not: "SETUP" }, seasonId: seasonId ?? null },
-      orderBy: { createdAt: "desc" },
-      include: {
-        _count: { select: { matches: { where: { isEligible: true } } } },
-      },
-    }),
-    db.settings.findUnique({ where: { id: "singleton" } }),
-  ])
+  const rounds = await db.round.findMany({
+    where: { status: { not: "SETUP" }, seasonId: seasonId ?? null },
+    orderBy: { createdAt: "desc" },
+    include: {
+      _count: { select: { matches: { where: { isEligible: true } } } },
+    },
+  })
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
       {seasons.length > 0 && (
         <Suspense fallback={<div className="h-10 mb-6" />}>
-          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} currentSeasonName={settings?.currentSeasonName} />
+          <SeasonSelector seasons={seasons} currentSeasonId={selectorSeasonId} currentSeasonName={currentSeasonName} />
         </Suspense>
       )}
       {rounds.length === 0 ? (

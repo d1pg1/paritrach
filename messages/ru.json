@@ -31,7 +31,8 @@
     "noMatches": "Нет доступных матчей.",
     "allBetted": "Вы сделали ставки на все матчи этого тура.",
     "betsProgress": "Ставки сделаны на {count} из {total} матчей",
-    "leaveWarning": "Вы сделали ставки только на {count} из {total} матчей. Всё равно уйти?"
+    "leaveWarning": "Вы сделали ставки только на {count} из {total} матчей. Всё равно уйти?",
+    "h2hVsOpponent": "Вы против {opponent}"
   },
   "betting": {
     "markets": {
@@ -111,6 +112,9 @@
     "archiveToSeason": "Архивировать в сезон",
     "seasonNamePlaceholder": "Название сезона (напр. 2025/26)…",
     "archive": "Архивировать",
+    "startSeason": "Начать сезон (H2H)",
+    "startSeasonNamePlaceholder": "Название нового сезона (напр. 2026/27)…",
+    "start": "Начать",
     "contestants": "Участники",
     "contestantsTitle": "Участники сезона",
     "contestantsSubtitle": "Управляйте списком активных участников текущего сезона.",

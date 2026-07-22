@@ -31,7 +31,8 @@
     "noMatches": "No eligible matches yet.",
     "allBetted": "You've bet on every match in this round.",
     "betsProgress": "{count} of {total} matches betted",
-    "leaveWarning": "You've only bet on {count} of {total} matches. Leave anyway?"
+    "leaveWarning": "You've only bet on {count} of {total} matches. Leave anyway?",
+    "h2hVsOpponent": "You vs {opponent}"
   },
   "betting": {
     "markets": {
@@ -111,6 +112,9 @@
     "archiveToSeason": "Archive to Season",
     "seasonNamePlaceholder": "Season name (e.g. 2025/26)…",
     "archive": "Archive",
+    "startSeason": "Start Season (H2H)",
+    "startSeasonNamePlaceholder": "New season name (e.g. 2026/27)…",
+    "start": "Start",
     "save": "Save",
     "edit": "Edit",
     "currentSeasonName": "Current season name",
