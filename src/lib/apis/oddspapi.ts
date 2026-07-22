@@ -117,6 +117,44 @@ interface FixtureMeta { id: string; startTime: string; home: string; away: strin
 
 const FIXTURE_TOURNAMENT_IDS = COMPETITIONS.map((c) => c.oddsPapiTournamentId)
 
+export interface RawFixture {
+  id: string
+  startTime: string
+  homeTeam: string
+  awayTeam: string
+}
+
+// Used to import fixtures directly from OddsPapi for competitions The Odds API doesn't yet
+// cover (e.g. cup competitions still in their qualifying phase). Retries on 429 — OddsPapi's
+// per-second rate limit is tight enough that even a few sequential calls can trip it.
+export async function fetchFixturesForTournament(tournamentId: number): Promise<RawFixture[]> {
+  const url = `${BASE}/v4/fixtures?tournamentId=${tournamentId}&apiKey=${KEY}`
+
+  let res = await fetch(url, { next: { revalidate: 300 } })
+  for (let attempt = 0; res.status === 429 && attempt < 3; attempt++) {
+    await new Promise((r) => setTimeout(r, 2000))
+    res = await fetch(url, { next: { revalidate: 300 } })
+  }
+  if (!res.ok) throw new Error(`OddsPapi fixtures error: ${res.status}`)
+
+  const events = (await res.json()) as Array<{
+    fixtureId: string
+    startTime: string
+    participant1Name: string
+    participant2Name: string
+  }>
+
+  const now = Date.now()
+  return events
+    .filter((e) => new Date(e.startTime).getTime() > now)
+    .map((e) => ({
+      id: e.fixtureId,
+      startTime: e.startTime,
+      homeTeam: e.participant1Name,
+      awayTeam: e.participant2Name,
+    }))
+}
+
 const GEO_STOP_WORDS = new Set(["south", "north", "east", "west", "republic", "united", "kingdom", "democratic", "island", "islands", "federal", "federation"])
 
 function teamNamesMatch(a: string, b: string): boolean {

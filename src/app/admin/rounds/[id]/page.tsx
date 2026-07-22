@@ -48,9 +48,9 @@ export default async function AdminRoundPage({ params }: { params: Promise<{ id:
         .map(competitionByLabel)
         .filter((c) => c !== undefined)
 
-      const oddsApiCompetitions = active.filter((c) => c.oddsApiSportKey)
+      const oddsApiCompetitions = active.filter((c) => c.source === "odds-api")
       const oddsPapiTournamentIds = active
-        .filter((c) => !c.oddsApiSportKey)
+        .filter((c) => c.source === "oddspapi")
         .map((c) => c.oddsPapiTournamentId)
 
       const [oddsApiResults, oddsPapiOdds] = await Promise.all([
