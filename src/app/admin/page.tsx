@@ -23,7 +23,7 @@ interface RoundRow {
 export default async function AdminPage() {
   const t = await getTranslations("admin")
 
-  const [rounds, settings] = await Promise.all([
+  const [rounds, settings, allUsers, currentContestants] = await Promise.all([
     db.round.findMany({
       orderBy: { createdAt: "desc" },
       include: {
@@ -31,7 +31,15 @@ export default async function AdminPage() {
       },
     }),
     db.settings.findUnique({ where: { id: "singleton" } }),
+    db.user.findMany({
+      select: { id: true, username: true, nickname: true },
+      orderBy: { username: "asc" },
+    }),
+    db.seasonContestant.findMany({ where: { seasonId: null }, select: { userId: true } }),
   ])
+
+  const currentContestantIds = new Set(currentContestants.map((c) => c.userId))
+  const startSeasonUsers = allUsers.map((u) => ({ ...u, isContestant: currentContestantIds.has(u.id) }))
 
   return (
     <div>
@@ -45,7 +53,7 @@ export default async function AdminPage() {
             {t("contestants")}
           </Link>
           <CreateSeasonForm initialName={settings?.currentSeasonName ?? null} />
-          <StartSeasonForm />
+          <StartSeasonForm users={startSeasonUsers} />
           <CreateRoundForm />
         </div>
       </div>
