@@ -547,5 +547,8 @@ export async function extractMarketsForMatch(
   const fixtureId = directId ?? (await resolveFixtureId(startTime, homeTeam, awayTeam))
   if (!fixtureId) return {}
   const data = await fetchFixtureOdds(fixtureId)
+  // OddsPapi can report hasOdds:true for a fixture while still omitting bookmakerOdds
+  // entirely (seen for fixtures several days out with thin bookmaker coverage so far).
+  if (!data.bookmakerOdds) return {}
   return extractMarkets(data.bookmakerOdds, meta, homeTeam, awayTeam)
 }

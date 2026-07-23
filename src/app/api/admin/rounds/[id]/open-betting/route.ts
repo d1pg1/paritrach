@@ -19,19 +19,25 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     return new NextResponse("No eligible matches selected", { status: 400 })
 
   let snapshotCount = 0
-  for (let i = 0; i < round.matches.length; i++) {
-    if (i > 0) await new Promise(r => setTimeout(r, 2500))
-    const match = round.matches[i]
-    const markets = await extractMarketsForMatch(match.startTime, match.homeTeam, match.awayTeam, match.externalId)
-    if (Object.keys(markets).length === 0) continue
+  try {
+    for (let i = 0; i < round.matches.length; i++) {
+      if (i > 0) await new Promise(r => setTimeout(r, 2500))
+      const match = round.matches[i]
+      const markets = await extractMarketsForMatch(match.startTime, match.homeTeam, match.awayTeam, match.externalId)
+      if (Object.keys(markets).length === 0) continue
 
-    const oddsJson = JSON.parse(JSON.stringify(markets))
-    await db.oddsSnapshot.upsert({
-      where: { matchId: match.id },
-      update: { oddsData: oddsJson, fetchedAt: new Date() },
-      create: { matchId: match.id, oddsData: oddsJson },
-    })
-    snapshotCount++
+      const oddsJson = JSON.parse(JSON.stringify(markets))
+      await db.oddsSnapshot.upsert({
+        where: { matchId: match.id },
+        update: { oddsData: oddsJson, fetchedAt: new Date() },
+        create: { matchId: match.id, oddsData: oddsJson },
+      })
+      snapshotCount++
+    }
+  } catch (err) {
+    console.error("open-betting failed", err)
+    const message = err instanceof Error ? err.message : String(err)
+    return new NextResponse(`Failed to fetch odds: ${message}`, { status: 500 })
   }
 
   await db.round.update({ where: { id }, data: { status: "BETTING" } })
