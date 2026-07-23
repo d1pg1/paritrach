@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { BettingCard } from "./BettingCard"
-import { H2HScoreline, type H2HScorelineData } from "./H2HScoreline"
+import { H2HScoreline, type H2HPairingData } from "./H2HScoreline"
 
 interface GoalEvent {
   minute: number
@@ -40,7 +40,7 @@ interface Props {
   roundId: string
   entries: MatchEntry[]
   shared: SharedProps
-  initialH2H: H2HScorelineData | null
+  initialH2H: H2HPairingData[]
 }
 
 const POLL_INTERVAL = 30_000
@@ -48,7 +48,7 @@ const POLL_INTERVAL = 30_000
 export function LiveScorePoller({ roundId, entries, shared, initialH2H }: Props) {
   const t = useTranslations("round")
   const [liveScores, setLiveScores] = useState<Record<string, LiveScore>>({})
-  const [h2h, setH2h] = useState<H2HScorelineData | null>(initialH2H)
+  const [h2h, setH2h] = useState<H2HPairingData[]>(initialH2H)
   const [bettedMatchIds, setBettedMatchIds] = useState<Set<string>>(
     () => new Set(entries.filter((e) => e.existingBet).map((e) => e.match.id))
   )
@@ -101,7 +101,7 @@ export function LiveScorePoller({ roundId, entries, shared, initialH2H }: Props)
       try {
         const res = await fetch(`/api/rounds/${roundId}/live-scores`)
         if (!res.ok || cancelled) return
-        const data: { scores: LiveScore[]; h2h: H2HScorelineData | null } = await res.json()
+        const data: { scores: LiveScore[]; h2h: H2HPairingData[] } = await res.json()
         setLiveScores(Object.fromEntries(data.scores.map((s) => [s.matchId, s])))
         setH2h(data.h2h)
       } catch {
@@ -119,7 +119,7 @@ export function LiveScorePoller({ roundId, entries, shared, initialH2H }: Props)
 
   return (
     <div className="space-y-4">
-      <H2HScoreline data={h2h} />
+      <H2HScoreline pairings={h2h} viewerId={shared.currentUserId} />
       {showProgress && (
         <div
           className={`flex items-center justify-between rounded-lg border px-4 py-2.5 text-sm ${

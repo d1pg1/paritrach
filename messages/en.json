@@ -32,7 +32,8 @@
     "allBetted": "You've bet on every match in this round.",
     "betsProgress": "{count} of {total} matches betted",
     "leaveWarning": "You've only bet on {count} of {total} matches. Leave anyway?",
-    "h2hVsOpponent": "You vs {opponent}"
+    "h2hVsOpponent": "You vs {opponent}",
+    "h2hPairing": "{a} vs {b}"
   },
   "betting": {
     "markets": {

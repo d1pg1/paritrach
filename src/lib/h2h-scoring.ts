@@ -96,16 +96,18 @@ export async function computeH2HStandings(
   return standings
 }
 
-export interface ViewerH2HScoreline extends RoundPairingScore {
-  opponentName: string
+export interface RoundH2HPairing {
+  contestantAId: string
+  contestantAName: string
+  contestantBId: string
+  contestantBName: string
+  correctA: number
+  correctB: number
 }
 
-// Opponent + live scoreline for one viewer in one round — used on the round betting
-// page and re-polled by the live-scores route so it updates the same way match scores do.
-export async function getViewerH2HScoreline(
-  roundId: string,
-  viewerId: string
-): Promise<ViewerH2HScoreline | null> {
+// Every pairing (with live scorelines) for one round — used on the round betting page
+// and re-polled by the live-scores route so it updates the same way match scores do.
+export async function getRoundH2HPairings(roundId: string): Promise<RoundH2HPairing[]> {
   const round = await db.round.findUnique({
     where: { id: roundId },
     select: {
@@ -125,19 +127,22 @@ export async function getViewerH2HScoreline(
       },
     },
   })
-  if (!round || !round.season || round.season.format !== "H2H" || round.sequenceNumber == null) return null
+  if (!round || !round.season || round.season.format !== "H2H" || round.sequenceNumber == null) return []
 
   const contestants = round.season.contestants
   const drawOrder = contestants.map((c) => c.userId)
-  if (drawOrder.length < 2) return null
+  if (drawOrder.length < 2) return []
 
   const pairings = getPairingsForRound(drawOrder, round.sequenceNumber)
   const correctByUser = countCorrectByUser(round.matches.flatMap((m) => m.bets))
-  const mine = scoreRoundPairings(pairings, correctByUser).get(viewerId)
-  if (!mine) return null
+  const nameById = new Map(contestants.map((c) => [c.userId, c.user.nickname ?? c.user.username ?? "?"]))
 
-  const opponent = contestants.find((c) => c.userId === mine.opponentId)
-  const opponentName = opponent?.user.nickname ?? opponent?.user.username ?? "?"
-
-  return { ...mine, opponentName }
+  return pairings.map(([a, b]) => ({
+    contestantAId: a,
+    contestantAName: nameById.get(a) ?? "?",
+    contestantBId: b,
+    contestantBName: nameById.get(b) ?? "?",
+    correctA: correctByUser.get(a) ?? 0,
+    correctB: correctByUser.get(b) ?? 0,
+  }))
 }

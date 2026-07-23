@@ -32,7 +32,8 @@
     "allBetted": "Вы сделали ставки на все матчи этого тура.",
     "betsProgress": "Ставки сделаны на {count} из {total} матчей",
     "leaveWarning": "Вы сделали ставки только на {count} из {total} матчей. Всё равно уйти?",
-    "h2hVsOpponent": "Вы против {opponent}"
+    "h2hVsOpponent": "Вы против {opponent}",
+    "h2hPairing": "{a} vs {b}"
   },
   "betting": {
     "markets": {

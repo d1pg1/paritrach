@@ -3,14 +3,14 @@ import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { fetchResultsByDate, findEspnEventForMatch, parseScores, competitionToEspnSlug } from "@/lib/apis/espn"
 import { handleGoalDetected } from "@/lib/goal-detection"
-import { getViewerH2HScoreline } from "@/lib/h2h-scoring"
+import { getRoundH2HPairings } from "@/lib/h2h-scoring"
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   if (!session?.user) return new NextResponse("Unauthorized", { status: 401 })
 
   const { id } = await params
-  const h2h = await getViewerH2HScoreline(id, session.user.id)
+  const h2h = await getRoundH2HPairings(id)
 
   const now = new Date()
   const matches = await db.match.findMany({
