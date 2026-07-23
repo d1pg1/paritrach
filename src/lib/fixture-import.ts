@@ -25,11 +25,11 @@ export async function importFixturesForCompetitions(
     await db.match.findMany({ where: { roundId }, select: { externalId: true } })
   ).map((m: { externalId: string | null }) => m.externalId)
 
-  // Sequential with a small stagger — firing all competitions at once can trip OddsPapi's
-  // per-second rate limit (seen in practice with 3 simultaneous cup-competition requests).
+  // Sequential with a stagger — OddsPapi's rate limit is tight enough that even single
+  // requests under ~2.5s apart intermittently 429 (measured empirically), not just bursts.
   const results: { competition: CompetitionConfig; fixtures: RawFixture[]; toInsert: RawFixture[] }[] = []
   for (let i = 0; i < competitions.length; i++) {
-    if (i > 0) await new Promise((r) => setTimeout(r, 500))
+    if (i > 0) await new Promise((r) => setTimeout(r, 2500))
     const c = competitions[i]
     const fixtures = await fetchFixtures(c).catch(() => [])
     const toInsert = fixtures.filter((f) => !existingIds.includes(f.id))

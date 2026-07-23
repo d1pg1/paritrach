@@ -20,7 +20,7 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
 
   let snapshotCount = 0
   for (let i = 0; i < round.matches.length; i++) {
-    if (i > 0) await new Promise(r => setTimeout(r, 1000))
+    if (i > 0) await new Promise(r => setTimeout(r, 2500))
     const match = round.matches[i]
     const markets = await extractMarketsForMatch(match.startTime, match.homeTeam, match.awayTeam, match.externalId)
     if (Object.keys(markets).length === 0) continue

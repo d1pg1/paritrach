@@ -3,6 +3,17 @@ import { COMPETITIONS } from "@/lib/competitions"
 const BASE = "https://api.oddspapi.io"
 const KEY = process.env.ODDSPAPI_API_KEY!
 
+// OddsPapi's rate limit is tight enough that calls under ~2.5s apart intermittently 429,
+// even one at a time (not just concurrent bursts) — measured empirically against the live API.
+async function fetchWithRetry(url: string, revalidate: number, attempts = 3): Promise<Response> {
+  let res = await fetch(url, { next: { revalidate } })
+  for (let attempt = 0; res.status === 429 && attempt < attempts; attempt++) {
+    await new Promise((r) => setTimeout(r, 2500))
+    res = await fetch(url, { next: { revalidate } })
+  }
+  return res
+}
+
 // ── Market name → category ─────────────────────────────────────────────────────
 // Maps OddsPapi's marketName to our internal key + which team side (0=N/A, 1=home, 2=away)
 const MARKET_CATEGORY: Record<string, { cat: string; team: 0 | 1 | 2 }> = {
@@ -75,7 +86,7 @@ async function fetchMarketMeta(): Promise<MarketMeta> {
   if (marketMetaCache && marketMetaCache.expiresAt > Date.now()) return marketMetaCache.meta
 
   const url = `${BASE}/v4/markets?sportId=10&apiKey=${KEY}`
-  const res = await fetch(url, { next: { revalidate: 0 } })
+  const res = await fetchWithRetry(url, 0)
   if (!res.ok) throw new Error(`OddsPapi markets error: ${res.status}`)
 
   const data = (await res.json()) as Array<{
@@ -129,12 +140,7 @@ export interface RawFixture {
 // per-second rate limit is tight enough that even a few sequential calls can trip it.
 export async function fetchFixturesForTournament(tournamentId: number): Promise<RawFixture[]> {
   const url = `${BASE}/v4/fixtures?tournamentId=${tournamentId}&apiKey=${KEY}`
-
-  let res = await fetch(url, { next: { revalidate: 300 } })
-  for (let attempt = 0; res.status === 429 && attempt < 3; attempt++) {
-    await new Promise((r) => setTimeout(r, 2000))
-    res = await fetch(url, { next: { revalidate: 300 } })
-  }
+  const res = await fetchWithRetry(url, 300)
   if (!res.ok) throw new Error(`OddsPapi fixtures error: ${res.status}`)
 
   const events = (await res.json()) as Array<{
@@ -170,20 +176,38 @@ function teamNamesMatch(a: string, b: string): boolean {
   return wa.some(x => wb.some(y => x === y || x.includes(y) || y.includes(x)))
 }
 
-async function resolveFixtureId(startTime: Date | string, homeTeam: string, awayTeam: string): Promise<string | null> {
-  const responses = await Promise.all(
-    FIXTURE_TOURNAMENT_IDS.map(tid =>
-      fetch(`${BASE}/v4/fixtures?tournamentId=${tid}&apiKey=${KEY}`, { next: { revalidate: 300 } })
-        .then(r => r.ok ? r.json() : [])
-    )
-  )
-  const fixtures = (responses.flat() as { fixtureId: string; startTime: string; participant1Name: string; participant2Name: string }[]).map(f => ({
-    id: f.fixtureId,
-    startTime: f.startTime,
-    home: f.participant1Name ?? "",
-    away: f.participant2Name ?? "",
-  }) satisfies FixtureMeta)
+// Same rationale as MARKET_META_TTL_MS: avoids re-fetching all tournaments' fixtures for
+// every match in a round. Fetched one tournament at a time (not Promise.all) — firing all
+// FIXTURE_TOURNAMENT_IDS requests at once reliably trips OddsPapi's per-second rate limit.
+const FIXTURES_TTL_MS = 5 * 60 * 1000
+// Empirically: <1.5s between calls to this endpoint intermittently 429s even one-at-a-time,
+// 2.5s is clean. This only pays once per 5-minute cache window, not per match.
+const FIXTURES_STAGGER_MS = 2500
+let fixturesCache: { fixtures: FixtureMeta[]; expiresAt: number } | null = null
 
+async function getAllFixtures(): Promise<FixtureMeta[]> {
+  if (fixturesCache && fixturesCache.expiresAt > Date.now()) return fixturesCache.fixtures
+
+  const fixtures: FixtureMeta[] = []
+  for (let i = 0; i < FIXTURE_TOURNAMENT_IDS.length; i++) {
+    if (i > 0) await new Promise(r => setTimeout(r, FIXTURES_STAGGER_MS))
+    const res = await fetchWithRetry(`${BASE}/v4/fixtures?tournamentId=${FIXTURE_TOURNAMENT_IDS[i]}&apiKey=${KEY}`, 300)
+    if (!res.ok) continue
+    const events = (await res.json()) as { fixtureId: string; startTime: string; participant1Name: string; participant2Name: string }[]
+    fixtures.push(...events.map(f => ({
+      id: f.fixtureId,
+      startTime: f.startTime,
+      home: f.participant1Name ?? "",
+      away: f.participant2Name ?? "",
+    }) satisfies FixtureMeta))
+  }
+
+  fixturesCache = { fixtures, expiresAt: Date.now() + FIXTURES_TTL_MS }
+  return fixtures
+}
+
+async function resolveFixtureId(startTime: Date | string, homeTeam: string, awayTeam: string): Promise<string | null> {
+  const fixtures = await getAllFixtures()
   const target = new Date(startTime).getTime()
   const timeMatches = fixtures.filter(f => Math.abs(new Date(f.startTime).getTime() - target) < 60_000)
   if (timeMatches.length === 0) return null
@@ -199,7 +223,7 @@ async function resolveFixtureId(startTime: Date | string, homeTeam: string, away
 // ── API ────────────────────────────────────────────────────────────────────────
 async function fetchFixtureOdds(fixtureId: string): Promise<OddsFixture> {
   const url = `${BASE}/v4/odds?fixtureId=${fixtureId}&apiKey=${KEY}`
-  const res = await fetch(url, { next: { revalidate: 0 } })
+  const res = await fetchWithRetry(url, 0)
   if (!res.ok) throw new Error(`OddsPapi odds error: ${res.status}`)
   return res.json() as Promise<OddsFixture>
 }
@@ -517,10 +541,10 @@ export async function extractMarketsForMatch(
   // — avoids startTime collision when multiple matches kick off at the same time
   const directId = externalId && isOddsPapiFixtureId(externalId) ? externalId : null
 
-  const [fixtureId, meta] = await Promise.all([
-    directId ? Promise.resolve(directId) : resolveFixtureId(startTime, homeTeam, awayTeam),
-    fetchMarketMeta(),
-  ])
+  // Sequential, not Promise.all — both calls hit the same rate limit, and each is only a
+  // real network request when its own cache is cold.
+  const meta = await fetchMarketMeta()
+  const fixtureId = directId ?? (await resolveFixtureId(startTime, homeTeam, awayTeam))
   if (!fixtureId) return {}
   const data = await fetchFixtureOdds(fixtureId)
   return extractMarkets(data.bookmakerOdds, meta, homeTeam, awayTeam)
