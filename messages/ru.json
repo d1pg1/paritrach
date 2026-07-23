@@ -62,13 +62,10 @@
     "minCoefError": "Минимальный коэффициент 1.40 — выберите вариант с более высоким коэффициентом.",
     "matchStarted": "Матч начался — ставки закрыты",
     "waitingResult": "Ожидание результата…",
-    "colUser": "Игрок",
-    "colBet": "Ставка",
-    "colCoef": "Коэф",
-    "colResult": "Результат",
     "betWon": "Выигрыш",
     "betLost": "Проигрыш",
-    "betPending": "—"
+    "betPending": "—",
+    "noBetYet": "Ставка не сделана"
   },
   "scoreboard": {
     "title": "Таблица",

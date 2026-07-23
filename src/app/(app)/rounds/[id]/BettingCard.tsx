@@ -48,6 +48,13 @@ interface BetWithUser extends Bet {
 }
 
 
+interface Participant {
+  userId: string
+  username: string
+  nickname: string | null
+  logoUrl: string | null
+}
+
 export function BettingCard({
   match,
   existingBet,
@@ -58,6 +65,7 @@ export function BettingCard({
   isResults,
   liveScore,
   teamLogoMap = {},
+  participants = [],
   onBetPlaced,
 }: {
   match: Match
@@ -74,6 +82,7 @@ export function BettingCard({
     events: { minute: number; team: string; scorerName: string | null; eventType: string }[]
   } | null
   teamLogoMap?: Record<string, string>
+  participants?: Participant[]
   onBetPlaced?: (matchId: string) => void
 }) {
   const t = useTranslations("betting")
@@ -171,6 +180,21 @@ export function BettingCard({
     : currentBet?.isWinner === false
     ? "border-red-800 bg-red-950/20"
     : "border-neutral-800"
+
+  const betsByUserId = new Map(localAllBets.map((b) => [b.userId, b]))
+  const rosterRows = participants.length > 0
+    ? participants.map((p) => ({
+        userId: p.userId,
+        displayName: p.nickname ?? p.username,
+        logoUrl: p.logoUrl,
+        bet: betsByUserId.get(p.userId) ?? null,
+      }))
+    : localAllBets.map((b) => ({
+        userId: b.userId,
+        displayName: b.user.nickname ?? b.user.username,
+        logoUrl: b.user.logoUrl,
+        bet: b,
+      }))
 
   return (
     <div className={`bg-neutral-900 border rounded-xl p-5 ${winIndicator}`}>
@@ -377,47 +401,46 @@ export function BettingCard({
         <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
       )}
 
-      {localAllBets.length > 0 && (
-        <div className="mt-4 border-t border-neutral-800 pt-3">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="text-neutral-500 border-b border-neutral-800">
-                <th className="text-left pb-1.5 font-medium">{t("colUser")}</th>
-                <th className="text-left pb-1.5 font-medium">{t("colBet")}</th>
-                <th className="text-right pb-1.5 font-medium">{t("colCoef")}</th>
-                <th className="text-right pb-1.5 font-medium">{t("colResult")}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-800">
-              {localAllBets.map((bet) => (
-                <tr key={bet.id}>
-                  <td className={`py-1.5 pr-2 ${bet.userId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}`}>
-                    <div className="flex items-center gap-1.5">
-                      <UserAvatar
-                        logoUrl={bet.user.logoUrl}
-                        displayName={bet.user.nickname ?? bet.user.username}
-                        size={24}
-                      />
-                      {bet.user.nickname ?? bet.user.username}
-                    </div>
-                  </td>
-                  <td className="py-1.5 text-neutral-300">
-                    {marketLabel(bet.marketType)}: {bet.selection}{bet.line != null && !LINE_IN_NAME_MARKETS.has(bet.marketType) ? ` ${formatLine(bet.line, bet.marketType, bet.selection)}` : ""}
-                  </td>
-                  <td className="py-1.5 text-right text-neutral-300">{bet.coefficient.toFixed(2)}</td>
-                  <td className="py-1.5 text-right">
-                    {bet.isWinner === true ? (
+      {rosterRows.length > 0 && (
+        <div className="mt-4 border-t border-neutral-800 pt-3 space-y-1.5">
+          {rosterRows.map((row) => {
+            const isYou = row.userId === currentUserId
+            return (
+              <div
+                key={row.userId}
+                className={`flex items-center justify-between gap-2 rounded-lg border px-3 py-2 text-xs flex-wrap ${
+                  isYou ? "border-neutral-700 bg-neutral-900" : "border-neutral-800 bg-neutral-900/50"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <UserAvatar logoUrl={row.logoUrl} displayName={row.displayName} size={24} />
+                  <span className={isYou ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
+                    {row.displayName}
+                  </span>
+                </div>
+                {row.bet ? (
+                  <div className="flex items-center gap-3">
+                    <span className="text-neutral-300">
+                      {marketLabel(row.bet.marketType)}: {row.bet.selection}
+                      {row.bet.line != null && !LINE_IN_NAME_MARKETS.has(row.bet.marketType)
+                        ? ` ${formatLine(row.bet.line, row.bet.marketType, row.bet.selection)}`
+                        : ""}
+                    </span>
+                    <span className="text-neutral-400 font-mono">{row.bet.coefficient.toFixed(2)}</span>
+                    {row.bet.isWinner === true ? (
                       <span className="text-green-400">{t("betWon")}</span>
-                    ) : bet.isWinner === false ? (
+                    ) : row.bet.isWinner === false ? (
                       <span className="text-red-400">{t("betLost")}</span>
                     ) : (
                       <span className="text-neutral-500">{t("betPending")}</span>
                     )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
+                ) : (
+                  <span className="text-neutral-600 italic">{t("noBetYet")}</span>
+                )}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

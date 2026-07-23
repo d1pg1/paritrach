@@ -34,6 +34,7 @@ interface SharedProps {
   isBettingOpen: boolean
   isResults: boolean
   teamLogoMap: Record<string, string>
+  participants: { userId: string; username: string; nickname: string | null; logoUrl: string | null }[]
 }
 
 interface Props {

@@ -62,13 +62,10 @@
     "minCoefError": "Minimum coefficient is 1.40 — pick a higher-odds option.",
     "matchStarted": "Match started — betting closed",
     "waitingResult": "Waiting for result…",
-    "colUser": "User",
-    "colBet": "Bet",
-    "colCoef": "Coef",
-    "colResult": "Result",
     "betWon": "Won",
     "betLost": "Lost",
-    "betPending": "—"
+    "betPending": "—",
+    "noBetYet": "No bet yet"
   },
   "scoreboard": {
     "title": "Scoreboard",

@@ -58,10 +58,22 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
   if (!round) notFound()
 
   const teamNames = round.matches.flatMap((m) => [m.homeTeam, m.awayTeam])
-  const [teamLogoMap, h2h] = await Promise.all([
+  const [teamLogoMap, h2h, contestants] = await Promise.all([
     getTeamLogoMap(teamNames),
     getRoundH2HPairings(id),
+    db.seasonContestant.findMany({
+      where: { seasonId: round.seasonId },
+      orderBy: { drawPosition: "asc" },
+      select: { userId: true, user: { select: { username: true, nickname: true, logoUrl: true } } },
+    }),
   ])
+
+  const participants = contestants.map((c) => ({
+    userId: c.userId,
+    username: c.user.username,
+    nickname: c.user.nickname,
+    logoUrl: c.user.logoUrl,
+  }))
 
   const isBettingOpen = round.status === "BETTING"
   const isResults = round.status === "RESULTS"
@@ -104,6 +116,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
             isBettingOpen,
             isResults,
             teamLogoMap,
+            participants,
           }}
         />
       )}

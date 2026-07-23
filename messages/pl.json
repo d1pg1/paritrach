@@ -62,13 +62,10 @@
     "minCoefError": "Minimalny kurs to 1.40 — wybierz opcję z wyższym kursem.",
     "matchStarted": "Mecz się rozpoczął — zakłady zamknięte",
     "waitingResult": "Oczekiwanie na wynik…",
-    "colUser": "Gracz",
-    "colBet": "Zakład",
-    "colCoef": "Kurs",
-    "colResult": "Wynik",
     "betWon": "Wygrana",
     "betLost": "Przegrana",
-    "betPending": "—"
+    "betPending": "—",
+    "noBetYet": "Brak zakładu"
   },
   "scoreboard": {
     "title": "Tabela",

@@ -62,13 +62,10 @@
     "minCoefError": "Мінімальний коефіцієнт 1.40 — оберіть варіант з вищим коефіцієнтом.",
     "matchStarted": "Матч почався — ставки закриті",
     "waitingResult": "Очікування результату…",
-    "colUser": "Гравець",
-    "colBet": "Ставка",
-    "colCoef": "Коеф",
-    "colResult": "Результат",
     "betWon": "Виграш",
     "betLost": "Програш",
-    "betPending": "—"
+    "betPending": "—",
+    "noBetYet": "Ставку не зроблено"
   },
   "scoreboard": {
     "title": "Таблиця",
