@@ -55,6 +55,15 @@ interface Participant {
   logoUrl: string | null
 }
 
+interface Pairing {
+  contestantAId: string
+  contestantAName: string
+  contestantALogoUrl: string | null
+  contestantBId: string
+  contestantBName: string
+  contestantBLogoUrl: string | null
+}
+
 export function BettingCard({
   match,
   existingBet,
@@ -66,6 +75,7 @@ export function BettingCard({
   liveScore,
   teamLogoMap = {},
   participants = [],
+  pairings = [],
   onBetPlaced,
 }: {
   match: Match
@@ -83,6 +93,7 @@ export function BettingCard({
   } | null
   teamLogoMap?: Record<string, string>
   participants?: Participant[]
+  pairings?: Pairing[]
   onBetPlaced?: (matchId: string) => void
 }) {
   const t = useTranslations("betting")
@@ -195,6 +206,28 @@ export function BettingCard({
         logoUrl: b.user.logoUrl,
         bet: b,
       }))
+
+  function betSummary(bet: Bet | null) {
+    if (!bet) return <span className="text-neutral-600 italic">{t("noBetYet")}</span>
+    return (
+      <>
+        <span className="text-neutral-300">
+          {marketLabel(bet.marketType)}: {bet.selection}
+          {bet.line != null && !LINE_IN_NAME_MARKETS.has(bet.marketType)
+            ? ` ${formatLine(bet.line, bet.marketType, bet.selection)}`
+            : ""}
+        </span>
+        <span className="text-neutral-400 font-mono">{bet.coefficient.toFixed(2)}</span>
+        {bet.isWinner === true ? (
+          <span className="text-green-400">{t("betWon")}</span>
+        ) : bet.isWinner === false ? (
+          <span className="text-red-400">{t("betLost")}</span>
+        ) : (
+          <span className="text-neutral-500">{t("betPending")}</span>
+        )}
+      </>
+    )
+  }
 
   return (
     <div className={`bg-neutral-900 border rounded-xl p-5 ${winIndicator}`}>
@@ -401,7 +434,39 @@ export function BettingCard({
         <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
       )}
 
-      {rosterRows.length > 0 && (
+      {pairings.length > 0 ? (
+        <div className="mt-4 border-t border-neutral-800 pt-3 space-y-1.5">
+          {pairings.map((p) => {
+            const isYourRow = p.contestantAId === currentUserId || p.contestantBId === currentUserId
+            const betA = betsByUserId.get(p.contestantAId) ?? null
+            const betB = betsByUserId.get(p.contestantBId) ?? null
+            return (
+              <div
+                key={`${p.contestantAId}-${p.contestantBId}`}
+                className={`grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-lg border px-3 py-2 text-xs ${
+                  isYourRow ? "border-neutral-700 bg-neutral-900" : "border-neutral-800 bg-neutral-900/50"
+                }`}
+              >
+                <div className="flex items-center justify-end gap-1.5 flex-wrap min-w-0">
+                  {betSummary(betA)}
+                  <span className={p.contestantAId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
+                    {p.contestantAName}
+                  </span>
+                  <UserAvatar logoUrl={p.contestantALogoUrl} displayName={p.contestantAName} size={24} />
+                </div>
+                <span className="text-neutral-500 px-1">vs</span>
+                <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                  <UserAvatar logoUrl={p.contestantBLogoUrl} displayName={p.contestantBName} size={24} />
+                  <span className={p.contestantBId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
+                    {p.contestantBName}
+                  </span>
+                  {betSummary(betB)}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      ) : rosterRows.length > 0 ? (
         <div className="mt-4 border-t border-neutral-800 pt-3 space-y-1.5">
           {rosterRows.map((row) => {
             const isYou = row.userId === currentUserId
@@ -418,31 +483,12 @@ export function BettingCard({
                     {row.displayName}
                   </span>
                 </div>
-                {row.bet ? (
-                  <div className="flex items-center gap-3">
-                    <span className="text-neutral-300">
-                      {marketLabel(row.bet.marketType)}: {row.bet.selection}
-                      {row.bet.line != null && !LINE_IN_NAME_MARKETS.has(row.bet.marketType)
-                        ? ` ${formatLine(row.bet.line, row.bet.marketType, row.bet.selection)}`
-                        : ""}
-                    </span>
-                    <span className="text-neutral-400 font-mono">{row.bet.coefficient.toFixed(2)}</span>
-                    {row.bet.isWinner === true ? (
-                      <span className="text-green-400">{t("betWon")}</span>
-                    ) : row.bet.isWinner === false ? (
-                      <span className="text-red-400">{t("betLost")}</span>
-                    ) : (
-                      <span className="text-neutral-500">{t("betPending")}</span>
-                    )}
-                  </div>
-                ) : (
-                  <span className="text-neutral-600 italic">{t("noBetYet")}</span>
-                )}
+                <div className="flex items-center gap-3">{betSummary(row.bet)}</div>
               </div>
             )
           })}
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

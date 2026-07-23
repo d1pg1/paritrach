@@ -117,6 +117,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
             isResults,
             teamLogoMap,
             participants,
+            pairings: h2h,
           }}
         />
       )}

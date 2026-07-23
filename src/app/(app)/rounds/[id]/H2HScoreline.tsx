@@ -5,8 +5,10 @@ import { useTranslations } from "next-intl"
 export interface H2HPairingData {
   contestantAId: string
   contestantAName: string
+  contestantALogoUrl: string | null
   contestantBId: string
   contestantBName: string
+  contestantBLogoUrl: string | null
   correctA: number
   correctB: number
 }

@@ -99,8 +99,10 @@ export async function computeH2HStandings(
 export interface RoundH2HPairing {
   contestantAId: string
   contestantAName: string
+  contestantALogoUrl: string | null
   contestantBId: string
   contestantBName: string
+  contestantBLogoUrl: string | null
   correctA: number
   correctB: number
 }
@@ -117,7 +119,7 @@ export async function getRoundH2HPairings(roundId: string): Promise<RoundH2HPair
           format: true,
           contestants: {
             orderBy: { drawPosition: "asc" },
-            select: { userId: true, user: { select: { nickname: true, username: true } } },
+            select: { userId: true, user: { select: { nickname: true, username: true, logoUrl: true } } },
           },
         },
       },
@@ -136,12 +138,15 @@ export async function getRoundH2HPairings(roundId: string): Promise<RoundH2HPair
   const pairings = getPairingsForRound(drawOrder, round.sequenceNumber)
   const correctByUser = countCorrectByUser(round.matches.flatMap((m) => m.bets))
   const nameById = new Map(contestants.map((c) => [c.userId, c.user.nickname ?? c.user.username ?? "?"]))
+  const logoById = new Map(contestants.map((c) => [c.userId, c.user.logoUrl]))
 
   return pairings.map(([a, b]) => ({
     contestantAId: a,
     contestantAName: nameById.get(a) ?? "?",
+    contestantALogoUrl: logoById.get(a) ?? null,
     contestantBId: b,
     contestantBName: nameById.get(b) ?? "?",
+    contestantBLogoUrl: logoById.get(b) ?? null,
     correctA: correctByUser.get(a) ?? 0,
     correctB: correctByUser.get(b) ?? 0,
   }))
