@@ -31,9 +31,7 @@
     "noMatches": "Brak dostępnych meczów.",
     "allBetted": "Postawiłeś zakład na każdy mecz w tej kolejce.",
     "betsProgress": "Zakłady postawione na {count} z {total} meczów",
-    "leaveWarning": "Postawiłeś zakład tylko na {count} z {total} meczów. Mimo to opuścić stronę?",
-    "h2hVsOpponent": "Ty vs {opponent}",
-    "h2hPairing": "{a} vs {b}"
+    "leaveWarning": "Postawiłeś zakład tylko na {count} z {total} meczów. Mimo to opuścić stronę?"
   },
   "betting": {
     "markets": {
