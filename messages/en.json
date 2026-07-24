@@ -63,7 +63,8 @@
     "betWon": "Won",
     "betLost": "Lost",
     "betPending": "—",
-    "noBetYet": "No bet yet"
+    "noBetYet": "No bet yet",
+    "betPlaced": "Bet placed"
   },
   "scoreboard": {
     "title": "Scoreboard",

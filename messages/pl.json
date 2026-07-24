@@ -63,7 +63,8 @@
     "betWon": "Wygrana",
     "betLost": "Przegrana",
     "betPending": "—",
-    "noBetYet": "Brak zakładu"
+    "noBetYet": "Brak zakładu",
+    "betPlaced": "Zakład postawiony"
   },
   "scoreboard": {
     "title": "Tabela",

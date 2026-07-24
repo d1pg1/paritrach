@@ -31,6 +31,33 @@ interface MatchRow {
   }[]
 }
 
+interface RedactedBet {
+  id: string
+  userId: string
+  revealed: boolean
+  marketType: string
+  selection: string
+  line: number | null
+  coefficient: number
+  isWinner: boolean | null
+  user: { username: string; nickname: string | null; logoUrl: string | null }
+}
+
+function toRedactedBet(bet: MatchRow["bets"][number], revealed: boolean): RedactedBet {
+  if (revealed) return { ...bet, revealed: true }
+  return {
+    id: bet.id,
+    userId: bet.userId,
+    revealed: false,
+    marketType: "",
+    selection: "",
+    line: null,
+    coefficient: 0,
+    isWinner: null,
+    user: bet.user,
+  }
+}
+
 export default async function RoundPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const session = await auth()
@@ -107,7 +134,9 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
           entries={(round.matches as MatchRow[]).map((match) => ({
             match,
             existingBet: match.bets.find((b) => b.userId === session.user.id) ?? null,
-            allBets: match.bets,
+            allBets: match.bets.map((b) =>
+              toRedactedBet(b, !isBettingOpen || b.userId === session.user.id)
+            ),
           }))}
           initialH2H={h2h}
           shared={{

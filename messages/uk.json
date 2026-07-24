@@ -63,7 +63,8 @@
     "betWon": "Виграш",
     "betLost": "Програш",
     "betPending": "—",
-    "noBetYet": "Ставку не зроблено"
+    "noBetYet": "Ставку не зроблено",
+    "betPlaced": "Ставку зроблено"
   },
   "scoreboard": {
     "title": "Таблиця",

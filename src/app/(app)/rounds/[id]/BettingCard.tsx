@@ -44,6 +44,7 @@ interface Bet {
 
 interface BetWithUser extends Bet {
   userId: string
+  revealed?: boolean
   user: { username: string; nickname: string | null; logoUrl: string | null }
 }
 
@@ -207,8 +208,9 @@ export function BettingCard({
         bet: b,
       }))
 
-  function betSummary(bet: Bet | null) {
+  function betSummary(bet: BetWithUser | null) {
     if (!bet) return <span className="text-neutral-600 italic">{t("noBetYet")}</span>
+    if (bet.revealed === false) return <span className="text-neutral-500 italic">{t("betPlaced")}</span>
     return (
       <>
         <span className="text-neutral-300">
