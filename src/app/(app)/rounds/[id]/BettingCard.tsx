@@ -210,7 +210,7 @@ export function BettingCard({
 
   function betSummary(bet: BetWithUser | null) {
     if (!bet) return <span className="text-neutral-600 italic">{t("noBetYet")}</span>
-    if (bet.revealed === false) return <span className="text-neutral-300 italic">{t("betPlaced")}</span>
+    if (bet.revealed === false) return <span className="text-neutral-350 italic">{t("betPlaced")}</span>
     return (
       <>
         <span className="text-neutral-300">
