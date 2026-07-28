@@ -133,11 +133,15 @@ export interface RawFixture {
   startTime: string
   homeTeam: string
   awayTeam: string
+  hasOdds: boolean
 }
 
 // Used to import fixtures directly from OddsPapi for competitions The Odds API doesn't yet
 // cover (e.g. cup competitions still in their qualifying phase). Retries on 429 — OddsPapi's
 // per-second rate limit is tight enough that even a few sequential calls can trip it.
+//
+// The fixtures list already carries a per-fixture hasOdds flag, so callers can filter out
+// fixtures no bookmaker has priced yet without an extra request per fixture.
 export async function fetchFixturesForTournament(tournamentId: number): Promise<RawFixture[]> {
   const url = `${BASE}/v4/fixtures?tournamentId=${tournamentId}&apiKey=${KEY}`
   const res = await fetchWithRetry(url, 300)
@@ -148,6 +152,7 @@ export async function fetchFixturesForTournament(tournamentId: number): Promise<
     startTime: string
     participant1Name: string
     participant2Name: string
+    hasOdds: boolean
   }>
 
   const now = Date.now()
@@ -158,6 +163,7 @@ export async function fetchFixturesForTournament(tournamentId: number): Promise<
       startTime: e.startTime,
       homeTeam: e.participant1Name,
       awayTeam: e.participant2Name,
+      hasOdds: e.hasOdds,
     }))
 }
 

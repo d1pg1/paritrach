@@ -9,11 +9,15 @@ async function fetchFixtures(competition: CompetitionConfig): Promise<RawFixture
     return fetchFixturesForTournament(competition.oddsPapiTournamentId)
   }
   const events = await fetchEventsForSport(competition.oddsApiSportKey)
+  // The Odds API only lists an event once its market is open, so events from this source
+  // are always odds-ready — unlike OddsPapi's fixture list, which includes fixtures months
+  // before any bookmaker has priced them.
   return events.map((e) => ({
     id: e.id,
     startTime: e.commence_time,
     homeTeam: e.home_team,
     awayTeam: e.away_team,
+    hasOdds: true,
   }))
 }
 
@@ -32,7 +36,7 @@ export async function importFixturesForCompetitions(
     if (i > 0) await new Promise((r) => setTimeout(r, 2500))
     const c = competitions[i]
     const fixtures = await fetchFixtures(c).catch(() => [])
-    const toInsert = fixtures.filter((f) => !existingIds.includes(f.id))
+    const toInsert = fixtures.filter((f) => f.hasOdds && !existingIds.includes(f.id))
     results.push({ competition: c, fixtures, toInsert })
   }
 
