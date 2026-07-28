@@ -131,13 +131,16 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
       ) : (
         <LiveScorePoller
           roundId={id}
-          entries={(round.matches as MatchRow[]).map((match) => ({
-            match,
-            existingBet: match.bets.find((b) => b.userId === session.user.id) ?? null,
-            allBets: match.bets.map((b) =>
-              toRedactedBet(b, !isBettingOpen || b.userId === session.user.id)
-            ),
-          }))}
+          entries={(round.matches as MatchRow[]).map((match) => {
+            const matchBettingClosed = !isBettingOpen || new Date() >= new Date(match.startTime)
+            return {
+              match,
+              existingBet: match.bets.find((b) => b.userId === session.user.id) ?? null,
+              allBets: match.bets.map((b) =>
+                toRedactedBet(b, matchBettingClosed || b.userId === session.user.id)
+              ),
+            }
+          })}
           initialH2H={h2h}
           shared={{
             currentUserId: session.user.id,
