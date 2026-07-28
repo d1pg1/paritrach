@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { fetchResultsByDate, findEspnEventForMatch, parseScores, fetchHalftimeScores, parseFirstGoal, parseAdvancingTeam, competitionToEspnSlug } from "@/lib/apis/espn"
+import { fetchResultsByDate, findEspnEventForMatch, parseScores, fetchHalftimeScores, parseFirstGoal, parseAdvancingTeam, competitionToEspnSlugs } from "@/lib/apis/espn"
 import { settleBet } from "@/lib/settlement"
 
 export async function settleRound(roundId: string): Promise<{
@@ -20,20 +20,21 @@ export async function settleRound(roundId: string): Promise<{
 
   const dateSlugPairs = [
     ...new Map(
-      round.matches.map((m) => {
+      round.matches.flatMap((m) => {
         // ESPN buckets matches by US Eastern time (UTC-4/5). Subtract 6h so matches
         // starting before 06:00 UTC (e.g. 01:00 UTC = 21:00 ET) map to the correct ESPN day.
         const espnDate = new Date(m.startTime.getTime() - 6 * 60 * 60 * 1000)
         const date = espnDate.toISOString().slice(0, 10)
-        const slug = competitionToEspnSlug(m.competition)
-        return [`${date}|${slug}`, { date, slug }]
+        return competitionToEspnSlugs(m.competition).map((slug) => [`${date}|${slug}`, { date, slug }] as const)
       })
     ).values(),
   ]
 
-  const allEvents = (
-    await Promise.all(dateSlugPairs.map(({ date, slug }) => fetchResultsByDate(new Date(date), slug)))
-  ).flat()
+  const eventsBySlug = await Promise.all(
+    dateSlugPairs.map(async ({ date, slug }) => ({ slug, events: await fetchResultsByDate(new Date(date), slug) }))
+  )
+  const allEvents = eventsBySlug.flatMap((e) => e.events)
+  const slugByEventId = new Map(eventsBySlug.flatMap(({ slug, events }) => events.map((e) => [e.id, slug] as const)))
 
   let settled = 0
   let updated = 0
@@ -45,7 +46,7 @@ export async function settleRound(roundId: string): Promise<{
     const { homeScore, awayScore, completed } = parseScores(espnEvent)
     if (!completed) continue
 
-    const slug = competitionToEspnSlug(match.competition)
+    const slug = slugByEventId.get(espnEvent.id) ?? competitionToEspnSlugs(match.competition)[0]
     const halftime = await fetchHalftimeScores(espnEvent.id, slug)
     const firstGoal = parseFirstGoal(espnEvent)
     const advancingTeam = parseAdvancingTeam(espnEvent)

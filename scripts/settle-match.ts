@@ -7,7 +7,7 @@ import {
   parseScores,
   fetchHalftimeScores,
   parseFirstGoal,
-  competitionToEspnSlug,
+  competitionToEspnSlugs,
 } from "../src/lib/apis/espn"
 import { settleBet } from "../src/lib/settlement"
 
@@ -36,23 +36,22 @@ async function main() {
     // Fetch ESPN events for each unique date+slug
     const dateSlugPairs = [
       ...new Map(
-        pastMatches.map((m) => {
+        pastMatches.flatMap((m) => {
           const espnDate = new Date(m.startTime.getTime() - 6 * 60 * 60 * 1000)
           const date = espnDate.toISOString().slice(0, 10)
-          const slug = competitionToEspnSlug(m.competition)
-          return [`${date}|${slug}`, { date, slug }]
+          return competitionToEspnSlugs(m.competition).map((slug) => [`${date}|${slug}`, { date, slug }] as const)
         })
       ).values(),
     ]
 
-    const allEvents = (
-      await Promise.all(
-        dateSlugPairs.map(({ date, slug }) => {
-          console.log(`  Fetching ESPN ${slug} on ${date}`)
-          return fetchResultsByDate(new Date(date), slug)
-        })
-      )
-    ).flat()
+    const eventsBySlug = await Promise.all(
+      dateSlugPairs.map(async ({ date, slug }) => {
+        console.log(`  Fetching ESPN ${slug} on ${date}`)
+        return { slug, events: await fetchResultsByDate(new Date(date), slug) }
+      })
+    )
+    const allEvents = eventsBySlug.flatMap((e) => e.events)
+    const slugByEventId = new Map(eventsBySlug.flatMap(({ slug, events }) => events.map((e) => [e.id, slug] as const)))
 
     console.log(`  Found ${allEvents.length} ESPN events`)
 
@@ -69,7 +68,7 @@ async function main() {
         continue
       }
 
-      const slug = competitionToEspnSlug(match.competition)
+      const slug = slugByEventId.get(event.id) ?? competitionToEspnSlugs(match.competition)[0]
       const halftime = await fetchHalftimeScores(event.id, slug)
       const firstGoal = parseFirstGoal(event)
 

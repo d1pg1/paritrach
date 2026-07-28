@@ -8,6 +8,14 @@ export function competitionToEspnSlug(competition: string | null | undefined): s
   return competitionByLabel(competition)?.espnSlug ?? DEFAULT_ESPN_SLUG
 }
 
+// Returns every ESPN slug a match's competition could be filed under — the main
+// tournament slug plus, for UEFA cups, the separate slug their qualifying rounds use.
+export function competitionToEspnSlugs(competition: string | null | undefined): string[] {
+  const config = competitionByLabel(competition)
+  if (!config) return [DEFAULT_ESPN_SLUG]
+  return config.qualifyingEspnSlug ? [config.espnSlug, config.qualifyingEspnSlug] : [config.espnSlug]
+}
+
 export interface EspnTeamInfo {
   id: string
   displayName: string
@@ -110,6 +118,10 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   trkiye: "turkey",
   turkiye: "turkey",
   turkey: "turkey",
+  // OddsPapi lists qualifying-round minnows by full/official name; ESPN uses its own
+  // shorter club name for the same team.
+  kuopionpalloseura: "kupskuopio",
+  sabahmasazir: "sabahfk",
 }
 
 export function findEspnEventForMatch(

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { fetchResultsByDate, findEspnEventForMatch, parseScores, competitionToEspnSlug } from "@/lib/apis/espn"
+import { fetchResultsByDate, findEspnEventForMatch, parseScores, competitionToEspnSlugs } from "@/lib/apis/espn"
 import { handleGoalDetected } from "@/lib/goal-detection"
 import { getRoundH2HPairings } from "@/lib/h2h-scoring"
 
@@ -36,10 +36,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 
   const dateSlugPairs = [
     ...new Map(
-      matches.map((m) => {
+      matches.flatMap((m) => {
         const date = m.startTime.toISOString().slice(0, 10)
-        const slug = competitionToEspnSlug(m.competition)
-        return [`${date}|${slug}`, { date, slug }]
+        return competitionToEspnSlugs(m.competition).map((slug) => [`${date}|${slug}`, { date, slug }] as const)
       })
     ).values(),
   ]
