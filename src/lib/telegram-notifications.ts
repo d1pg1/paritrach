@@ -37,8 +37,14 @@ export async function getUsersWithMissingBets(
   const eligibleMatchCount = await db.match.count({ where: { roundId, isEligible: true } })
   if (eligibleMatchCount === 0) return []
 
+  // Current season contestants live under Settings.currentSeasonId once "Start Season"
+  // has been used; seasonId: null is only still current for installs that haven't run
+  // that flow yet.
+  const settings = await db.settings.findUnique({ where: { id: "singleton" } })
+  const currentSeasonId = settings?.currentSeasonId ?? null
+
   const contestants = await db.seasonContestant.findMany({
-    where: { seasonId: null, user: { telegramUsername: { not: null } } },
+    where: { seasonId: currentSeasonId, user: { telegramUsername: { not: null } } },
     include: { user: { select: { username: true, telegramUsername: true } } },
   })
   if (contestants.length === 0) return []
