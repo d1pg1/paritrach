@@ -58,7 +58,8 @@ async function fetchFromTheSportsDB(name: string): Promise<string | null> {
     )
     if (!res.ok) return null
     const data = await res.json()
-    return (data?.teams?.[0]?.strTeamBadge as string | undefined) ?? null
+    const team = data?.teams?.[0]
+    return (team?.strBadge as string | undefined) ?? (team?.strLogo as string | undefined) ?? null
   } catch {
     return null
   }
@@ -77,17 +78,17 @@ async function fetchFromEspnClub(name: string, espnSlug: string): Promise<string
   return hit?.logo ?? null
 }
 
-async function resolveLogoUrl(name: string, espnSlug?: string): Promise<string | null> {
+export async function resolveLogoUrl(name: string, espnSlugs: string[]): Promise<string | null> {
   const flag = getFlagUrl(name)
   if (flag) return flag
-  if (espnSlug) {
+  for (const espnSlug of espnSlugs) {
     const espnLogo = await fetchFromEspnClub(name, espnSlug)
     if (espnLogo) return espnLogo
   }
   return fetchFromTheSportsDB(name)
 }
 
-export async function ensureTeamLogos(names: string[], espnSlug?: string): Promise<void> {
+export async function ensureTeamLogos(names: string[], espnSlugs: string[] = []): Promise<void> {
   const unique = [...new Set(names)]
   const existing = new Set(
     (await db.team.findMany({ where: { name: { in: unique } }, select: { name: true } })).map(
@@ -99,7 +100,7 @@ export async function ensureTeamLogos(names: string[], espnSlug?: string): Promi
 
   await Promise.all(
     missing.map(async (name) => {
-      const logoUrl = await resolveLogoUrl(name, espnSlug)
+      const logoUrl = await resolveLogoUrl(name, espnSlugs)
       await db.team
         .create({ data: { name, logoUrl } })
         .catch(() => {}) // ignore race-condition duplicates

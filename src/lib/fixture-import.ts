@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { fetchEventsForSport } from "@/lib/apis/odds-api"
 import { fetchFixturesForTournament, type RawFixture } from "@/lib/apis/oddspapi"
 import { ensureTeamLogos } from "@/lib/team-logo-resolver"
+import { competitionToEspnSlugs } from "@/lib/apis/espn"
 import type { CompetitionConfig } from "@/lib/competitions"
 
 async function fetchFixtures(competition: CompetitionConfig): Promise<RawFixture[]> {
@@ -55,7 +56,7 @@ export async function importFixturesForCompetitions(
     })
 
     const teamNames = toInsert.flatMap((f) => [f.homeTeam, f.awayTeam])
-    void ensureTeamLogos(teamNames, competition.espnSlug)
+    void ensureTeamLogos(teamNames, competitionToEspnSlugs(competition.label))
   }
 
   const imported = results.reduce((s, r) => s + r.toInsert.length, 0)

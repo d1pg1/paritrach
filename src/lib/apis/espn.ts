@@ -122,6 +122,12 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   // shorter club name for the same team.
   kuopionpalloseura: "kupskuopio",
   sabahmasazir: "sabahfk",
+  // ESPN uses "F.C. København" (Danish spelling); our DB uses "FC Copenhagen"
+  fckbenhavn: "copenhagen",
+  fccopenhagen: "copenhagen",
+  // ESPN uses "Polissya Zhitomir"; our DB uses "FC Polissya Zhytomyr"
+  polissyazhitomir: "polissya",
+  fcpolissyazhytomyr: "polissya",
 }
 
 export function findEspnEventForMatch(
