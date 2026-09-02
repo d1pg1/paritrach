@@ -56,7 +56,7 @@ export async function computeH2HStandings(
   if (drawOrder.length < 2) return standings
 
   const rounds = await db.round.findMany({
-    where: { seasonId, sequenceNumber: { not: null } },
+    where: { seasonId, sequenceNumber: { not: null }, status: "RESULTS" },
     select: {
       sequenceNumber: true,
       bets: {
