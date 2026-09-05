@@ -128,6 +128,9 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   // ESPN uses "Polissya Zhitomir"; our DB uses "FC Polissya Zhytomyr"
   polissyazhitomir: "polissya",
   fcpolissyazhytomyr: "polissya",
+  // The Odds API calls them "Inter Milan"; ESPN uses "Internazionale"
+  intermilan: "inter",
+  internazionale: "inter",
 }
 
 export function findEspnEventForMatch(
