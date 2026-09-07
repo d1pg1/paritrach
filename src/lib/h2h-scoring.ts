@@ -151,3 +151,64 @@ export async function getRoundH2HPairings(roundId: string): Promise<RoundH2HPair
     correctB: correctByUser.get(b) ?? 0,
   }))
 }
+
+export interface RivalRecord {
+  opponentId: string
+  wins: number
+  draws: number
+  losses: number
+}
+
+// All-time head-to-head record against every opponent this user has been drawn
+// against, across every H2H-format season they've been a contestant in.
+export async function computeHeadToHeadRecords(userId: string): Promise<RivalRecord[]> {
+  const memberships = await db.seasonContestant.findMany({
+    where: { userId, seasonId: { not: null } },
+    select: { seasonId: true, season: { select: { format: true } } },
+  })
+  const h2hSeasonIds = memberships
+    .filter((m) => m.season?.format === "H2H")
+    .map((m) => m.seasonId!)
+  if (h2hSeasonIds.length === 0) return []
+
+  const records = new Map<string, RivalRecord>()
+
+  for (const seasonId of h2hSeasonIds) {
+    const season = await db.season.findUnique({
+      where: { id: seasonId },
+      select: { contestants: { orderBy: { drawPosition: "asc" }, select: { userId: true } } },
+    })
+    const drawOrder = season?.contestants.map((c) => c.userId) ?? []
+    if (drawOrder.length < 2 || !drawOrder.includes(userId)) continue
+
+    const rounds = await db.round.findMany({
+      where: { seasonId, sequenceNumber: { not: null }, status: "RESULTS" },
+      select: {
+        sequenceNumber: true,
+        bets: { select: { userId: true, isWinner: true, match: { select: { isEligible: true } } } },
+      },
+      orderBy: { sequenceNumber: "asc" },
+    })
+
+    for (const round of rounds) {
+      const eligibleBets = round.bets.filter((b) => b.match.isEligible)
+      const correctByUser = countCorrectByUser(eligibleBets)
+      const pairings = getPairingsForRound(drawOrder, round.sequenceNumber!)
+      const mine = pairings.find(([a, b]) => a === userId || b === userId)
+      if (!mine) continue
+      const opponentId = mine[0] === userId ? mine[1] : mine[0]
+
+      const myCorrect = correctByUser.get(userId) ?? 0
+      const oppCorrect = correctByUser.get(opponentId) ?? 0
+      const rec = records.get(opponentId) ?? { opponentId, wins: 0, draws: 0, losses: 0 }
+      if (myCorrect > oppCorrect) rec.wins++
+      else if (myCorrect < oppCorrect) rec.losses++
+      else rec.draws++
+      records.set(opponentId, rec)
+    }
+  }
+
+  return [...records.values()].sort(
+    (a, b) => b.wins + b.draws + b.losses - (a.wins + a.draws + a.losses)
+  )
+}

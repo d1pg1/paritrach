@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
 import { after } from "next/server"
+import Link from "next/link"
 import { SeasonSelector } from "@/components/SeasonSelector"
 import { UserAvatar } from "@/components/UserAvatar"
 import { settleRound } from "@/lib/settle-round"
@@ -130,10 +131,10 @@ export default async function ScoreboardPage({
                 >
                   <td className="py-3 pr-3 font-mono text-neutral-500">{i + 1}</td>
                   <td className="py-3 pr-4">
-                    <div className="flex items-center gap-2.5">
+                    <Link href={`/players/${row.id}`} className="flex items-center gap-2.5 group w-fit">
                       <UserAvatar logoUrl={row.logoUrl} displayName={row.displayName} size={40} />
-                      <span className="font-medium">{row.displayName}</span>
-                    </div>
+                      <span className="font-medium group-hover:text-yellow-400 transition-colors">{row.displayName}</span>
+                    </Link>
                   </td>
                   <td className="py-3 pr-4 text-right text-neutral-400">{row.rounds}</td>
                   <td className="py-3 pr-4 text-right font-bold">{row.points}</td>

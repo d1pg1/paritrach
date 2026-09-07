@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { UserAvatar } from "@/components/UserAvatar"
 
 export interface H2HPairingData {
@@ -27,19 +28,25 @@ export function H2HScoreline({ pairings, viewerId }: { pairings: H2HPairingData[
               isViewer ? "border-neutral-700 bg-neutral-900" : "border-neutral-800 bg-neutral-900/50"
             }`}
           >
-            <div className="flex items-center justify-end gap-1.5 min-w-0">
+            <Link
+              href={`/players/${p.contestantAId}`}
+              className="flex items-center justify-end gap-1.5 min-w-0 hover:opacity-80 transition-opacity"
+            >
               <span className={p.contestantAId === viewerId ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
                 {p.contestantAName}
               </span>
               <UserAvatar logoUrl={p.contestantALogoUrl} displayName={p.contestantAName} size={24} />
-            </div>
+            </Link>
             <span className="text-neutral-500 px-1">vs</span>
-            <div className="flex items-center gap-1.5 min-w-0">
+            <Link
+              href={`/players/${p.contestantBId}`}
+              className="flex items-center gap-1.5 min-w-0 hover:opacity-80 transition-opacity"
+            >
               <UserAvatar logoUrl={p.contestantBLogoUrl} displayName={p.contestantBName} size={24} />
               <span className={p.contestantBId === viewerId ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
                 {p.contestantBName}
               </span>
-            </div>
+            </Link>
             <span className={`font-mono font-bold flex-shrink-0 ${isViewer ? "text-yellow-400" : "text-neutral-400"}`}>
               {p.correctA}–{p.correctB}
             </span>

@@ -266,6 +266,32 @@
     },
     "footer": "Football Prediction League • Fair Odds • High Excitement"
   },
+  "players": {
+    "backLink": "← Back to Scoreboard",
+    "memberSince": "Member since {date}",
+    "stats": {
+      "winRate": "Win rate",
+      "record": "{wins}–{losses}",
+      "totalBets": "Total bets",
+      "roundsPlayed": "{count, plural, one {# round played} other {# rounds played}}",
+      "currentStreak": "Current streak",
+      "bestStreak": "Best: {count, plural, one {# win} other {# wins}} in a row",
+      "streakWins": "{count, plural, one {# win} other {# wins}} in a row",
+      "streakLosses": "{count, plural, one {# loss} other {# losses}} in a row",
+      "noStreak": "No active streak",
+      "avgOdds": "Average odds",
+      "favoriteMarket": "Favorite market",
+      "bestMarket": "Best market",
+      "betCount": "{count, plural, one {# bet} other {# bets}}",
+      "noData": "Not enough data yet",
+      "biggestWin": "Biggest win"
+    },
+    "headToHead": {
+      "title": "Head-to-head record",
+      "empty": "No head-to-head matchups yet.",
+      "record": "{wins}-{draws}-{losses}"
+    }
+  },
   "adminUsers": {
     "title": "Users",
     "usernameLabel": "Username",

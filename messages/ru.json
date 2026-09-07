@@ -262,6 +262,32 @@
     },
     "footer": "Футбольная прогнозистская лига • Честные коэффициенты • Высокий азарт"
   },
+  "players": {
+    "backLink": "← Назад к таблице",
+    "memberSince": "На платформе с {date}",
+    "stats": {
+      "winRate": "Процент побед",
+      "record": "{wins}–{losses}",
+      "totalBets": "Всего ставок",
+      "roundsPlayed": "{count, plural, one {# тур сыгран} few {# тура сыграно} many {# туров сыграно} other {# тура сыграно}}",
+      "currentStreak": "Текущая серия",
+      "bestStreak": "Лучшая: {count, plural, one {# победа} few {# победы} many {# побед} other {# победы}} подряд",
+      "streakWins": "{count, plural, one {# победа} few {# победы} many {# побед} other {# победы}} подряд",
+      "streakLosses": "{count, plural, one {# поражение} few {# поражения} many {# поражений} other {# поражения}} подряд",
+      "noStreak": "Нет активной серии",
+      "avgOdds": "Средний коэффициент",
+      "favoriteMarket": "Любимый рынок",
+      "bestMarket": "Лучший рынок",
+      "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
+      "noData": "Пока недостаточно данных",
+      "biggestWin": "Самый крупный выигрыш"
+    },
+    "headToHead": {
+      "title": "Личные встречи",
+      "empty": "Личных встреч пока не было.",
+      "record": "{wins}-{draws}-{losses}"
+    }
+  },
   "adminUsers": {
     "title": "Пользователи",
     "usernameLabel": "Имя пользователя",

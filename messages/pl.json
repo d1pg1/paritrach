@@ -262,6 +262,32 @@
     },
     "footer": "Piłkarska Liga Typowań • Uczciwe kursy • Wysokie emocje"
   },
+  "players": {
+    "backLink": "← Powrót do tabeli",
+    "memberSince": "Na platformie od {date}",
+    "stats": {
+      "winRate": "Procent wygranych",
+      "record": "{wins}–{losses}",
+      "totalBets": "Zakłady łącznie",
+      "roundsPlayed": "{count, plural, one {# rozegrana runda} few {# rozegrane rundy} many {# rozegranych rund} other {# rozegranej rundy}}",
+      "currentStreak": "Aktualna seria",
+      "bestStreak": "Najlepsza: {count, plural, one {# wygrana} few {# wygrane} many {# wygranych} other {# wygranej}} z rzędu",
+      "streakWins": "{count, plural, one {# wygrana} few {# wygrane} many {# wygranych} other {# wygranej}} z rzędu",
+      "streakLosses": "{count, plural, one {# przegrana} few {# przegrane} many {# przegranych} other {# przegranej}} z rzędu",
+      "noStreak": "Brak aktywnej serii",
+      "avgOdds": "Średni kurs",
+      "favoriteMarket": "Ulubiony rynek",
+      "bestMarket": "Najlepszy rynek",
+      "betCount": "{count, plural, one {# zakład} few {# zakłady} many {# zakładów} other {# zakładu}}",
+      "noData": "Za mało danych",
+      "biggestWin": "Największa wygrana"
+    },
+    "headToHead": {
+      "title": "Bezpośrednie starcia",
+      "empty": "Brak dotychczasowych bezpośrednich starć.",
+      "record": "{wins}-{draws}-{losses}"
+    }
+  },
   "adminUsers": {
     "title": "Użytkownicy",
     "usernameLabel": "Nazwa użytkownika",

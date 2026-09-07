@@ -266,6 +266,32 @@
     },
     "footer": "Футбольна прогнозистська ліга • Чесні коефіцієнти • Високий азарт"
   },
+  "players": {
+    "backLink": "← Назад до таблиці",
+    "memberSince": "На платформі з {date}",
+    "stats": {
+      "winRate": "Відсоток перемог",
+      "record": "{wins}–{losses}",
+      "totalBets": "Усього ставок",
+      "roundsPlayed": "{count, plural, one {# тур зіграно} few {# тури зіграно} many {# турів зіграно} other {# туру зіграно}}",
+      "currentStreak": "Поточна серія",
+      "bestStreak": "Найкраща: {count, plural, one {# перемога} few {# перемоги} many {# перемог} other {# перемоги}} поспіль",
+      "streakWins": "{count, plural, one {# перемога} few {# перемоги} many {# перемог} other {# перемоги}} поспіль",
+      "streakLosses": "{count, plural, one {# поразка} few {# поразки} many {# поразок} other {# поразки}} поспіль",
+      "noStreak": "Немає активної серії",
+      "avgOdds": "Середній коефіцієнт",
+      "favoriteMarket": "Улюблений ринок",
+      "bestMarket": "Найкращий ринок",
+      "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
+      "noData": "Поки що недостатньо даних",
+      "biggestWin": "Найбільший виграш"
+    },
+    "headToHead": {
+      "title": "Особисті зустрічі",
+      "empty": "Особистих зустрічей поки не було.",
+      "record": "{wins}-{draws}-{losses}"
+    }
+  },
   "adminUsers": {
     "title": "Користувачі",
     "usernameLabel": "Ім'я користувача",
