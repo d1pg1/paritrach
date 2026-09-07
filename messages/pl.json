@@ -264,7 +264,7 @@
   },
   "players": {
     "backLink": "← Powrót do tabeli",
-    "memberSince": "Na platformie od {date}",
+    "memberSince": "Gra od {date}",
     "stats": {
       "winRate": "Procent wygranych",
       "record": "{wins}–{losses}",

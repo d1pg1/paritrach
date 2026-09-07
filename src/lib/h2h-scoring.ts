@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { getPairingsForRound } from "@/lib/h2h-schedule"
+import { excludeTestRoundsWhere } from "@/lib/test-round-filter"
 
 // Scoring rule for a pairing (A vs B) over a round's eligible matches: whoever has
 // more correct picks gets 3 points and the loser gets 0; a tie (including 0-0) gives
@@ -182,7 +183,7 @@ export async function computeHeadToHeadRecords(userId: string): Promise<RivalRec
     if (drawOrder.length < 2 || !drawOrder.includes(userId)) continue
 
     const rounds = await db.round.findMany({
-      where: { seasonId, sequenceNumber: { not: null }, status: "RESULTS" },
+      where: { seasonId, sequenceNumber: { not: null }, status: "RESULTS", ...excludeTestRoundsWhere },
       select: {
         sequenceNumber: true,
         bets: { select: { userId: true, isWinner: true, match: { select: { isEligible: true } } } },

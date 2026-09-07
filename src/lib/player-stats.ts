@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { excludeTestRoundsWhere } from "@/lib/test-round-filter"
 
 export interface PlayerBet {
   marketType: string
@@ -41,6 +42,7 @@ export interface PlayerStats {
   avgCoefficient: number | null
   biggestWin: BiggestWin | null
   roundsPlayed: number
+  memberSince: Date | null
 }
 
 // Minimum settled bets in a market before its win rate counts toward "best market" —
@@ -67,13 +69,14 @@ function computeStreaks(chronological: { isWinner: boolean | null }[]): { curren
 
 export async function getPlayerStats(userId: string): Promise<PlayerStats> {
   const bets = await db.bet.findMany({
-    where: { userId },
+    where: { userId, round: excludeTestRoundsWhere },
     select: {
       marketType: true,
       selection: true,
       coefficient: true,
       isWinner: true,
       roundId: true,
+      createdAt: true,
       match: { select: { startTime: true, homeTeam: true, awayTeam: true } },
     },
     orderBy: { match: { startTime: "asc" } },
@@ -130,6 +133,12 @@ export async function getPlayerStats(userId: string): Promise<PlayerStats> {
 
   const roundsPlayed = new Set(bets.map((b) => b.roundId)).size
 
+  // "Member since" is derived from their first stake rather than the User row's
+  // createdAt — that field reflects a database migration timestamp, not a real join date.
+  const memberSince = bets.length > 0
+    ? new Date(Math.min(...bets.map((b) => b.createdAt.getTime())))
+    : null
+
   return {
     totalBets,
     settledBets: settled.length,
@@ -143,5 +152,6 @@ export async function getPlayerStats(userId: string): Promise<PlayerStats> {
     avgCoefficient,
     biggestWin,
     roundsPlayed,
+    memberSince,
   }
 }

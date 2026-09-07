@@ -264,7 +264,7 @@
   },
   "players": {
     "backLink": "← Назад к таблице",
-    "memberSince": "На платформе с {date}",
+    "memberSince": "Играет с {date}",
     "stats": {
       "winRate": "Процент побед",
       "record": "{wins}–{losses}",

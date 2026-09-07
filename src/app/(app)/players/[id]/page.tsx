@@ -27,7 +27,7 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
 
   const user = await db.user.findUnique({
     where: { id },
-    select: { id: true, username: true, nickname: true, logoUrl: true, createdAt: true },
+    select: { id: true, username: true, nickname: true, logoUrl: true },
   })
   if (!user) notFound()
 
@@ -72,9 +72,11 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
         <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 flex flex-col items-center justify-center text-center md:sticky md:top-6">
           <UserAvatar logoUrl={user.logoUrl} displayName={displayName} size={160} />
           <h1 className="text-2xl font-bold text-white mt-5">{displayName}</h1>
-          <p className="text-sm text-neutral-500 mt-1" suppressHydrationWarning>
-            {t("memberSince", { date: user.createdAt.toLocaleDateString(undefined, { year: "numeric", month: "long" }) })}
-          </p>
+          {stats.memberSince && (
+            <p className="text-sm text-neutral-500 mt-1" suppressHydrationWarning>
+              {t("memberSince", { date: stats.memberSince.toLocaleDateString(undefined, { year: "numeric", month: "long" }) })}
+            </p>
+          )}
         </div>
 
         <div className="space-y-5">
