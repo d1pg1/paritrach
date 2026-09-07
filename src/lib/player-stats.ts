@@ -39,7 +39,7 @@ export interface PlayerStats {
   bestWinStreak: number
   favoriteMarket: MarketBreakdown | null
   bestMarket: MarketWinRate | null
-  avgCoefficient: number | null
+  avgExpressCoefficient: number | null
   biggestWin: BiggestWin | null
   roundsPlayed: number
   memberSince: Date | null
@@ -67,9 +67,12 @@ function computeStreaks(chronological: { isWinner: boolean | null }[]): { curren
   return { current, best }
 }
 
-export async function getPlayerStats(userId: string): Promise<PlayerStats> {
+export async function getPlayerStats(userId: string, seasonId?: string | null): Promise<PlayerStats> {
   const bets = await db.bet.findMany({
-    where: { userId, round: excludeTestRoundsWhere },
+    where: {
+      userId,
+      round: seasonId ? { ...excludeTestRoundsWhere, seasonId } : excludeTestRoundsWhere,
+    },
     select: {
       marketType: true,
       selection: true,
@@ -116,7 +119,21 @@ export async function getPlayerStats(userId: string): Promise<PlayerStats> {
     }
   }
 
-  const avgCoefficient = totalBets > 0 ? bets.reduce((sum, b) => sum + b.coefficient, 0) / totalBets : null
+  // Odds are meant to be read the way the app scores rounds: winning bets in the same
+  // round multiply together like an accumulator/express, not a flat per-bet average.
+  // This also neutralizes "legacy" bets (a fixed coefficient of 1, pre-dating the real
+  // odds system) since multiplying by 1 is a no-op, instead of dragging the mean down.
+  const winCoefsByRound = new Map<string, number[]>()
+  for (const bet of bets) {
+    if (bet.isWinner !== true) continue
+    const coefs = winCoefsByRound.get(bet.roundId) ?? []
+    coefs.push(bet.coefficient)
+    winCoefsByRound.set(bet.roundId, coefs)
+  }
+  const roundExpresses = [...winCoefsByRound.values()].map((coefs) => coefs.reduce((acc, c) => acc * c, 1))
+  const avgExpressCoefficient = roundExpresses.length > 0
+    ? roundExpresses.reduce((sum, v) => sum + v, 0) / roundExpresses.length
+    : null
 
   const biggestWinBet = bets
     .filter((b) => b.isWinner === true)
@@ -149,7 +166,7 @@ export async function getPlayerStats(userId: string): Promise<PlayerStats> {
     bestWinStreak,
     favoriteMarket,
     bestMarket,
-    avgCoefficient,
+    avgExpressCoefficient,
     biggestWin,
     roundsPlayed,
     memberSince,

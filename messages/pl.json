@@ -275,7 +275,7 @@
       "streakWins": "{count, plural, one {# wygrana} few {# wygrane} many {# wygranych} other {# wygranej}} z rzędu",
       "streakLosses": "{count, plural, one {# przegrana} few {# przegrane} many {# przegranych} other {# przegranej}} z rzędu",
       "noStreak": "Brak aktywnej serii",
-      "avgOdds": "Średni kurs",
+      "avgOdds": "Średni ekspres rundy",
       "favoriteMarket": "Ulubiony rynek",
       "bestMarket": "Najlepszy rynek",
       "betCount": "{count, plural, one {# zakład} few {# zakłady} many {# zakładów} other {# zakładu}}",
@@ -286,7 +286,8 @@
       "title": "Bezpośrednie starcia",
       "empty": "Brak dotychczasowych bezpośrednich starć.",
       "record": "{wins}-{draws}-{losses}"
-    }
+    },
+    "overall": "Ogółem"
   },
   "adminUsers": {
     "title": "Użytkownicy",

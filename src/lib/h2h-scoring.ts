@@ -160,11 +160,12 @@ export interface RivalRecord {
   losses: number
 }
 
-// All-time head-to-head record against every opponent this user has been drawn
-// against, across every H2H-format season they've been a contestant in.
-export async function computeHeadToHeadRecords(userId: string): Promise<RivalRecord[]> {
+// Head-to-head record against every opponent this user has been drawn against, across
+// every H2H-format season they've been a contestant in — or, if seasonId is given,
+// scoped to just that one season.
+export async function computeHeadToHeadRecords(userId: string, seasonId?: string | null): Promise<RivalRecord[]> {
   const memberships = await db.seasonContestant.findMany({
-    where: { userId, seasonId: { not: null } },
+    where: { userId, seasonId: seasonId ? seasonId : { not: null } },
     select: { seasonId: true, season: { select: { format: true } } },
   })
   const h2hSeasonIds = memberships

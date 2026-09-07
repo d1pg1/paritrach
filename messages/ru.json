@@ -275,7 +275,7 @@
       "streakWins": "{count, plural, one {# победа} few {# победы} many {# побед} other {# победы}} подряд",
       "streakLosses": "{count, plural, one {# поражение} few {# поражения} many {# поражений} other {# поражения}} подряд",
       "noStreak": "Нет активной серии",
-      "avgOdds": "Средний коэффициент",
+      "avgOdds": "Средний экспресс тура",
       "favoriteMarket": "Любимый рынок",
       "bestMarket": "Лучший рынок",
       "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
@@ -286,7 +286,8 @@
       "title": "Личные встречи",
       "empty": "Личных встреч пока не было.",
       "record": "{wins}-{draws}-{losses}"
-    }
+    },
+    "overall": "За всё время"
   },
   "adminUsers": {
     "title": "Пользователи",

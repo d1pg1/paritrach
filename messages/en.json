@@ -279,7 +279,7 @@
       "streakWins": "{count, plural, one {# win} other {# wins}} in a row",
       "streakLosses": "{count, plural, one {# loss} other {# losses}} in a row",
       "noStreak": "No active streak",
-      "avgOdds": "Average odds",
+      "avgOdds": "Avg. round express",
       "favoriteMarket": "Favorite market",
       "bestMarket": "Best market",
       "betCount": "{count, plural, one {# bet} other {# bets}}",
@@ -290,7 +290,8 @@
       "title": "Head-to-head record",
       "empty": "No head-to-head matchups yet.",
       "record": "{wins}-{draws}-{losses}"
-    }
+    },
+    "overall": "Overall"
   },
   "adminUsers": {
     "title": "Users",

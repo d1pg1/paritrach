@@ -279,7 +279,7 @@
       "streakWins": "{count, plural, one {# перемога} few {# перемоги} many {# перемог} other {# перемоги}} поспіль",
       "streakLosses": "{count, plural, one {# поразка} few {# поразки} many {# поразок} other {# поразки}} поспіль",
       "noStreak": "Немає активної серії",
-      "avgOdds": "Середній коефіцієнт",
+      "avgOdds": "Середній експрес туру",
       "favoriteMarket": "Улюблений ринок",
       "bestMarket": "Найкращий ринок",
       "betCount": "{count, plural, one {# ставка} few {# ставки} many {# ставок} other {# ставки}}",
@@ -290,7 +290,8 @@
       "title": "Особисті зустрічі",
       "empty": "Особистих зустрічей поки не було.",
       "record": "{wins}-{draws}-{losses}"
-    }
+    },
+    "overall": "За весь час"
   },
   "adminUsers": {
     "title": "Користувачі",

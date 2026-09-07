@@ -3,7 +3,9 @@ import { db } from "@/lib/db"
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import { Suspense } from "react"
 import { UserAvatar } from "@/components/UserAvatar"
+import { SeasonSelector } from "@/components/SeasonSelector"
 import { getPlayerStats } from "@/lib/player-stats"
 import { computeHeadToHeadRecords } from "@/lib/h2h-scoring"
 
@@ -17,23 +19,40 @@ function StatCard({ label, value, sub }: { label: string; value: React.ReactNode
   )
 }
 
-export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function PlayerPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ seasonId?: string }>
+}) {
   const { id } = await params
+  const { seasonId: rawSeasonId } = await searchParams
+  const seasonId = rawSeasonId && rawSeasonId !== "current" ? rawSeasonId : null
   const session = await auth()
   if (!session?.user) return null
 
   const t = await getTranslations("players")
   const tMarkets = await getTranslations("betting.markets")
 
-  const user = await db.user.findUnique({
-    where: { id },
-    select: { id: true, username: true, nickname: true, logoUrl: true },
-  })
+  const [user, seasons] = await Promise.all([
+    db.user.findUnique({
+      where: { id },
+      select: { id: true, username: true, nickname: true, logoUrl: true },
+    }),
+    db.season.findMany({
+      where: {
+        NOT: { OR: [{ name: { contains: "test", mode: "insensitive" } }, { name: { contains: "тест", mode: "insensitive" } }] },
+      },
+      orderBy: { archivedAt: "desc" },
+      select: { id: true, name: true },
+    }),
+  ])
   if (!user) notFound()
 
   const [stats, rivalries] = await Promise.all([
-    getPlayerStats(id),
-    computeHeadToHeadRecords(id),
+    getPlayerStats(id, seasonId),
+    computeHeadToHeadRecords(id, seasonId),
   ])
 
   const rivalIds = rivalries.map((r) => r.opponentId)
@@ -68,6 +87,12 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
         {t("backLink")}
       </Link>
 
+      {seasons.length > 0 && (
+        <Suspense fallback={<div className="h-9 mt-4" />}>
+          <SeasonSelector seasons={seasons} currentSeasonId={seasonId} currentSeasonName={t("overall")} />
+        </Suspense>
+      )}
+
       <div className="mt-4 grid md:grid-cols-2 gap-6 items-start">
         <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 flex flex-col items-center justify-center text-center md:sticky md:top-6">
           <UserAvatar logoUrl={user.logoUrl} displayName={displayName} size={160} />
@@ -94,7 +119,7 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
             />
             <StatCard
               label={t("stats.avgOdds")}
-              value={stats.avgCoefficient !== null ? stats.avgCoefficient.toFixed(2) : "—"}
+              value={stats.avgExpressCoefficient !== null ? stats.avgExpressCoefficient.toFixed(2) : "—"}
             />
             <StatCard
               label={t("stats.favoriteMarket")}
