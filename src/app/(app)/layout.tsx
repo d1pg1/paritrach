@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth"
 import { signOut } from "@/lib/auth"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import { RulesHelpButton } from "@/components/RulesHelpButton"
 import { getTranslations } from "next-intl/server"
 import Link from "next/link"
 
@@ -59,6 +60,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6">
         {children}
       </main>
+      <RulesHelpButton />
     </div>
   )
 }

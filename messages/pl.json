@@ -125,6 +125,143 @@
   "seasons": {
     "current": "Bieżący sezon"
   },
+  "rules": {
+    "buttonLabel": "Zasady",
+    "title": "Regulamin turnieju",
+    "subtitle": "Oficjalny przewodnik ligi typowań",
+    "stats": [
+      {
+        "value": "10",
+        "label": "Uczestników"
+      },
+      {
+        "value": "50",
+        "label": "Rund łącznie"
+      },
+      {
+        "value": "45 / 5",
+        "label": "Liga / Puchar"
+      },
+      {
+        "value": "> 1.40",
+        "label": "Min. kurs"
+      }
+    ],
+    "section1": {
+      "title": "1. Postanowienia ogólne i platforma",
+      "items": [
+        {
+          "term": "Platforma gry:",
+          "text": "Rywalizacja opiera się na wirtualnych typowaniach (predictions). Gra toczy się bez użycia prawdziwych pieniędzy."
+        },
+        {
+          "term": "Wspólna lista meczów:",
+          "text": "Na każdą rundę organizatorzy wybierają listę najciekawszych, topowych meczów tygodnia. Wszyscy uczestnicy wybierają typy wyłącznie z tej listy."
+        },
+        {
+          "term": "Obiektywność kursów:",
+          "text": "Platforma automatycznie agreguje kursy z 82 czołowych bukmacherów i oblicza ich średnią."
+        },
+        {
+          "term": "Minimalny kurs:",
+          "text": "Do typowania przyjmowane są tylko zdarzenia z kursem ściśle wyższym niż 1.40."
+        }
+      ]
+    },
+    "section2": {
+      "title": "2. Liga (45 rund)",
+      "items": [
+        {
+          "term": "Format pojedynków (H2H):",
+          "text": "W każdej rundzie 10 uczestników dzieli się na 5 par (Gracz 1 vs Gracz 2, Gracz 3 vs Gracz 4 itd.). W ciągu sezonu każdy gra z każdym 5 razy (9 przeciwników × 5 cykli = 45 rund)."
+        },
+        {
+          "term": "Liczba typów:",
+          "text": "W każdej rundzie ligowej gracz wybiera dokładnie 3 mecze z centralnej listy tygodnia."
+        },
+        {
+          "term": "Wyłonienie zwycięzcy pojedynku:",
+          "text": "Wygrywa gracz, który trafił więcej wyników spośród 3 wybranych (np. 3:2, 2:1, 1:0)."
+        }
+      ],
+      "table": {
+        "headers": [
+          "Wynik pojedynku",
+          "Punkty do tabeli",
+          "Opis"
+        ],
+        "rows": [
+          [
+            "Wygrana",
+            "3 pkt",
+            "Trafiono więcej meczów niż przeciwnik"
+          ],
+          [
+            "Remis",
+            "1 pkt",
+            "Taka sama liczba trafionych meczów"
+          ],
+          [
+            "Przegrana",
+            "0 pkt",
+            "Trafiono mniej meczów niż przeciwnik"
+          ]
+        ]
+      },
+      "callout": {
+        "title": "Wskaźnik „strzelonych goli” (kursy)",
+        "text": "Jako dodatkowy wskaźnik (odpowiednik różnicy bramek) stosuje się sumaryczny zagrany kurs. W każdej rundzie kursy trafionych zdarzeń mnoży się na zasadzie kuponu AKO. Przy równej liczbie punktów w tabeli Ligi wyżej klasyfikuje się gracz z wyższym łącznym zagranym kursem w całym turnieju."
+      }
+    },
+    "section3": {
+      "title": "3. Puchar (5 rund)",
+      "intro": "Turniej pucharowy składa się z dwóch kolejnych etapów:",
+      "stage1": {
+        "title": "Etap 1: Kwalifikacje (2 rundy)",
+        "items": [
+          "Wszyscy 10 graczy typuje do wspólnej tabeli (bez bezpośrednich przeciwników).",
+          "Format: 2 rundy po 5 meczów z listy tygodnia (łącznie 10 meczów).",
+          "Kryteria rankingu: 1) Liczba trafionych wyników; 2) Sumaryczny zagrany kurs.",
+          "Awans do play-off: Gracze z miejsc 1–8 awansują do drabinki Pucharu. Gracze na miejscach 9 i 10 kończą udział w Pucharze."
+        ]
+      },
+      "stage2": {
+        "title": "Etap 2: Play-off (3 rundy)",
+        "items": [
+          "Ćwierćfinał (1 runda) — 8 graczy → 4 zwycięzców",
+          "Półfinał (1 runda) — 4 graczy → 2 finalistów",
+          "Finał (1 runda) — decydujący pojedynek o Puchar"
+        ],
+        "note": "8 zakwalifikowanych uczestników rozstawianych jest w drabince losowo. Mecze play-off rozgrywane są w formacie pojedynków H2H (po 3 mecze z listy tygodnia)."
+      }
+    },
+    "section4": {
+      "title": "4. Krótka ściągawka dla nowicjusza",
+      "items": [
+        {
+          "term": "Lista meczów:",
+          "text": "Wybieraj typy wyłącznie z opublikowanej listy tygodnia."
+        },
+        {
+          "term": "Minimalny kurs:",
+          "text": "Kurs każdego wybranego wyniku musi być > 1.40."
+        },
+        {
+          "term": "Liga:",
+          "text": "3 mecze na rundę, grasz pojedynek 1 na 1 z przeciwnikiem."
+        },
+        {
+          "term": "Kwalifikacje do Pucharu:",
+          "text": "5 meczów na rundę, grasz o punkty do wspólnej tabeli."
+        },
+        {
+          "term": "Kluczowa strategia:",
+          "text": "Wybieraj kursy z głową — przy równej liczbie punktów wygrywa ten, którego trafione kursy są wyższe!"
+        }
+      ]
+    },
+    "footer": "Piłkarska Liga Typowań • Uczciwe kursy • Wysokie emocje"
+  },
   "adminUsers": {
     "title": "Użytkownicy",
     "usernameLabel": "Nazwa użytkownika",

@@ -129,6 +129,143 @@
   "seasons": {
     "current": "Current Season"
   },
+  "rules": {
+    "buttonLabel": "Rules",
+    "title": "Tournament Rules & Regulations",
+    "subtitle": "Official guide to the prediction league",
+    "stats": [
+      {
+        "value": "10",
+        "label": "Participants"
+      },
+      {
+        "value": "50",
+        "label": "Total rounds"
+      },
+      {
+        "value": "45 / 5",
+        "label": "League / Cup"
+      },
+      {
+        "value": "> 1.40",
+        "label": "Min. odds"
+      }
+    ],
+    "section1": {
+      "title": "1. General provisions & platform",
+      "items": [
+        {
+          "term": "Platform:",
+          "text": "The competition is based on virtual predictions. No real money is involved."
+        },
+        {
+          "term": "Shared match list:",
+          "text": "For each round, the organizers pick a list of the week's most interesting, top-tier matches. All participants must pick their predictions strictly from this list."
+        },
+        {
+          "term": "Fair odds:",
+          "text": "The platform automatically aggregates odds from 82 leading bookmakers and calculates their average."
+        },
+        {
+          "term": "Minimum odds:",
+          "text": "Only selections with odds strictly greater than 1.40 are accepted."
+        }
+      ]
+    },
+    "section2": {
+      "title": "2. Championship (45 rounds)",
+      "items": [
+        {
+          "term": "Duel format (H2H):",
+          "text": "Each round, the 10 participants are split into 5 pairs (Player 1 vs Player 2, Player 3 vs Player 4, etc.). Over a season, everyone plays everyone else 5 times (9 opponents × 5 cycles = 45 rounds)."
+        },
+        {
+          "term": "Picks per round:",
+          "text": "In each championship round, a player picks exactly 3 matches from the shared weekly list."
+        },
+        {
+          "term": "Deciding the duel:",
+          "text": "The winner is whoever correctly predicted more of their 3 picks (e.g. 3:2, 2:1, 1:0)."
+        }
+      ],
+      "table": {
+        "headers": [
+          "Duel result",
+          "Points",
+          "Description"
+        ],
+        "rows": [
+          [
+            "Win",
+            "3 pts",
+            "More correct picks than the opponent"
+          ],
+          [
+            "Draw",
+            "1 pt",
+            "Equal number of correct picks"
+          ],
+          [
+            "Loss",
+            "0 pts",
+            "Fewer correct picks than the opponent"
+          ]
+        ]
+      },
+      "callout": {
+        "title": "\"Goals scored\" tiebreaker (odds)",
+        "text": "As a secondary metric (similar to goal difference), the total accumulated odds is used. Each round, the odds of correct picks are multiplied together like an accumulator/parlay. If two players are tied on points in the Championship table, the one with the higher total accumulated odds across the tournament ranks higher."
+      }
+    },
+    "section3": {
+      "title": "3. Cup (5 rounds)",
+      "intro": "The Cup tournament consists of two consecutive stages:",
+      "stage1": {
+        "title": "Stage 1: Qualifying (2 rounds)",
+        "items": [
+          "All 10 players submit predictions into a shared table (no direct opponents).",
+          "Format: 2 rounds of 5 matches from the weekly list each (10 matches total).",
+          "Ranking criteria: 1) Number of correct picks; 2) Total accumulated odds.",
+          "Advancing to the playoffs: Players ranked 1st through 8th advance to the Cup bracket. Players ranked 9th and 10th are eliminated from the Cup."
+        ]
+      },
+      "stage2": {
+        "title": "Stage 2: Playoffs (3 rounds)",
+        "items": [
+          "Quarter-finals (1 round) — 8 players → 4 winners",
+          "Semi-finals (1 round) — 4 players → 2 finalists",
+          "Final (1 round) — the deciding duel for the Cup"
+        ],
+        "note": "The 8 qualified players are placed into the bracket by random draw. Playoff matches follow the H2H duel format (3 matches from the weekly list)."
+      }
+    },
+    "section4": {
+      "title": "4. Quick newbie cheat sheet",
+      "items": [
+        {
+          "term": "Match list:",
+          "text": "Pick your predictions strictly from the published weekly list."
+        },
+        {
+          "term": "Minimum odds:",
+          "text": "Odds for each selected outcome must be > 1.40."
+        },
+        {
+          "term": "Championship:",
+          "text": "3 matches per round, played as a 1-on-1 duel against an opponent."
+        },
+        {
+          "term": "Cup qualifying:",
+          "text": "5 matches per round, played for points on a shared table."
+        },
+        {
+          "term": "Key strategy:",
+          "text": "Pick your odds wisely — if points are tied, whoever's winning odds are higher comes out on top!"
+        }
+      ]
+    },
+    "footer": "Football Prediction League • Fair Odds • High Excitement"
+  },
   "adminUsers": {
     "title": "Users",
     "usernameLabel": "Username",
