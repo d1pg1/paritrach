@@ -132,6 +132,15 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
               {loading === "import/cups" ? t("importing") : t("importCups")}
             </button>
           )}
+          {isSetup && (
+            <button
+              onClick={() => apiCall("import/internationals")}
+              disabled={!!loading}
+              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+            >
+              {loading === "import/internationals" ? t("importing") : t("importInternationals")}
+            </button>
+          )}
           {isSetup && round.matches.some((m) => m.isEligible) && (
             <button
               onClick={() => apiCall("open-betting")}

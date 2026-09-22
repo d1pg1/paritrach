@@ -1,4 +1,4 @@
-export type CompetitionGroup = "league" | "cup" | "legacy"
+export type CompetitionGroup = "league" | "cup" | "international" | "legacy"
 
 // Which provider to pull fixtures from at import time. The Odds API only turns a competition
 // "on" once its markets are close to opening (e.g. domestic leagues ~1 month out), so cup
@@ -29,6 +29,8 @@ export const COMPETITIONS: CompetitionConfig[] = [
   { label: "UEFA Champions League", group: "cup", source: "oddspapi", oddsApiSportKey: "soccer_uefa_champs_league", oddsPapiTournamentId: 7, espnSlug: "uefa.champions", qualifyingEspnSlug: "uefa.champions_qual" },
   { label: "UEFA Europa League", group: "cup", source: "oddspapi", oddsApiSportKey: "soccer_uefa_europa_league", oddsPapiTournamentId: 679, espnSlug: "uefa.europa", qualifyingEspnSlug: "uefa.europa_qual" },
   { label: "UEFA Europa Conference League", group: "cup", source: "oddspapi", oddsApiSportKey: "soccer_uefa_europa_conference_league", oddsPapiTournamentId: 34480, espnSlug: "uefa.europa.conf", qualifyingEspnSlug: "uefa.europa.conf_qual" },
+  { label: "UEFA Euro Qualifying", group: "international", source: "oddspapi", oddsApiSportKey: "", oddsPapiTournamentId: 27, espnSlug: "uefa.euroq" },
+  { label: "UEFA Nations League", group: "international", source: "oddspapi", oddsApiSportKey: "", oddsPapiTournamentId: 23755, espnSlug: "uefa.nations" },
   // Legacy — not offered by any import button. Kept so historical World Cup/friendly matches
   // still resolve to the right ESPN slug / OddsPapi tournament for results, settlement, and
   // detailed-odds lookups.
@@ -38,6 +40,7 @@ export const COMPETITIONS: CompetitionConfig[] = [
 
 export const LEAGUES = COMPETITIONS.filter((c) => c.group === "league")
 export const CUPS = COMPETITIONS.filter((c) => c.group === "cup")
+export const INTERNATIONALS = COMPETITIONS.filter((c) => c.group === "international")
 
 export function competitionByLabel(label: string | null | undefined): CompetitionConfig | undefined {
   return COMPETITIONS.find((c) => c.label === label)
