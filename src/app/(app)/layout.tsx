@@ -13,11 +13,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b border-line bg-page">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <nav className="flex items-center gap-6">
-            <Link href="/rounds" className="font-bold text-accent text-lg tracking-widest uppercase">
-              PariTrach
-            </Link>
+        {/* Phones: two rows (logo + controls, then links + username). sm+: one row. */}
+        <div className="max-w-5xl mx-auto px-4 py-2 sm:py-0 sm:h-14 flex flex-wrap sm:flex-nowrap items-center justify-between gap-x-6 gap-y-1">
+          <Link
+            href="/rounds"
+            className="font-bold text-accent text-base sm:text-lg tracking-wider sm:tracking-widest uppercase"
+          >
+            PariTrach
+          </Link>
+          <nav className="order-last sm:order-none w-full sm:w-auto sm:mr-auto flex items-center gap-4 sm:gap-6">
             <Link
               href="/rounds"
               className="text-sm text-fg-3 hover:text-accent transition-colors"
@@ -38,11 +42,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
                 {t("admin")}
               </Link>
             )}
+            <span className="sm:hidden ml-auto min-w-0 truncate text-sm text-muted">{session?.user?.name}</span>
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <ThemeSwitcher />
             <LanguageSwitcher />
-            <span className="text-sm text-muted">{session?.user?.name}</span>
+            <span className="hidden sm:inline max-w-40 truncate text-sm text-muted">{session?.user?.name}</span>
             <form
               action={async () => {
                 "use server"
@@ -51,7 +56,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             >
               <button
                 type="submit"
-                className="text-sm text-subtle hover:text-accent transition-colors"
+                className="text-sm text-subtle hover:text-accent transition-colors whitespace-nowrap"
               >
                 {t("signOut")}
               </button>
