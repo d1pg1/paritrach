@@ -139,14 +139,29 @@ export function findEspnEventForMatch(
   awayTeam: string
 ): EspnEvent | undefined {
   const norm = (s: string) => {
-    const key = s.toLowerCase().replace(/[^a-z0-9]/g, "")
+    // Decompose accents first so "Atlético" → "atletico" rather than "atltico".
+    const key = s.normalize("NFD").toLowerCase().replace(/[^a-z0-9]/g, "")
     return TEAM_NAME_ALIASES[key] ?? key
   }
-  return events.find((e) => {
-    const comps = e.competitions[0]?.competitors ?? []
-    const names = comps.map((c) => norm(c.team.displayName))
-    return names.includes(norm(homeTeam)) && names.includes(norm(awayTeam))
+  const home = norm(homeTeam)
+  const away = norm(awayTeam)
+  const namesOf = (e: EspnEvent) => (e.competitions[0]?.competitors ?? []).map((c) => norm(c.team.displayName))
+
+  const exact = events.find((e) => {
+    const names = namesOf(e)
+    return names.includes(home) && names.includes(away)
   })
+  if (exact) return exact
+
+  // Fallback: OddsPapi often carries club prefixes/suffixes ESPN drops ("Villarreal CF" vs
+  // "Villarreal", "SSC Napoli" vs "Napoli"). Accept a name that contains the other, but only
+  // when both teams match the same event and that event is the sole candidate.
+  const loose = (a: string, b: string) => a.length >= 4 && b.length >= 4 && (a.includes(b) || b.includes(a))
+  const candidates = events.filter((e) => {
+    const names = namesOf(e)
+    return names.some((n) => loose(n, home)) && names.some((n) => loose(n, away))
+  })
+  return candidates.length === 1 ? candidates[0] : undefined
 }
 
 export function parseScores(event: EspnEvent): {
