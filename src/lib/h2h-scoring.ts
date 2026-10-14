@@ -108,8 +108,45 @@ export interface RoundH2HPairing {
   correctB: number
 }
 
-// Every pairing (with live scorelines) for one round — used on the round betting page
-// and re-polled by the live-scores route so it updates the same way match scores do.
+export interface RoundH2HSource {
+  sequenceNumber: number | null
+  season: {
+    format: string
+    contestants: { userId: string; user: { nickname: string | null; username: string; logoUrl: string | null } }[]
+  } | null
+}
+
+// Every pairing (with live scorelines) for one round, from data the caller already loaded.
+// `contestants` must be in draw order and `bets` limited to the round's eligible matches.
+export function buildRoundH2HPairings(
+  round: RoundH2HSource,
+  bets: { userId: string; isWinner: boolean | null }[]
+): RoundH2HPairing[] {
+  if (!round.season || round.season.format !== "H2H" || round.sequenceNumber == null) return []
+
+  const contestants = round.season.contestants
+  const drawOrder = contestants.map((c) => c.userId)
+  if (drawOrder.length < 2) return []
+
+  const pairings = getPairingsForRound(drawOrder, round.sequenceNumber)
+  const correctByUser = countCorrectByUser(bets)
+  const nameById = new Map(contestants.map((c) => [c.userId, c.user.nickname ?? c.user.username ?? "?"]))
+  const logoById = new Map(contestants.map((c) => [c.userId, c.user.logoUrl]))
+
+  return pairings.map(([a, b]) => ({
+    contestantAId: a,
+    contestantAName: nameById.get(a) ?? "?",
+    contestantALogoUrl: logoById.get(a) ?? null,
+    contestantBId: b,
+    contestantBName: nameById.get(b) ?? "?",
+    contestantBLogoUrl: logoById.get(b) ?? null,
+    correctA: correctByUser.get(a) ?? 0,
+    correctB: correctByUser.get(b) ?? 0,
+  }))
+}
+
+// Same as buildRoundH2HPairings but loads the round itself — used by the live-scores
+// route, which re-polls it so scorelines update the same way match scores do.
 export async function getRoundH2HPairings(roundId: string): Promise<RoundH2HPairing[]> {
   const round = await db.round.findUnique({
     where: { id: roundId },
@@ -130,27 +167,8 @@ export async function getRoundH2HPairings(roundId: string): Promise<RoundH2HPair
       },
     },
   })
-  if (!round || !round.season || round.season.format !== "H2H" || round.sequenceNumber == null) return []
-
-  const contestants = round.season.contestants
-  const drawOrder = contestants.map((c) => c.userId)
-  if (drawOrder.length < 2) return []
-
-  const pairings = getPairingsForRound(drawOrder, round.sequenceNumber)
-  const correctByUser = countCorrectByUser(round.matches.flatMap((m) => m.bets))
-  const nameById = new Map(contestants.map((c) => [c.userId, c.user.nickname ?? c.user.username ?? "?"]))
-  const logoById = new Map(contestants.map((c) => [c.userId, c.user.logoUrl]))
-
-  return pairings.map(([a, b]) => ({
-    contestantAId: a,
-    contestantAName: nameById.get(a) ?? "?",
-    contestantALogoUrl: logoById.get(a) ?? null,
-    contestantBId: b,
-    contestantBName: nameById.get(b) ?? "?",
-    contestantBLogoUrl: logoById.get(b) ?? null,
-    correctA: correctByUser.get(a) ?? 0,
-    correctB: correctByUser.get(b) ?? 0,
-  }))
+  if (!round) return []
+  return buildRoundH2HPairings(round, round.matches.flatMap((m) => m.bets))
 }
 
 export interface RivalRecord {

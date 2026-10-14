@@ -6,7 +6,7 @@ import { after } from "next/server"
 import { LiveScorePoller } from "./LiveScorePoller"
 import { settleRound } from "@/lib/settle-round"
 import { getTeamLogoMap } from "@/lib/team-logo-resolver"
-import { getRoundH2HPairings } from "@/lib/h2h-scoring"
+import { buildRoundH2HPairings } from "@/lib/h2h-scoring"
 
 interface MatchRow {
   id: string
@@ -68,6 +68,15 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
   const round = await db.round.findUnique({
     where: { id },
     include: {
+      season: {
+        select: {
+          format: true,
+          contestants: {
+            orderBy: { drawPosition: "asc" },
+            select: { userId: true, user: { select: { username: true, nickname: true, logoUrl: true } } },
+          },
+        },
+      },
       matches: {
         where: { isEligible: true },
         include: {
@@ -85,15 +94,16 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
   if (!round) notFound()
 
   const teamNames = round.matches.flatMap((m) => [m.homeTeam, m.awayTeam])
-  const [teamLogoMap, h2h, contestants] = await Promise.all([
+  const [teamLogoMap, contestants] = await Promise.all([
     getTeamLogoMap(teamNames),
-    getRoundH2HPairings(id),
+    // Not round.season.contestants: current-season rounds and contestants both have seasonId null.
     db.seasonContestant.findMany({
       where: { seasonId: round.seasonId },
       orderBy: { drawPosition: "asc" },
       select: { userId: true, user: { select: { username: true, nickname: true, logoUrl: true } } },
     }),
   ])
+  const h2h = buildRoundH2HPairings(round, round.matches.flatMap((m) => m.bets))
 
   const participants = contestants.map((c) => ({
     userId: c.userId,

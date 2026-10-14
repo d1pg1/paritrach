@@ -1,6 +1,6 @@
 import "dotenv/config"
-import { PrismaClient } from "../src/generated/prisma/client"
-import { PrismaPg } from "@prisma/adapter-pg"
+import { db } from "@/lib/db"
+import { saveUserAvatar } from "@/lib/user-avatar"
 import fs from "fs"
 
 const [username, imagePath] = process.argv.slice(2)
@@ -9,15 +9,12 @@ if (!username || !imagePath) {
   process.exit(1)
 }
 
-const db = new PrismaClient({ adapter: new PrismaPg(process.env.DATABASE_URL!) } as any)
-
 async function main() {
-  const logoUrl = fs.readFileSync(imagePath, "utf8")
-  const user = await db.user.update({
+  const user = await db.user.findUniqueOrThrow({
     where: { username },
-    data: { logoUrl },
     select: { id: true, username: true, nickname: true },
   })
+  await saveUserAvatar(user.id, fs.readFileSync(imagePath))
   console.log("Logo set for:", user.username, user.nickname)
 }
 
