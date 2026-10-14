@@ -130,7 +130,64 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   fcpolissyazhytomyr: "polissya",
   // The Odds API calls them "Inter Milan"; ESPN uses "Internazionale"
   intermilan: "inter",
+  intermilano: "inter",
   internazionale: "inter",
+  // Top-5 league clubs where The Odds API / OddsPapi and ESPN disagree on the name
+  brightonandhovealbion: "brightonhovealbion",
+  athleticbilbao: "athleticclub",
+  realracingclubdesantander: "racingsantander",
+  "1fckoln": "fccologne",
+  hamburgersv: "hamburgsv",
+  rennes: "staderennais",
+  rccelta: "celtavigo",
+  rcceltadevigo: "celtavigo",
+  // UEFA cup clubs (OddsPapi name → ESPN name)
+  bodoeglimt: "bodoglimt",
+  agfaarhus: "agf",
+  csuniversitateacraiova: "csucraiova",
+  fkcrvenazvezdabelgrade: "redstarbelgrade",
+  unionsaintgilloise: "unionstgilloise",
+  fcsalzburg: "rbsalzburg",
+  qarabagfk: "fkqarabag",
+  glasgowrangers: "rangers",
+  acomonianicosia: "omonianicosia",
+  lillestroemsk: "lillestrom",
+  tromsoeil: "tromso",
+  ferencvarosibudapest: "ferencvaros",
+  debrecenivsc: "debrecen",
+  interclubdeescaldes: "interdescaldes",
+  fcalashkertyerevan: "alashkertfc",
+  fccfr1907cluj: "cfrclujnapoca",
+  fccska1948: "cska1948sofia",
+  fcdrita: "dritagjilan",
+  fcnordsjaelland: "fcnordsjlland",
+  fcilevadiatallinn: "fclevadiatallinn",
+  fkaustriawien: "austriavienna",
+  maxlinevitebsk: "mlvitebsk",
+  bravoljubljana: "nkbravo",
+  pfcludogorets1945razgrad: "ludogoretsrazgrad",
+  paksifc: "paksise",
+  skrapid: "rapidvienna",
+  sttruidensevv: "sinttruidense",
+  tampereenilves: "fcilves",
+  vilniusfkzalgiris: "zalgirisvilnius",
+}
+
+// Canonical comparison key for a team name across OddsPapi / The Odds API / ESPN.
+export function normalizeTeamName(s: string): string {
+  // Decompose accents first so "Atlético" → "atletico" rather than "atltico".
+  const key = s.normalize("NFD").toLowerCase().replace(/[^a-z0-9]/g, "")
+  return TEAM_NAME_ALIASES[key] ?? key
+}
+
+// OddsPapi often carries club prefixes/suffixes ESPN drops ("Villarreal CF" vs "Villarreal",
+// "SSC Napoli" vs "Napoli"), so as a fallback accept one name's words being a subset of the
+// other's. Whole words only — substring matching pairs "Glasgow Rangers" with "Angers".
+// Run scripts/check-team-names.ts to audit stored names against ESPN.
+export function teamNamesLooselyMatch(a: string, b: string): boolean {
+  const words = (s: string) => new Set(s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().split(/[^a-z0-9]+/).filter(Boolean))
+  const [small, large] = [words(a), words(b)].sort((x, y) => x.size - y.size)
+  return [...small].some((w) => w.length >= 4) && [...small].every((w) => large.has(w))
 }
 
 export function findEspnEventForMatch(
@@ -138,28 +195,20 @@ export function findEspnEventForMatch(
   homeTeam: string,
   awayTeam: string
 ): EspnEvent | undefined {
-  const norm = (s: string) => {
-    // Decompose accents first so "Atlético" → "atletico" rather than "atltico".
-    const key = s.normalize("NFD").toLowerCase().replace(/[^a-z0-9]/g, "")
-    return TEAM_NAME_ALIASES[key] ?? key
-  }
-  const home = norm(homeTeam)
-  const away = norm(awayTeam)
-  const namesOf = (e: EspnEvent) => (e.competitions[0]?.competitors ?? []).map((c) => norm(c.team.displayName))
+  const home = normalizeTeamName(homeTeam)
+  const away = normalizeTeamName(awayTeam)
+  const namesOf = (e: EspnEvent) => (e.competitions[0]?.competitors ?? []).map((c) => c.team.displayName)
 
   const exact = events.find((e) => {
-    const names = namesOf(e)
+    const names = namesOf(e).map(normalizeTeamName)
     return names.includes(home) && names.includes(away)
   })
   if (exact) return exact
 
-  // Fallback: OddsPapi often carries club prefixes/suffixes ESPN drops ("Villarreal CF" vs
-  // "Villarreal", "SSC Napoli" vs "Napoli"). Accept a name that contains the other, but only
-  // when both teams match the same event and that event is the sole candidate.
-  const loose = (a: string, b: string) => a.length >= 4 && b.length >= 4 && (a.includes(b) || b.includes(a))
+  // Loose fallback only when both teams match the same event and it's the sole candidate.
   const candidates = events.filter((e) => {
     const names = namesOf(e)
-    return names.some((n) => loose(n, home)) && names.some((n) => loose(n, away))
+    return names.some((n) => teamNamesLooselyMatch(n, homeTeam)) && names.some((n) => teamNamesLooselyMatch(n, awayTeam))
   })
   return candidates.length === 1 ? candidates[0] : undefined
 }
