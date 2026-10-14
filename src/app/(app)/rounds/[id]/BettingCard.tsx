@@ -188,10 +188,10 @@ export function BettingCard({
   }
 
   const winIndicator = currentBet?.isWinner === true
-    ? "border-yellow-400 bg-yellow-950/20"
+    ? "border-yellow-400 bg-accent-tint/20"
     : currentBet?.isWinner === false
-    ? "border-red-800 bg-red-950/20"
-    : "border-neutral-800"
+    ? "border-danger-line bg-danger-tint/20"
+    : "border-line"
 
   const betsByUserId = new Map(localAllBets.map((b) => [b.userId, b]))
   const rosterRows = participants.length > 0
@@ -209,45 +209,45 @@ export function BettingCard({
       }))
 
   function betSummary(bet: BetWithUser | null) {
-    if (!bet) return <span className="text-neutral-600 italic">{t("noBetYet")}</span>
-    if (bet.revealed === false) return <span className="text-neutral-350 italic">{t("betPlaced")}</span>
+    if (!bet) return <span className="text-faint italic">{t("noBetYet")}</span>
+    if (bet.revealed === false) return <span className="text-fg-3 italic">{t("betPlaced")}</span>
     return (
       <>
-        <span className="text-neutral-300">
+        <span className="text-fg-3">
           {marketLabel(bet.marketType)}: {bet.selection}
           {bet.line != null && !LINE_IN_NAME_MARKETS.has(bet.marketType)
             ? ` ${formatLine(bet.line, bet.marketType, bet.selection)}`
             : ""}
         </span>
-        <span className="text-neutral-400 font-mono">{bet.coefficient.toFixed(2)}</span>
+        <span className="text-muted font-mono">{bet.coefficient.toFixed(2)}</span>
         {bet.isWinner === true ? (
-          <span className="text-green-400">{t("betWon")}</span>
+          <span className="text-success">{t("betWon")}</span>
         ) : bet.isWinner === false ? (
-          <span className="text-red-400">{t("betLost")}</span>
+          <span className="text-danger">{t("betLost")}</span>
         ) : (
-          <span className="text-neutral-500">{t("betPending")}</span>
+          <span className="text-subtle">{t("betPending")}</span>
         )}
       </>
     )
   }
 
   return (
-    <div className={`bg-neutral-900 border rounded-xl p-5 ${winIndicator}`}>
+    <div className={`bg-surface border rounded-xl p-5 ${winIndicator}`}>
       {/* Match header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="font-semibold text-base text-gray-100 flex items-center gap-2 flex-wrap">
+          <p className="font-semibold text-base text-fg flex items-center gap-2 flex-wrap">
             <span className="flex items-center gap-1.5">
               <TeamLogo name={match.homeTeam} size={20} logoUrl={teamLogoMap[match.homeTeam.toLowerCase()]} />
               {match.homeTeam}
             </span>
-            <span className="text-neutral-500">vs</span>
+            <span className="text-subtle">vs</span>
             <span className="flex items-center gap-1.5">
               <TeamLogo name={match.awayTeam} size={20} logoUrl={teamLogoMap[match.awayTeam.toLowerCase()]} />
               {match.awayTeam}
             </span>
           </p>
-          <p className="text-xs text-neutral-400 mt-0.5" suppressHydrationWarning>
+          <p className="text-xs text-muted mt-0.5" suppressHydrationWarning>
             {new Date(match.startTime).toLocaleString("uk-UA", {
               weekday: "short",
               day: "numeric",
@@ -266,10 +266,10 @@ export function BettingCard({
               <p
                 className={`text-sm font-semibold mt-0.5 ${
                   currentBet.isWinner === true
-                    ? "text-yellow-400"
+                    ? "text-accent"
                     : currentBet.isWinner === false
-                    ? "text-red-400"
-                    : "text-neutral-400"
+                    ? "text-danger"
+                    : "text-muted"
                 }`}
               >
                 {currentBet.isWinner === true
@@ -286,25 +286,25 @@ export function BettingCard({
             <p className="text-2xl font-bold tabular-nums">
               {liveScore.homeScore} : {liveScore.awayScore}
             </p>
-            <p className="text-xs text-green-400 mt-0.5 animate-pulse">
+            <p className="text-xs text-success mt-0.5 animate-pulse">
               {liveScore.statusName}
             </p>
             {liveScore.events.length > 0 && (
               <div className="mt-1.5 space-y-0.5">
                 {liveScore.events.map((ev, i) => (
-                  <p key={i} className="text-xs text-neutral-400 text-right flex items-center justify-end gap-1">
-                    <span className="text-neutral-500">{ev.minute}&apos;</span>
+                  <p key={i} className="text-xs text-muted text-right flex items-center justify-end gap-1">
+                    <span className="text-subtle">{ev.minute}&apos;</span>
                     <TeamLogo
                       name={ev.team === "home" ? match.homeTeam : match.awayTeam}
                       size={14}
                       logoUrl={teamLogoMap[(ev.team === "home" ? match.homeTeam : match.awayTeam).toLowerCase()]}
                     />
-                    <span className={ev.team === "home" ? "text-sky-400" : "text-orange-400"}>
+                    <span className={ev.team === "home" ? "text-home" : "text-away"}>
                       {ev.team === "home" ? match.homeTeam : match.awayTeam}
                     </span>
                     {ev.scorerName ?? "—"}
-                    {ev.eventType === "Own Goal" && <span className="text-neutral-500"> (OG)</span>}
-                    {ev.eventType === "Penalty" && <span className="text-neutral-500"> (P)</span>}
+                    {ev.eventType === "Own Goal" && <span className="text-subtle"> (OG)</span>}
+                    {ev.eventType === "Penalty" && <span className="text-subtle"> (P)</span>}
                   </p>
                 ))}
               </div>
@@ -325,8 +325,8 @@ export function BettingCard({
             onClick={() => setHistoryView(historyView === type ? null : type)}
             className={`text-xs px-2 py-0.5 rounded border transition-colors ${
               historyView === type
-                ? "border-neutral-500 text-neutral-200 bg-neutral-800"
-                : "border-neutral-700 text-neutral-500 hover:border-neutral-600 hover:text-neutral-300"
+                ? "border-line-4 text-fg-2 bg-surface-2"
+                : "border-line-2 text-subtle hover:border-line-3 hover:text-fg-3"
             }`}
           >
             {label}
@@ -346,14 +346,14 @@ export function BettingCard({
       {/* Current bet info (read-only) */}
       {currentBet && (
         <div className="mb-3 flex items-center gap-2 text-sm">
-          <span className="bg-neutral-800 rounded px-2 py-0.5 text-neutral-300">
+          <span className="bg-surface-2 rounded px-2 py-0.5 text-fg-3">
             {marketLabel(currentBet.marketType)}
           </span>
           <span className="font-medium">{currentBet.selection}</span>
           {currentBet.line !== null && !LINE_IN_NAME_MARKETS.has(currentBet.marketType) && (
-            <span className="text-neutral-400">({formatLine(currentBet.line, currentBet.marketType, currentBet.selection)})</span>
+            <span className="text-muted">({formatLine(currentBet.line, currentBet.marketType, currentBet.selection)})</span>
           )}
-          <span className="ml-auto text-yellow-400 font-semibold">
+          <span className="ml-auto text-accent font-semibold">
             {currentBet.coefficient.toFixed(2)}
           </span>
         </div>
@@ -374,7 +374,7 @@ export function BettingCard({
                 className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
                   selectedMarket === m.key
                     ? "bg-yellow-400 border-yellow-400 text-black"
-                    : "border-neutral-700 text-neutral-400 hover:border-neutral-500"
+                    : "border-line-2 text-muted hover:border-line-4"
                 }`}
               >
                 {marketLabel(m.key)}
@@ -395,7 +395,7 @@ export function BettingCard({
                     className={`flex flex-col items-center px-4 py-2 rounded-lg border transition-colors min-w-[80px] ${
                       isSelected
                         ? "bg-yellow-400 border-yellow-400 text-black"
-                        : "border-neutral-700 hover:border-neutral-500"
+                        : "border-line-2 hover:border-line-4"
                     }`}
                   >
                     <span className="text-xs">{o.name}</span>
@@ -411,7 +411,7 @@ export function BettingCard({
             </div>
           )}
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
 
           {selectedOutcome && (
             <button
@@ -430,14 +430,14 @@ export function BettingCard({
       )}
 
       {matchStarted && !isResults && !currentBet && (
-        <p className="text-sm text-neutral-500 mt-2">{t("matchStarted")}</p>
+        <p className="text-sm text-subtle mt-2">{t("matchStarted")}</p>
       )}
       {!canBet && match.status !== "FINAL" && currentBet && matchStarted && (
-        <p className="text-sm text-neutral-500 mt-2">{t("waitingResult")}</p>
+        <p className="text-sm text-subtle mt-2">{t("waitingResult")}</p>
       )}
 
       {pairings.length > 0 ? (
-        <div className="mt-4 border-t border-neutral-800 pt-3 space-y-1.5">
+        <div className="mt-4 border-t border-line pt-3 space-y-1.5">
           {pairings.map((p) => {
             const isYourRow = p.contestantAId === currentUserId || p.contestantBId === currentUserId
             const betA = betsByUserId.get(p.contestantAId) ?? null
@@ -446,20 +446,20 @@ export function BettingCard({
               <div
                 key={`${p.contestantAId}-${p.contestantBId}`}
                 className={`grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-lg border px-3 py-2 text-xs ${
-                  isYourRow ? "border-neutral-700 bg-neutral-900" : "border-neutral-800 bg-neutral-900/50"
+                  isYourRow ? "border-line-2 bg-surface" : "border-line bg-surface/50"
                 }`}
               >
                 <div className="flex items-center justify-end gap-1.5 flex-wrap min-w-0">
                   {betSummary(betA)}
-                  <span className={p.contestantAId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
+                  <span className={p.contestantAId === currentUserId ? "text-accent font-semibold" : "text-fg-3"}>
                     {p.contestantAName}
                   </span>
                   <UserAvatar logoUrl={p.contestantALogoUrl} displayName={p.contestantAName} size={24} />
                 </div>
-                <span className="text-neutral-500 px-1">vs</span>
+                <span className="text-subtle px-1">vs</span>
                 <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                   <UserAvatar logoUrl={p.contestantBLogoUrl} displayName={p.contestantBName} size={24} />
-                  <span className={p.contestantBId === currentUserId ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
+                  <span className={p.contestantBId === currentUserId ? "text-accent font-semibold" : "text-fg-3"}>
                     {p.contestantBName}
                   </span>
                   {betSummary(betB)}
@@ -469,19 +469,19 @@ export function BettingCard({
           })}
         </div>
       ) : rosterRows.length > 0 ? (
-        <div className="mt-4 border-t border-neutral-800 pt-3 space-y-1.5">
+        <div className="mt-4 border-t border-line pt-3 space-y-1.5">
           {rosterRows.map((row) => {
             const isYou = row.userId === currentUserId
             return (
               <div
                 key={row.userId}
                 className={`flex items-center justify-between gap-2 rounded-lg border px-3 py-2 text-xs flex-wrap ${
-                  isYou ? "border-neutral-700 bg-neutral-900" : "border-neutral-800 bg-neutral-900/50"
+                  isYou ? "border-line-2 bg-surface" : "border-line bg-surface/50"
                 }`}
               >
                 <div className="flex items-center gap-1.5 min-w-0">
                   <UserAvatar logoUrl={row.logoUrl} displayName={row.displayName} size={24} />
-                  <span className={isYou ? "text-yellow-400 font-semibold" : "text-neutral-300"}>
+                  <span className={isYou ? "text-accent font-semibold" : "text-fg-3"}>
                     {row.displayName}
                   </span>
                 </div>

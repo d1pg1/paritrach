@@ -37,7 +37,7 @@ export function InlineEditCell({ value, placeholder, saveLabel, displayValue, on
     return (
       <div className="flex items-center gap-2">
         <input
-          className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-yellow-500 w-32"
+          className="bg-surface border border-line-2 rounded px-2 py-1 text-sm text-fg focus:outline-none focus:border-yellow-500 w-32"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           autoFocus
@@ -49,11 +49,11 @@ export function InlineEditCell({ value, placeholder, saveLabel, displayValue, on
         <button
           onClick={handleSave}
           disabled={saving}
-          className="text-xs text-yellow-400 hover:text-yellow-300 disabled:opacity-50"
+          className="text-xs text-accent hover:text-accent-hi disabled:opacity-50"
         >
           {saving ? "…" : saveLabel}
         </button>
-        <button onClick={() => setEditing(false)} className="text-xs text-neutral-500 hover:text-white">
+        <button onClick={() => setEditing(false)} className="text-xs text-subtle hover:text-fg">
           ✕
         </button>
       </div>
@@ -61,8 +61,8 @@ export function InlineEditCell({ value, placeholder, saveLabel, displayValue, on
   }
 
   return (
-    <button onClick={startEdit} className="text-neutral-300 hover:text-yellow-400 transition-colors text-left">
-      {value ? (displayValue ? displayValue(value) : value) : <span className="text-neutral-600 italic">{placeholder}</span>}
+    <button onClick={startEdit} className="text-fg-3 hover:text-accent transition-colors text-left">
+      {value ? (displayValue ? displayValue(value) : value) : <span className="text-faint italic">{placeholder}</span>}
     </button>
   )
 }

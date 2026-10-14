@@ -3,7 +3,9 @@
     "rounds": "Туры",
     "scoreboard": "Таблица",
     "admin": "Админ",
-    "signOut": "Выйти"
+    "signOut": "Выйти",
+    "lightTheme": "Светлая тема",
+    "darkTheme": "Тёмная тема"
   },
   "login": {
     "subtitle": "Чемпионат мира 2026 — дружеские ставки",

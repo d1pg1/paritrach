@@ -3,7 +3,9 @@
     "rounds": "Rundy",
     "scoreboard": "Tabela",
     "admin": "Admin",
-    "signOut": "Wyloguj"
+    "signOut": "Wyloguj",
+    "lightTheme": "Jasny motyw",
+    "darkTheme": "Ciemny motyw"
   },
   "login": {
     "subtitle": "Mistrzostwa Świata 2026 — przyjacielskie zakłady",

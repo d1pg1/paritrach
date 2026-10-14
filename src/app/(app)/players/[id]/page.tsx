@@ -11,10 +11,10 @@ import { computeHeadToHeadRecords } from "@/lib/h2h-scoring"
 
 function StatCard({ label, value, sub }: { label: string; value: React.ReactNode; sub?: React.ReactNode }) {
   return (
-    <div className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3.5">
-      <p className="text-xs text-neutral-500 uppercase tracking-wide">{label}</p>
-      <p className="text-xl font-bold text-white mt-1">{value}</p>
-      {sub && <p className="text-xs text-neutral-500 mt-0.5">{sub}</p>}
+    <div className="bg-surface border border-line rounded-xl px-4 py-3.5">
+      <p className="text-xs text-subtle uppercase tracking-wide">{label}</p>
+      <p className="text-xl font-bold text-fg mt-1">{value}</p>
+      {sub && <p className="text-xs text-subtle mt-0.5">{sub}</p>}
     </div>
   )
 }
@@ -83,7 +83,7 @@ export default async function PlayerPage({
 
   return (
     <div>
-      <Link href="/scoreboard" className="text-sm text-neutral-500 hover:text-yellow-400 transition-colors">
+      <Link href="/scoreboard" className="text-sm text-subtle hover:text-accent transition-colors">
         {t("backLink")}
       </Link>
 
@@ -94,11 +94,11 @@ export default async function PlayerPage({
       )}
 
       <div className="mt-4 grid md:grid-cols-2 gap-6 items-start">
-        <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 flex flex-col items-center justify-center text-center md:sticky md:top-6">
+        <div className="bg-surface border border-line rounded-2xl p-8 flex flex-col items-center justify-center text-center md:sticky md:top-6">
           <UserAvatar logoUrl={user.logoUrl} displayName={displayName} size={160} />
-          <h1 className="text-2xl font-bold text-white mt-5">{displayName}</h1>
+          <h1 className="text-2xl font-bold text-fg mt-5">{displayName}</h1>
           {stats.memberSince && (
-            <p className="text-sm text-neutral-500 mt-1" suppressHydrationWarning>
+            <p className="text-sm text-subtle mt-1" suppressHydrationWarning>
               {t("memberSince", { date: stats.memberSince.toLocaleDateString(undefined, { year: "numeric", month: "long" }) })}
             </p>
           )}
@@ -134,22 +134,22 @@ export default async function PlayerPage({
           </div>
 
           {stats.biggestWin && (
-            <div className="bg-neutral-900 border border-yellow-700/40 rounded-xl px-4 py-3.5">
-              <p className="text-xs text-yellow-500 uppercase tracking-wide">{t("stats.biggestWin")}</p>
-              <p className="text-white font-semibold mt-1">
-                {stats.biggestWin.homeTeam} <span className="text-neutral-500">vs</span> {stats.biggestWin.awayTeam}
+            <div className="bg-surface border border-yellow-700/40 rounded-xl px-4 py-3.5">
+              <p className="text-xs text-accent-2 uppercase tracking-wide">{t("stats.biggestWin")}</p>
+              <p className="text-fg font-semibold mt-1">
+                {stats.biggestWin.homeTeam} <span className="text-subtle">vs</span> {stats.biggestWin.awayTeam}
               </p>
-              <p className="text-sm text-neutral-400 mt-0.5">
+              <p className="text-sm text-muted mt-0.5">
                 {marketLabel(stats.biggestWin.marketType)}: {stats.biggestWin.selection}
-                <span className="text-yellow-400 font-mono font-semibold ml-2">@{stats.biggestWin.coefficient.toFixed(2)}</span>
+                <span className="text-accent font-mono font-semibold ml-2">@{stats.biggestWin.coefficient.toFixed(2)}</span>
               </p>
             </div>
           )}
 
           <div>
-            <h2 className="text-sm font-bold text-yellow-400 mb-2">{t("headToHead.title")}</h2>
+            <h2 className="text-sm font-bold text-accent mb-2">{t("headToHead.title")}</h2>
             {rivalries.length === 0 ? (
-              <p className="text-sm text-neutral-500">{t("headToHead.empty")}</p>
+              <p className="text-sm text-subtle">{t("headToHead.empty")}</p>
             ) : (
               <div className="space-y-1.5">
                 {rivalries.map((r) => {
@@ -160,13 +160,13 @@ export default async function PlayerPage({
                     <Link
                       key={r.opponentId}
                       href={`/players/${r.opponentId}`}
-                      className="flex items-center justify-between gap-3 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-lg px-3.5 py-2.5 transition-colors"
+                      className="flex items-center justify-between gap-3 bg-surface border border-line hover:border-line-2 rounded-lg px-3.5 py-2.5 transition-colors"
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
                         <UserAvatar logoUrl={opponent.logoUrl} displayName={oppName} size={28} />
-                        <span className="text-sm font-medium text-neutral-200 truncate">{oppName}</span>
+                        <span className="text-sm font-medium text-fg-2 truncate">{oppName}</span>
                       </div>
-                      <span className="text-sm font-mono text-neutral-400 flex-shrink-0">
+                      <span className="text-sm font-mono text-muted flex-shrink-0">
                         {t("headToHead.record", { wins: r.wins, draws: r.draws, losses: r.losses })}
                       </span>
                     </Link>

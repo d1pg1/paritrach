@@ -129,7 +129,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">{round.name}</h1>
-        <p className="text-sm text-neutral-400 mt-1">
+        <p className="text-sm text-muted mt-1">
           {isBettingOpen && t("bettingOpen")}
           {isResults && t("resultsIn")}
           {round.status === "CLOSED" && t("closed")}
@@ -137,7 +137,7 @@ export default async function RoundPage({ params }: { params: Promise<{ id: stri
       </div>
 
       {round.matches.length === 0 ? (
-        <p className="text-neutral-400">{t("noMatches")}</p>
+        <p className="text-muted">{t("noMatches")}</p>
       ) : (
         <LiveScorePoller
           roundId={id}

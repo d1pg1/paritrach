@@ -36,19 +36,19 @@ export function ContestantsForm({ users }: { users: UserRow[] }) {
           disabled={toggling === u.id}
           className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-colors ${
             u.isContestant
-              ? "bg-yellow-950/30 border-yellow-600 hover:border-yellow-400"
-              : "bg-neutral-900 border-neutral-800 hover:border-neutral-600"
+              ? "bg-accent-tint/30 border-yellow-600 hover:border-yellow-400"
+              : "bg-surface border-line hover:border-line-3"
           } ${toggling === u.id ? "opacity-50" : ""}`}
         >
-          <span className="font-medium text-white">
+          <span className="font-medium text-fg">
             {u.nickname ?? u.username}
             {u.nickname && (
-              <span className="ml-2 text-sm text-neutral-500">@{u.username}</span>
+              <span className="ml-2 text-sm text-subtle">@{u.username}</span>
             )}
           </span>
           <span
             className={`text-sm font-semibold ${
-              u.isContestant ? "text-yellow-400" : "text-neutral-500"
+              u.isContestant ? "text-accent" : "text-subtle"
             }`}
           >
             {u.isContestant ? t("contestantActive") : t("contestantInactive")}

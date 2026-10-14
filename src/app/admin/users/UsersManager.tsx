@@ -100,9 +100,9 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
     <div>
       <form onSubmit={handleCreate} className="flex items-end gap-2 mb-8">
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-neutral-400">{t("usernameLabel")}</label>
+          <label className="text-xs text-muted">{t("usernameLabel")}</label>
           <input
-            className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-yellow-500"
+            className="bg-surface border border-line-2 rounded-lg px-3 py-2 text-sm text-fg placeholder-subtle focus:outline-none focus:border-yellow-500"
             placeholder={t("usernameLabel")}
             value={newUsername}
             onChange={(e) => setNewUsername(e.target.value)}
@@ -110,10 +110,10 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-neutral-400">{t("passwordLabel")}</label>
+          <label className="text-xs text-muted">{t("passwordLabel")}</label>
           <input
             type="password"
-            className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-yellow-500"
+            className="bg-surface border border-line-2 rounded-lg px-3 py-2 text-sm text-fg placeholder-subtle focus:outline-none focus:border-yellow-500"
             placeholder={t("passwordLabel")}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -127,16 +127,16 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
         >
           {creating ? "…" : t("create")}
         </button>
-        {createError && <p className="text-red-400 text-sm">{createError}</p>}
+        {createError && <p className="text-danger text-sm">{createError}</p>}
       </form>
 
       {users.length === 0 ? (
-        <p className="text-neutral-400">{t("noUsers")}</p>
+        <p className="text-muted">{t("noUsers")}</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-neutral-400 border-b border-neutral-800">
+              <tr className="text-left text-muted border-b border-line">
                 <th className="pb-3 pr-4 w-10">Logo</th>
                 <th className="pb-3 pr-4">{t("usernameLabel")}</th>
                 <th className="pb-3 pr-4">{t("nicknameLabel")}</th>
@@ -148,7 +148,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.id} className="border-b border-neutral-800/50">
+                <tr key={user.id} className="border-b border-line/50">
                   <td className="py-3 pr-4">
                     <div className="flex items-center gap-1.5">
                       <button
@@ -164,7 +164,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                           onClick={() => handleLogoRemove(user.id)}
                           disabled={uploadingId === user.id}
                           title="Remove logo"
-                          className="text-neutral-600 hover:text-red-400 text-xs leading-none disabled:opacity-50"
+                          className="text-faint hover:text-danger text-xs leading-none disabled:opacity-50"
                         >
                           ✕
                         </button>
@@ -182,7 +182,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                       />
                     </div>
                   </td>
-                  <td className="py-3 pr-4 font-medium text-white">{user.username}</td>
+                  <td className="py-3 pr-4 font-medium text-fg">{user.username}</td>
                   <td className="py-3 pr-4">
                     <InlineEditCell
                       value={user.nickname}
@@ -203,13 +203,13 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                   <td className="py-3 pr-4">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded ${
                       user.role === "ADMIN"
-                        ? "bg-yellow-500/20 text-yellow-400"
-                        : "bg-neutral-800 text-neutral-400"
+                        ? "bg-yellow-500/20 text-accent"
+                        : "bg-surface-2 text-muted"
                     }`}>
                       {user.role === "ADMIN" ? t("roleAdmin") : t("roleUser")}
                     </span>
                   </td>
-                  <td className="py-3 pr-4 text-right text-neutral-400">{user._count.bets}</td>
+                  <td className="py-3 pr-4 text-right text-muted">{user._count.bets}</td>
                   <td className="py-3 text-right">
                     <button
                       onClick={() => {
@@ -218,7 +218,7 @@ export function UsersManager({ initialUsers }: { initialUsers: UserRow[] }) {
                         }
                       }}
                       disabled={user.role === "ADMIN" || deletingId === user.id}
-                      className="text-xs text-neutral-500 hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="text-xs text-subtle hover:text-danger disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
                       {deletingId === user.id ? "…" : t("deleteUser")}
                     </button>

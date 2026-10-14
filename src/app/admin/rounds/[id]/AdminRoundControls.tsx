@@ -109,8 +109,8 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
       <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold">{round.name}</h1>
-          <p className="text-sm text-neutral-400 mt-1">
-            {t("roundStatus")} <span className="text-yellow-400">{round.status}</span>
+          <p className="text-sm text-muted mt-1">
+            {t("roundStatus")} <span className="text-accent">{round.status}</span>
           </p>
         </div>
         <div className="flex gap-2 flex-wrap justify-end">
@@ -118,7 +118,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
             <button
               onClick={() => apiCall("import/leagues")}
               disabled={!!loading}
-              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+              className="bg-surface-3 hover:bg-surface-4 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
               {loading === "import/leagues" ? t("importing") : t("importLeagues")}
             </button>
@@ -127,7 +127,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
             <button
               onClick={() => apiCall("import/cups")}
               disabled={!!loading}
-              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+              className="bg-surface-3 hover:bg-surface-4 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
               {loading === "import/cups" ? t("importing") : t("importCups")}
             </button>
@@ -136,7 +136,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
             <button
               onClick={() => apiCall("import/internationals")}
               disabled={!!loading}
-              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+              className="bg-surface-3 hover:bg-surface-4 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
               {loading === "import/internationals" ? t("importing") : t("importInternationals")}
             </button>
@@ -154,7 +154,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
             <button
               onClick={() => apiCall("refresh-odds")}
               disabled={!!loading}
-              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+              className="bg-surface-3 hover:bg-surface-4 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
               {loading === "refresh-odds" ? t("refreshing") : t("refreshOdds")}
             </button>
@@ -163,7 +163,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
             <button
               onClick={() => apiCall("check-results")}
               disabled={!!loading}
-              className="bg-neutral-700 hover:bg-neutral-600 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+              className="bg-surface-3 hover:bg-surface-4 disabled:opacity-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
             >
               {loading === "check-results" ? t("checking") : t("checkResults")}
             </button>
@@ -171,7 +171,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
           <button
             onClick={deleteRound}
             disabled={!!loading}
-            className="bg-red-900 hover:bg-red-800 disabled:opacity-50 text-red-200 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
+            className="bg-danger-btn hover:bg-danger-btn-hover disabled:opacity-50 text-on-danger-btn rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
           >
             {loading === "delete" ? t("deleting") : t("deleteRound")}
           </button>
@@ -179,13 +179,13 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
       </div>
 
       {error && (
-        <div className="mb-4 bg-red-950 border border-red-800 rounded-lg px-4 py-2 text-sm text-red-300">
+        <div className="mb-4 bg-danger-tint border border-danger-line rounded-lg px-4 py-2 text-sm text-danger-fg">
           {error}
         </div>
       )}
 
       {round.matches.length === 0 ? (
-        <p className="text-neutral-400">{t("noMatches")}</p>
+        <p className="text-muted">{t("noMatches")}</p>
       ) : (
         <>
           <input
@@ -193,7 +193,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
             placeholder={t("searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full mb-3 bg-neutral-800 border border-neutral-700 text-neutral-100 placeholder-neutral-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-400"
+            className="w-full mb-3 bg-surface-2 border border-line-2 text-fg placeholder-subtle rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-400"
           />
           <div className="space-y-2">
             {round.matches
@@ -203,8 +203,8 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
               .map((match) => (
                 <div key={match.id}>
                   <div
-                    className={`flex items-center gap-4 bg-neutral-900 border rounded-lg px-4 py-3 ${
-                      match.isEligible ? "border-yellow-700" : "border-neutral-800"
+                    className={`flex items-center gap-4 bg-surface border rounded-lg px-4 py-3 ${
+                      match.isEligible ? "border-yellow-700" : "border-line"
                     }`}
                   >
                     <input
@@ -215,14 +215,14 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                       className="w-4 h-4 accent-yellow-400"
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-white flex items-center gap-1.5 flex-wrap">
+                      <p className="font-medium text-sm text-fg flex items-center gap-1.5 flex-wrap">
                         <TeamLogo name={match.homeTeam} size={18} logoUrl={teamLogoMap[match.homeTeam.toLowerCase()]} />
                         {match.homeTeam}
-                        <span className="text-neutral-500">vs</span>
+                        <span className="text-subtle">vs</span>
                         <TeamLogo name={match.awayTeam} size={18} logoUrl={teamLogoMap[match.awayTeam.toLowerCase()]} />
                         {match.awayTeam}
                       </p>
-                      <p className="text-xs text-neutral-400" suppressHydrationWarning>
+                      <p className="text-xs text-muted" suppressHydrationWarning>
                         {new Date(match.startTime).toLocaleString("uk-UA", {
                           weekday: "short",
                           day: "numeric",
@@ -232,7 +232,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                         })}
                       </p>
                       {match.competition && (
-                        <p className="text-xs text-neutral-500 mt-0.5">{match.competition}</p>
+                        <p className="text-xs text-subtle mt-0.5">{match.competition}</p>
                       )}
                       <div className="flex items-center gap-1 mt-1.5 flex-wrap">
                         {([
@@ -250,8 +250,8 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                               }
                               className={`text-xs px-2 py-0.5 rounded border transition-colors ${
                                 active
-                                  ? "border-neutral-500 text-neutral-200 bg-neutral-800"
-                                  : "border-neutral-700 text-neutral-500 hover:border-neutral-600 hover:text-neutral-300"
+                                  ? "border-line-4 text-fg-2 bg-surface-2"
+                                  : "border-line-2 text-subtle hover:border-line-3 hover:text-fg-3"
                               }`}
                             >
                               {label}
@@ -260,34 +260,34 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                         })}
                       </div>
                     </div>
-                    <div className="text-right text-xs text-neutral-400 shrink-0">
+                    <div className="text-right text-xs text-muted shrink-0">
                       {match.externalId && h2hOdds[match.externalId] && (
                         <p className="font-mono tabular-nums mb-0.5">
                           {h2hOdds[match.externalId].home.toFixed(2)}
-                          <span className="text-neutral-600"> × </span>
+                          <span className="text-faint"> × </span>
                           {h2hOdds[match.externalId].draw.toFixed(2)}
-                          <span className="text-neutral-600"> × </span>
+                          <span className="text-faint"> × </span>
                           {h2hOdds[match.externalId].away.toFixed(2)}
                         </p>
                       )}
                       {match.oddsSnapshot ? (
-                        <span className="text-yellow-400">{t("oddsLocked")}</span>
+                        <span className="text-accent">{t("oddsLocked")}</span>
                       ) : match.isEligible ? (
-                        <span className="text-neutral-500">{t("noOdds")}</span>
+                        <span className="text-subtle">{t("noOdds")}</span>
                       ) : null}
                       {match.bets.length > 0 && (
                         <button
                           onClick={() =>
                             setExpandedMatchId(expandedMatchId === match.id ? null : match.id)
                           }
-                          className="mt-0.5 block text-yellow-400 hover:text-yellow-300 transition-colors"
+                          className="mt-0.5 block text-accent hover:text-accent-hi transition-colors"
                         >
                           {t("betCount", { count: match.bets.length })}{" "}
                           {expandedMatchId === match.id ? "▴" : "▾"}
                         </button>
                       )}
                       {match.status === "FINAL" && match.homeScore !== null && (
-                        <p className="text-white font-semibold mt-0.5">
+                        <p className="text-fg font-semibold mt-0.5">
                           {match.homeScore} : {match.awayScore}
                         </p>
                       )}
@@ -295,7 +295,7 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                   </div>
 
                   {historyView?.matchId === match.id && (
-                    <div className="border border-t-0 border-neutral-800 rounded-b-lg bg-neutral-950 px-4 py-3">
+                    <div className="border border-t-0 border-line rounded-b-lg bg-panel px-4 py-3">
                       <TeamHistoryPanel
                         home={match.homeTeam}
                         away={match.awayTeam}
@@ -307,31 +307,31 @@ export function AdminRoundControls({ round, teamLogoMap = {}, h2hOdds = {} }: { 
                   )}
 
                   {expandedMatchId === match.id && match.bets.length > 0 && (
-                    <div className="border border-t-0 border-neutral-800 rounded-b-lg bg-neutral-950 px-4 py-3">
+                    <div className="border border-t-0 border-line rounded-b-lg bg-panel px-4 py-3">
                       <table className="w-full text-xs">
                         <thead>
-                          <tr className="text-neutral-500 border-b border-neutral-800">
+                          <tr className="text-subtle border-b border-line">
                             <th className="text-left pb-1.5 font-medium">User</th>
                             <th className="text-left pb-1.5 font-medium">Bet</th>
                             <th className="text-right pb-1.5 font-medium">Coef</th>
                             <th className="text-right pb-1.5 font-medium">Result</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-neutral-800">
+                        <tbody className="divide-y divide-line">
                           {match.bets.map((bet) => (
                             <tr key={bet.id}>
-                              <td className="py-1.5 text-neutral-300">{bet.user.nickname ?? bet.user.username}</td>
-                              <td className="py-1.5 text-neutral-300">{formatBetSelection(bet)}</td>
-                              <td className="py-1.5 text-right text-neutral-300">
+                              <td className="py-1.5 text-fg-3">{bet.user.nickname ?? bet.user.username}</td>
+                              <td className="py-1.5 text-fg-3">{formatBetSelection(bet)}</td>
+                              <td className="py-1.5 text-right text-fg-3">
                                 {bet.coefficient.toFixed(2)}
                               </td>
                               <td className="py-1.5 text-right">
                                 {bet.isWinner === true ? (
-                                  <span className="text-green-400">{t("betWon")}</span>
+                                  <span className="text-success">{t("betWon")}</span>
                                 ) : bet.isWinner === false ? (
-                                  <span className="text-red-400">{t("betLost")}</span>
+                                  <span className="text-danger">{t("betLost")}</span>
                                 ) : (
-                                  <span className="text-neutral-500">{t("betPending")}</span>
+                                  <span className="text-subtle">{t("betPending")}</span>
                                 )}
                               </td>
                             </tr>
@@ -360,10 +360,10 @@ function BetSummaryTable({ roundId }: { roundId: string }) {
         src={`/api/scoreboard?roundId=${roundId}&format=table`}
         className="hidden"
       />
-      <p className="text-sm text-neutral-400">
+      <p className="text-sm text-muted">
         {t.rich("scoreboardLink", {
           link: (chunks) => (
-            <a href="/scoreboard" className="text-yellow-400 underline">
+            <a href="/scoreboard" className="text-accent underline">
               {chunks}
             </a>
           ),

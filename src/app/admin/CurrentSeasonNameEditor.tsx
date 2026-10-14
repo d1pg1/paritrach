@@ -33,7 +33,7 @@ export function CurrentSeasonNameEditor({ initialName }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-2 mb-4 text-sm text-neutral-400">
+    <div className="flex items-center gap-2 mb-4 text-sm text-muted">
       <span>{t("currentSeasonName")}:</span>
       {editing ? (
         <>
@@ -43,7 +43,7 @@ export function CurrentSeasonNameEditor({ initialName }: Props) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={t("seasonNamePlaceholder")}
-            className="bg-neutral-900 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="bg-surface border border-line-2 text-fg placeholder-subtle rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSave()
               if (e.key === "Escape") handleCancel()
@@ -56,18 +56,18 @@ export function CurrentSeasonNameEditor({ initialName }: Props) {
           >
             {loading ? "…" : t("save")}
           </button>
-          <button onClick={handleCancel} className="text-neutral-400 text-sm">
+          <button onClick={handleCancel} className="text-muted text-sm">
             {t("cancel")}
           </button>
         </>
       ) : (
         <>
-          <span className={initialName ? "text-white font-medium" : "text-neutral-500 italic"}>
+          <span className={initialName ? "text-fg font-medium" : "text-subtle italic"}>
             {initialName || t("notSet")}
           </span>
           <button
             onClick={() => setEditing(true)}
-            className="text-neutral-500 hover:text-yellow-400 transition-colors text-xs underline"
+            className="text-subtle hover:text-accent transition-colors text-xs underline"
           >
             {t("edit")}
           </button>

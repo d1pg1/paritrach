@@ -8,16 +8,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="border-b border-yellow-900/30 bg-yellow-950/10">
+      <header className="border-b border-yellow-900/30 bg-accent-tint/10">
         <div className="max-w-5xl mx-auto px-4 h-12 flex items-center gap-6">
-          <Link href="/" className="text-sm text-neutral-400 hover:text-white">
+          <Link href="/" className="text-sm text-muted hover:text-fg">
             ← App
           </Link>
-          <span className="text-yellow-600 font-semibold text-sm tracking-wide uppercase">Admin Panel</span>
-          <Link href="/admin" className="text-sm text-neutral-400 hover:text-white">
+          <span className="text-accent-3 font-semibold text-sm tracking-wide uppercase">Admin Panel</span>
+          <Link href="/admin" className="text-sm text-muted hover:text-fg">
             Rounds
           </Link>
-          <Link href="/admin/users" className="text-sm text-neutral-400 hover:text-white">
+          <Link href="/admin/users" className="text-sm text-muted hover:text-fg">
             Users
           </Link>
         </div>

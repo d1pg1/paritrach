@@ -7,10 +7,10 @@ import { StartSeasonForm } from "./StartSeasonForm"
 import { CurrentSeasonNameEditor } from "./CurrentSeasonNameEditor"
 
 const STATUS_COLOR: Record<string, string> = {
-  SETUP: "text-neutral-500",
-  BETTING: "text-yellow-400",
-  CLOSED: "text-neutral-400",
-  RESULTS: "text-white",
+  SETUP: "text-subtle",
+  BETTING: "text-accent",
+  CLOSED: "text-muted",
+  RESULTS: "text-fg",
 }
 
 interface RoundRow {
@@ -48,7 +48,7 @@ export default async function AdminPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/contestants"
-            className="bg-neutral-800 hover:bg-neutral-700 text-white font-bold rounded-lg px-4 py-2 text-sm transition-colors"
+            className="bg-surface-2 hover:bg-surface-3 text-fg font-bold rounded-lg px-4 py-2 text-sm transition-colors"
           >
             {t("contestants")}
           </Link>
@@ -61,18 +61,18 @@ export default async function AdminPage() {
       <CurrentSeasonNameEditor initialName={settings?.currentSeasonName ?? null} />
 
       {rounds.length === 0 ? (
-        <p className="text-neutral-400">{t("noRounds")}</p>
+        <p className="text-muted">{t("noRounds")}</p>
       ) : (
         <div className="space-y-3">
           {(rounds as RoundRow[]).map((r) => (
             <Link
               key={r.id}
               href={`/admin/rounds/${r.id}`}
-              className="flex items-center justify-between bg-neutral-900 border border-neutral-800 rounded-xl px-5 py-4 hover:border-yellow-500 transition-colors"
+              className="flex items-center justify-between bg-surface border border-line rounded-xl px-5 py-4 hover:border-yellow-500 transition-colors"
             >
               <div>
-                <p className="font-semibold text-white">{r.name}</p>
-                <p className="text-sm text-neutral-400 mt-0.5">
+                <p className="font-semibold text-fg">{r.name}</p>
+                <p className="text-sm text-muted mt-0.5">
                   {t("matchesCount", { matches: r._count.matches, bets: r._count.bets })}
                 </p>
               </div>

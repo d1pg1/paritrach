@@ -37,7 +37,7 @@ export function SeasonSelector({ seasons, currentSeasonId, currentSeasonName }: 
         className={`text-sm px-3 py-1 rounded-full border transition-colors ${
           currentSeasonId === null
             ? "bg-yellow-400 border-yellow-400 text-black font-semibold"
-            : "border-neutral-700 text-neutral-400 hover:border-neutral-500"
+            : "border-line-2 text-muted hover:border-line-4"
         }`}
       >
         {currentSeasonName || t("current")}
@@ -49,7 +49,7 @@ export function SeasonSelector({ seasons, currentSeasonId, currentSeasonName }: 
           className={`text-sm px-3 py-1 rounded-full border transition-colors ${
             currentSeasonId === s.id
               ? "bg-yellow-400 border-yellow-400 text-black font-semibold"
-              : "border-neutral-700 text-neutral-400 hover:border-neutral-500"
+              : "border-line-2 text-muted hover:border-line-4"
           }`}
         >
           {s.name}

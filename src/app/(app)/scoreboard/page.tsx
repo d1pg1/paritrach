@@ -108,12 +108,12 @@ export default async function ScoreboardPage({
         </Suspense>
       )}
       {rows.length === 0 ? (
-        <p className="text-neutral-400">{t("empty")}</p>
+        <p className="text-muted">{t("empty")}</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-neutral-400 border-b border-neutral-800">
+              <tr className="text-left text-muted border-b border-line">
                 <th className="pb-3 pr-3 w-10">{t("rank")}</th>
                 <th className="pb-3 pr-4">{t("player")}</th>
                 <th className="pb-3 pr-4 text-right">{t("rounds")}</th>
@@ -125,20 +125,20 @@ export default async function ScoreboardPage({
               {rows.map((row, i) => (
                 <tr
                   key={row.id}
-                  className={`border-b border-neutral-800/50 ${
-                    row.id === session.user.id ? "text-yellow-400" : ""
+                  className={`border-b border-line/50 ${
+                    row.id === session.user.id ? "text-accent" : ""
                   }`}
                 >
-                  <td className="py-3 pr-3 font-mono text-neutral-500">{i + 1}</td>
+                  <td className="py-3 pr-3 font-mono text-subtle">{i + 1}</td>
                   <td className="py-3 pr-4">
                     <Link href={`/players/${row.id}`} className="flex items-center gap-2.5 group w-fit">
                       <UserAvatar logoUrl={row.logoUrl} displayName={row.displayName} size={40} />
-                      <span className="font-medium group-hover:text-yellow-400 transition-colors">{row.displayName}</span>
+                      <span className="font-medium group-hover:text-accent transition-colors">{row.displayName}</span>
                     </Link>
                   </td>
-                  <td className="py-3 pr-4 text-right text-neutral-400">{row.rounds}</td>
+                  <td className="py-3 pr-4 text-right text-muted">{row.rounds}</td>
                   <td className="py-3 pr-4 text-right font-bold">{row.points}</td>
-                  <td className="py-3 text-right text-neutral-400">{row.coefSum.toFixed(2)}</td>
+                  <td className="py-3 text-right text-muted">{row.coefSum.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

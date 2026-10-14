@@ -1,22 +1,150 @@
 @import "tailwindcss";
 
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/*
+ * Theme tokens. Dark is the default; light applies when <html data-theme="light">
+ * (set server-side from the THEME cookie, toggled by ThemeSwitcher).
+ * Components use the semantic names below (bg-surface, text-muted, …) rather
+ * than raw palette shades so both themes stay in sync.
+ */
 :root {
-  --background: #090909;
-  --foreground: #ffffff;
-  --accent: #FFD700;
+  color-scheme: dark;
+
+  --page: #000000;
+  --panel: var(--color-neutral-950);
+  --surface: var(--color-neutral-900);
+  --surface-2: var(--color-neutral-800);
+  --surface-3: var(--color-neutral-700);
+  --surface-4: var(--color-neutral-600);
+
+  --line: var(--color-neutral-800);
+  --line-2: var(--color-neutral-700);
+  --line-3: var(--color-neutral-600);
+  --line-4: var(--color-neutral-500);
+
+  --fg: #ffffff;
+  --fg-2: var(--color-neutral-200);
+  --fg-3: var(--color-neutral-300);
+  --muted: var(--color-neutral-400);
+  --subtle: var(--color-neutral-500);
+  --faint: var(--color-neutral-600);
+
+  --accent-hi: var(--color-yellow-300);
+  --accent: var(--color-yellow-400);
+  --accent-2: var(--color-yellow-500);
+  --accent-3: var(--color-yellow-600);
+  --accent-tint: var(--color-yellow-950);
+
+  --danger: var(--color-red-400);
+  --danger-fg: var(--color-red-300);
+  --danger-tint: var(--color-red-950);
+  --danger-line: var(--color-red-800);
+  --danger-btn: var(--color-red-900);
+  --danger-btn-hover: var(--color-red-800);
+  --on-danger-btn: var(--color-red-200);
+
+  --success: var(--color-green-400);
+  --success-tint: var(--color-green-950);
+  --success-line: var(--color-green-800);
+
+  --home: var(--color-sky-400);
+  --away: var(--color-orange-400);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --page: var(--color-neutral-100);
+  --panel: #ffffff;
+  --surface: #ffffff;
+  --surface-2: var(--color-neutral-100);
+  --surface-3: var(--color-neutral-200);
+  --surface-4: var(--color-neutral-300);
+
+  --line: var(--color-neutral-200);
+  --line-2: var(--color-neutral-300);
+  --line-3: var(--color-neutral-400);
+  --line-4: var(--color-neutral-500);
+
+  --fg: var(--color-neutral-900);
+  --fg-2: var(--color-neutral-800);
+  --fg-3: var(--color-neutral-700);
+  --muted: var(--color-neutral-600);
+  --subtle: var(--color-neutral-500);
+  --faint: var(--color-neutral-400);
+
+  --accent-hi: var(--color-yellow-800);
+  --accent: var(--color-yellow-700);
+  --accent-2: var(--color-yellow-800);
+  --accent-3: var(--color-yellow-700);
+  --accent-tint: var(--color-yellow-300);
+
+  --danger: var(--color-red-600);
+  --danger-fg: var(--color-red-700);
+  --danger-tint: var(--color-red-100);
+  --danger-line: var(--color-red-300);
+  --danger-btn: var(--color-red-600);
+  --danger-btn-hover: var(--color-red-700);
+  --on-danger-btn: #ffffff;
+
+  --success: var(--color-green-700);
+  --success-tint: var(--color-green-300);
+  --success-line: var(--color-green-300);
+
+  --home: var(--color-sky-700);
+  --away: var(--color-orange-700);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-page: var(--page);
+  --color-panel: var(--panel);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-line-3: var(--line-3);
+  --color-line-4: var(--line-4);
+
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-faint: var(--faint);
+
+  --color-accent-hi: var(--accent-hi);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-tint: var(--accent-tint);
+
+  --color-danger: var(--danger);
+  --color-danger-fg: var(--danger-fg);
+  --color-danger-tint: var(--danger-tint);
+  --color-danger-line: var(--danger-line);
+  --color-danger-btn: var(--danger-btn);
+  --color-danger-btn-hover: var(--danger-btn-hover);
+  --color-on-danger-btn: var(--on-danger-btn);
+
+  --color-success: var(--success);
+  --color-success-tint: var(--success-tint);
+  --color-success-line: var(--success-line);
+
+  --color-home: var(--home);
+  --color-away: var(--away);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @layer base {
   body {
-    background: var(--background);
-    color: var(--foreground);
+    background: var(--page);
+    color: var(--fg);
     font-family: Arial, Helvetica, sans-serif;
   }
 }

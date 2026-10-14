@@ -48,7 +48,7 @@ export function CreateRoundForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={t("roundNamePlaceholder")}
-            className="bg-neutral-900 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="bg-surface border border-line-2 text-fg placeholder-subtle rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onKeyDown={(e) => e.key === "Enter" && handleCreate()}
           />
           <button
@@ -58,10 +58,10 @@ export function CreateRoundForm() {
           >
             {loading ? "…" : t("create")}
           </button>
-          <button onClick={() => setOpen(false)} className="text-neutral-400 text-sm">
+          <button onClick={() => setOpen(false)} className="text-muted text-sm">
             {t("cancel")}
           </button>
-          {error && <p className="text-red-400 text-sm w-full">{error}</p>}
+          {error && <p className="text-danger text-sm w-full">{error}</p>}
         </div>
       )}
     </div>

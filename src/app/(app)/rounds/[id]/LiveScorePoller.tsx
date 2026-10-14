@@ -126,8 +126,8 @@ export function LiveScorePoller({ roundId, entries, shared, initialH2H }: Props)
         <div
           className={`flex items-center justify-between rounded-lg border px-4 py-2.5 text-sm ${
             allBetted
-              ? "border-green-800 bg-green-950/20 text-green-400"
-              : "border-yellow-800 bg-yellow-950/10 text-yellow-400"
+              ? "border-success-line bg-success-tint/20 text-success"
+              : "border-yellow-800 bg-accent-tint/10 text-accent"
           }`}
         >
           <span>
@@ -140,7 +140,7 @@ export function LiveScorePoller({ roundId, entries, shared, initialH2H }: Props)
               <span
                 key={id}
                 className={`h-1.5 w-4 rounded-full ${
-                  bettedMatchIds.has(id) ? "bg-green-400" : "bg-neutral-700"
+                  bettedMatchIds.has(id) ? "bg-green-400" : "bg-surface-3"
                 }`}
               />
             ))}

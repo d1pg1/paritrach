@@ -7,10 +7,10 @@ import { SeasonSelector } from "@/components/SeasonSelector"
 import { resolveCurrentSeason } from "@/lib/current-season"
 
 const STATUS_COLOR: Record<string, string> = {
-  SETUP: "text-neutral-500",
-  BETTING: "text-yellow-400",
-  CLOSED: "text-neutral-400",
-  RESULTS: "text-white",
+  SETUP: "text-subtle",
+  BETTING: "text-accent",
+  CLOSED: "text-muted",
+  RESULTS: "text-fg",
 }
 
 interface RoundRow {
@@ -49,19 +49,19 @@ export default async function RoundsPage({
         </Suspense>
       )}
       {rounds.length === 0 ? (
-        <p className="text-neutral-400">{t("empty")}</p>
+        <p className="text-muted">{t("empty")}</p>
       ) : (
         <div className="space-y-3">
           {rounds.map((round: RoundRow) => (
             <Link
               key={round.id}
               href={`/rounds/${round.id}`}
-              className="block bg-neutral-900 border border-neutral-800 rounded-xl px-5 py-4 hover:border-yellow-500 transition-colors"
+              className="block bg-surface border border-line rounded-xl px-5 py-4 hover:border-yellow-500 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-lg text-white">{round.name}</p>
-                  <p className="text-sm text-neutral-400 mt-0.5">
+                  <p className="font-semibold text-lg text-fg">{round.name}</p>
+                  <p className="text-sm text-muted mt-0.5">
                     {t("matchCount", { count: round._count.matches })}
                   </p>
                 </div>

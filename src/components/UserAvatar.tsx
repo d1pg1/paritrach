@@ -18,7 +18,7 @@ export function UserAvatar({ logoUrl, displayName, size = 36 }: UserAvatarProps)
   return (
     <span
       style={{ width: size, height: size, fontSize: Math.round(size * 0.45) }}
-      className="relative overflow-hidden rounded-md bg-neutral-800 text-neutral-400 flex items-center justify-center font-semibold flex-shrink-0 select-none"
+      className="relative overflow-hidden rounded-md bg-surface-2 text-muted flex items-center justify-center font-semibold flex-shrink-0 select-none"
     >
       {initial}
       {logoUrl && !failed && (

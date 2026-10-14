@@ -58,23 +58,23 @@ export function StartSeasonForm({ users }: { users: UserRow[] }) {
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          className="bg-neutral-700 hover:bg-neutral-600 text-white font-bold rounded-lg px-4 py-2 text-sm transition-colors"
+          className="bg-surface-3 hover:bg-surface-4 text-fg font-bold rounded-lg px-4 py-2 text-sm transition-colors"
         >
           {t("startSeason")}
         </button>
       ) : (
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 px-4 py-10">
-          <div className="w-full max-w-md rounded-xl border border-neutral-800 bg-neutral-950 p-5">
+          <div className="w-full max-w-md rounded-xl border border-line bg-panel p-5">
             <input
               autoFocus
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("startSeasonNamePlaceholder")}
-              className="w-full bg-neutral-900 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full bg-surface border border-line-2 text-fg placeholder-subtle rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
 
-            <p className="mt-4 mb-2 text-sm text-neutral-400">{t("startSeasonPickContestants")}</p>
+            <p className="mt-4 mb-2 text-sm text-muted">{t("startSeasonPickContestants")}</p>
             <div className="max-h-80 space-y-1.5 overflow-y-auto pr-1">
               {users.map((u) => {
                 const isSelected = selected.has(u.id)
@@ -84,15 +84,15 @@ export function StartSeasonForm({ users }: { users: UserRow[] }) {
                     onClick={() => toggle(u.id)}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border text-sm transition-colors ${
                       isSelected
-                        ? "bg-yellow-950/30 border-yellow-600 hover:border-yellow-400"
-                        : "bg-neutral-900 border-neutral-800 hover:border-neutral-600"
+                        ? "bg-accent-tint/30 border-yellow-600 hover:border-yellow-400"
+                        : "bg-surface border-line hover:border-line-3"
                     }`}
                   >
-                    <span className="font-medium text-white">
+                    <span className="font-medium text-fg">
                       {u.nickname ?? u.username}
-                      {u.nickname && <span className="ml-2 text-neutral-500">@{u.username}</span>}
+                      {u.nickname && <span className="ml-2 text-subtle">@{u.username}</span>}
                     </span>
-                    <span className={isSelected ? "text-yellow-400 font-semibold" : "text-neutral-500"}>
+                    <span className={isSelected ? "text-accent font-semibold" : "text-subtle"}>
                       {isSelected ? t("contestantActive") : t("contestantInactive")}
                     </span>
                   </button>
@@ -100,16 +100,16 @@ export function StartSeasonForm({ users }: { users: UserRow[] }) {
               })}
             </div>
 
-            <p className="mt-3 text-xs text-neutral-500">
+            <p className="mt-3 text-xs text-subtle">
               {t("startSeasonContestantCount", { count: selected.size })}
             </p>
             {selected.size < 2 && (
-              <p className="mt-1 text-xs text-red-400">{t("startSeasonNeedMore")}</p>
+              <p className="mt-1 text-xs text-danger">{t("startSeasonNeedMore")}</p>
             )}
             {selected.size >= 2 && selected.size % 2 !== 0 && (
-              <p className="mt-1 text-xs text-red-400">{t("startSeasonNeedEven")}</p>
+              <p className="mt-1 text-xs text-danger">{t("startSeasonNeedEven")}</p>
             )}
-            {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+            {error && <p className="mt-2 text-sm text-danger">{error}</p>}
 
             <div className="mt-4 flex items-center gap-2">
               <button
@@ -119,7 +119,7 @@ export function StartSeasonForm({ users }: { users: UserRow[] }) {
               >
                 {loading ? "…" : t("start")}
               </button>
-              <button onClick={() => setOpen(false)} className="text-neutral-400 text-sm">
+              <button onClick={() => setOpen(false)} className="text-muted text-sm">
                 {t("cancel")}
               </button>
             </div>

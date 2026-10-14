@@ -50,15 +50,15 @@ export function TeamHistoryPanel({
   const focusTeam = type === "home" ? home : type === "away" ? away : null
 
   return (
-    <div className="mt-2 border-t border-neutral-800 pt-2">
+    <div className="mt-2 border-t border-line pt-2">
       {loading && (
-        <p className="text-xs text-neutral-500 py-1.5">Loading...</p>
+        <p className="text-xs text-subtle py-1.5">Loading...</p>
       )}
       {!loading && error && (
-        <p className="text-xs text-red-400 py-1.5">Could not load match history</p>
+        <p className="text-xs text-danger py-1.5">Could not load match history</p>
       )}
       {!loading && !error && matches.length === 0 && (
-        <p className="text-xs text-neutral-500 py-1.5">
+        <p className="text-xs text-subtle py-1.5">
           {type === "h2h"
             ? "No meetings found in the last ~2 years (ESPN data window)"
             : "No recent matches found"}
@@ -88,22 +88,22 @@ export function TeamHistoryPanel({
             return (
               <div
                 key={i}
-                className="flex items-center gap-2 text-xs bg-neutral-800/60 rounded px-2.5 py-1.5"
+                className="flex items-center gap-2 text-xs bg-surface-2/60 rounded px-2.5 py-1.5"
               >
                 {result && (
                   <span
                     className={`font-bold w-3.5 shrink-0 text-center ${
                       result === "W"
-                        ? "text-green-400"
+                        ? "text-success"
                         : result === "L"
-                        ? "text-red-400"
-                        : "text-neutral-400"
+                        ? "text-danger"
+                        : "text-muted"
                     }`}
                   >
                     {result}
                   </span>
                 )}
-                <span className="text-neutral-500 shrink-0 w-[4.5rem]">
+                <span className="text-subtle shrink-0 w-[4.5rem]">
                   {new Date(m.date).toLocaleDateString("uk-UA", {
                     day: "numeric",
                     month: "short",
@@ -111,7 +111,7 @@ export function TeamHistoryPanel({
                   })}
                 </span>
                 <span className="flex items-center gap-1 flex-1 min-w-0 justify-end">
-                  <span className="truncate text-right text-neutral-300">
+                  <span className="truncate text-right text-fg-3">
                     {m.homeTeam}
                   </span>
                   <TeamLogo
@@ -120,7 +120,7 @@ export function TeamHistoryPanel({
                     logoUrl={teamLogoMap[m.homeTeam.toLowerCase()]}
                   />
                 </span>
-                <span className="font-bold tabular-nums shrink-0 text-white">
+                <span className="font-bold tabular-nums shrink-0 text-fg">
                   {m.homeScore}:{m.awayScore}
                 </span>
                 <span className="flex items-center gap-1 flex-1 min-w-0">
@@ -129,10 +129,10 @@ export function TeamHistoryPanel({
                     size={13}
                     logoUrl={teamLogoMap[m.awayTeam.toLowerCase()]}
                   />
-                  <span className="truncate text-neutral-300">{m.awayTeam}</span>
+                  <span className="truncate text-fg-3">{m.awayTeam}</span>
                 </span>
                 {m.competition && (
-                  <span className="text-neutral-600 shrink-0 hidden sm:block max-w-[7rem] truncate">
+                  <span className="text-faint shrink-0 hidden sm:block max-w-[7rem] truncate">
                     {m.competition}
                   </span>
                 )}

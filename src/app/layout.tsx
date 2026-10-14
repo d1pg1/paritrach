@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale, getMessages } from "next-intl/server"
+import { cookies } from "next/headers"
 import "./globals.css"
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin", "cyrillic"] })
@@ -14,10 +15,11 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale()
   const messages = await getMessages()
+  const theme = (await cookies()).get("THEME")?.value === "light" ? "light" : "dark"
 
   return (
-    <html lang={locale} className={`${geist.variable} h-full antialiased`}>
-      <body className="min-h-full bg-black text-white flex flex-col">
+    <html lang={locale} data-theme={theme} className={`${geist.variable} h-full antialiased`}>
+      <body className="min-h-full bg-page text-fg flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

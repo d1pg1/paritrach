@@ -27,7 +27,7 @@ export default async function ContestantsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-2">{t("contestantsTitle")}</h1>
-      <p className="text-sm text-neutral-400 mb-6">{t("contestantsSubtitle")}</p>
+      <p className="text-sm text-muted mb-6">{t("contestantsSubtitle")}</p>
       <ContestantsForm users={users} />
     </div>
   )

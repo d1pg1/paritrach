@@ -3,7 +3,9 @@
     "rounds": "Тури",
     "scoreboard": "Таблиця",
     "admin": "Адмін",
-    "signOut": "Вийти"
+    "signOut": "Вийти",
+    "lightTheme": "Світла тема",
+    "darkTheme": "Темна тема"
   },
   "login": {
     "subtitle": "Чемпіонат світу 2026 — дружні ставки",
