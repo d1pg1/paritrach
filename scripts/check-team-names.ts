@@ -1,4 +1,4 @@
-// Audits that every team name we've stored for top-5 league and UEFA cup matches resolves to
+// Audits that every team name we've stored for domestic league and UEFA cup matches resolves to
 // an ESPN team under the same rules settlement uses (normalizeTeamName / teamNamesLooselyMatch).
 // A name that doesn't resolve means its matches will never get results — add an alias to
 // TEAM_NAME_ALIASES in src/lib/apis/espn.ts before that happens.
@@ -44,7 +44,7 @@ async function main() {
     const slugs = [comp.espnSlug, ...(comp.qualifyingEspnSlug ? [comp.qualifyingEspnSlug] : [])]
     const ownTeams = await espnTeamsFor(slugs)
     // ESPN's cup team lists only cover the current season's entrants, so also accept any
-    // top-5 league club for cup names.
+    // domestic league club for cup names.
     const pool = comp.group === "cup" ? [...ownTeams, ...leagueTeams] : ownTeams
 
     const matches = await db.match.findMany({ where: { competition: comp.label }, select: { homeTeam: true, awayTeam: true } })

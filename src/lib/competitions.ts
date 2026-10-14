@@ -26,6 +26,7 @@ export const COMPETITIONS: CompetitionConfig[] = [
   { label: "Serie A", group: "league", source: "odds-api", oddsApiSportKey: "soccer_italy_serie_a", oddsPapiTournamentId: 23, espnSlug: "ita.1" },
   { label: "Bundesliga", group: "league", source: "odds-api", oddsApiSportKey: "soccer_germany_bundesliga", oddsPapiTournamentId: 35, espnSlug: "ger.1" },
   { label: "Ligue 1", group: "league", source: "odds-api", oddsApiSportKey: "soccer_france_ligue_one", oddsPapiTournamentId: 34, espnSlug: "fra.1" },
+  { label: "Süper Lig", group: "league", source: "odds-api", oddsApiSportKey: "soccer_turkey_super_league", oddsPapiTournamentId: 52, espnSlug: "tur.1" },
   { label: "UEFA Champions League", group: "cup", source: "oddspapi", oddsApiSportKey: "soccer_uefa_champs_league", oddsPapiTournamentId: 7, espnSlug: "uefa.champions", qualifyingEspnSlug: "uefa.champions_qual" },
   { label: "UEFA Europa League", group: "cup", source: "oddspapi", oddsApiSportKey: "soccer_uefa_europa_league", oddsPapiTournamentId: 679, espnSlug: "uefa.europa", qualifyingEspnSlug: "uefa.europa_qual" },
   { label: "UEFA Europa Conference League", group: "cup", source: "oddspapi", oddsApiSportKey: "soccer_uefa_europa_conference_league", oddsPapiTournamentId: 34480, espnSlug: "uefa.europa.conf", qualifyingEspnSlug: "uefa.europa.conf_qual" },

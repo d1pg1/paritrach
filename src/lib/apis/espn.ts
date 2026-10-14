@@ -132,7 +132,7 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   intermilan: "inter",
   intermilano: "inter",
   internazionale: "inter",
-  // Top-5 league clubs where The Odds API / OddsPapi and ESPN disagree on the name
+  // Domestic league clubs where The Odds API / OddsPapi and ESPN disagree on the name
   brightonandhovealbion: "brightonhovealbion",
   athleticbilbao: "athleticclub",
   realracingclubdesantander: "racingsantander",
@@ -141,6 +141,8 @@ const TEAM_NAME_ALIASES: Record<string, string> = {
   rennes: "staderennais",
   rccelta: "celtavigo",
   rcceltadevigo: "celtavigo",
+  amedsk: "amedsfk",
+  gazisehirgaziantep: "gaziantepfk",
   // UEFA cup clubs (OddsPapi name → ESPN name)
   bodoeglimt: "bodoglimt",
   agfaarhus: "agf",
